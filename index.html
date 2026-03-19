@@ -198,10 +198,10 @@ function TopNav({ title = "Challenge", back = "Groups" }) {
     </div>
   );
 }
-function PhoneShell({ children, screenRef, bgColor }) {
+function PhoneShell({ children, screenRef, phoneRef, bgColor }) {
   const frameColor = bgColor === "#FC5200" ? "#000000" : T.orange;
   return (
-    <div style={{
+    <div ref={phoneRef} style={{
       position: "relative",
       width: 375,
       borderRadius: 50,
@@ -1116,6 +1116,7 @@ function App() {
   useFonts();
   const h2cReady = useHtml2Canvas();
   const screenRef = useRef();
+  const phoneRef = useRef();
   const [screen, setScreen] = useState("not-joined");
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
@@ -1132,7 +1133,7 @@ function App() {
 
   const dl = async () => {
     if (!h2cReady) { alert("Export library still loading -- try again in a moment."); return; }
-    if (!screenRef.current) return;
+    if (!screenRef.current || !phoneRef.current) return;
     setBusy(true);
 
     // Temporarily expand the scroll container to capture full content
@@ -1143,13 +1144,12 @@ function App() {
     el.style.overflowY = "visible";
 
     try {
-      const canvas = await window.html2canvas(el, {
+      const canvas = await window.html2canvas(phoneRef.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: null,
         logging: false,
-        // scrollY: 0 ensures we capture from the top
         scrollY: -window.scrollY,
       });
       const url = canvas.toDataURL("image/png");
@@ -1254,7 +1254,7 @@ function App() {
       {/* Phone preview */}
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 32, overflowY: "auto", overflowX: "clip" }}>
         <div style={{ flexShrink: 0 }}>
-        <PhoneShell screenRef={screenRef} bgColor={bgColor}>
+        <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
           {screen === "segment" || screen === "milestone"
             ? <TopNav title="Home" back=""/>
             : screen === "takeover"
