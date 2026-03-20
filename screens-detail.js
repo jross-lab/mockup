@@ -15,7 +15,7 @@ const { T, FALLBACK_COLORS, MILESTONE_AVATAR,
 // --- Screen: Not Joined (Challenge Detail) -----------------------------------
 // Redesigned to match Figma node 2150:19885
 function ScreenNotJoined({ data }) {
-  const { heroImg, badgeImg, brandName, title, goal, description, participants,
+  const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
           startDate, endDate, activityType, reward } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
@@ -100,8 +100,8 @@ function ScreenNotJoined({ data }) {
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                 {/* Club profile image */}
                 <div style={{ width: 48, height: 48, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
-                  {badgeImg
-                    ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 8 }}/>
+                  {logoImg
+                    ? <img src={logoImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 8 }}/>
                     : <span style={{ display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -280,7 +280,7 @@ function ScreenNotJoined({ data }) {
 
 // --- Screen: Joined ----------------------------------------------------------
 function ScreenJoined({ data }) {
-  const { heroImg, badgeImg, brandName, title, goal, description } = data;
+  const { heroImg, badgeImg, logoImg, brandName, title, goal, description } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
       <HeroBadge heroImg={heroImg} badgeImg={badgeImg}/>
@@ -291,7 +291,7 @@ function ScreenJoined({ data }) {
         <div style={{ margin: "0 auto" }}><ProgressCard label="17 km" total="80 km" pct={21} right="3 days left"/></div>
       </div>
       <InfoRows data={data}/>
-      <SponsorCard brandName={brandName} badgeImg={badgeImg}/>
+      <SponsorCard brandName={brandName} badgeImg={badgeImg} logoImg={logoImg}/>
       <StatsGrid/>
       <FeaturedAthletes/>
       <div style={{ background: T.bgSurface, padding: "20px 24px" }}>
