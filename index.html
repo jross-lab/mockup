@@ -1545,7 +1545,7 @@ function ScreenHomeFeedInUnit({ data }) {
         <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
           {/* Subscriber avatar with verified badge */}
           <div style={{ position: "relative", width: 48, height: 48, flexShrink: 0 }}>
-            <img src={INFEED_SUBSCRIBER_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
+            <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
             <div style={{ position: "absolute", top: 0, right: 0, width: 12, height: 12 }}>
               <img src={INFEED_VERIFIED_BADGE} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
             </div>
@@ -1621,7 +1621,7 @@ function ScreenHomeFeedInUnit({ data }) {
           <div style={{ width: 64, height: 64, borderRadius: 8, flexShrink: 0, overflow: "hidden", background: "#E8E8E8" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
-              : <img src={INFEED_ANTI_BADGE} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+              : <div style={{ width: "100%", height: "100%", background: "#E0E0DE" }}/>
             }
           </div>
           {/* Copy + button */}
@@ -2163,10 +2163,10 @@ function App() {
             <optgroup label="Discovery">
               <option value="groups-tab">Challenge Gallery</option>
               <option value="milestone">In-feed Milestone</option>
+              <option value="feed-inunit">In-feed Unit</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
-              <option value="feed-inunit">In-feed Unit</option>
               <option value="segment">Home Feed / Segment Challenge</option>
             </optgroup>
           </select>
