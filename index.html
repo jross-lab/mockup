@@ -455,8 +455,8 @@ function HeroBadge({ heroImg, badgeImg }) {
               <span style={{ fontFamily: T.font, fontSize: 12, color: "#fff", opacity: 0.6 }}>Hero Image (2:1)</span>
             </div>}
       </div>
-      <div style={{ position: "absolute", left: "calc(50% - 60px)", bottom: -60, width: 120, height: 120, borderRadius: "50%", background: "#E8E8E8", border: "3px solid white", overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+      <div style={{ position: "absolute", left: "calc(50% - 60px)", bottom: -60, width: 120, height: 120, borderRadius: "50%", background: "transparent", border: "3px solid white", overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
           : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999", textAlign: "center", padding: 6 }}>Badge</span>}
       </div>
     </div>
@@ -481,7 +481,7 @@ function OrangeBtn({ label, outline }) {
 function SponsorCard({ brandName, badgeImg }) {
   return (
     <div style={{ background: T.bgSurface, marginTop: 8, padding: 24, display: "flex", gap: 16 }}>
-      <div style={{ width: 64, height: 64, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ width: 64, height: 64, borderRadius: 8, background: "transparent", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/> : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>}
       </div>
       <div style={{ flex: 1 }}>
@@ -659,7 +659,7 @@ function ScreenNotJoined({ data }) {
         {/* Badge + title + goal + join button */}
         <div style={{ padding: "32px 23px 0" }}>
           {/* Challenge badge 96×96 */}
-          <div style={{ width: 96, height: 96, borderRadius: 8, overflow: "hidden", marginBottom: 24, background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 96, height: 96, borderRadius: 8, overflow: "hidden", marginBottom: 24, background: "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
               : <span style={{ fontFamily: T.font, fontSize: 10, color: "#999", textAlign: "center", padding: 6 }}>Badge</span>
@@ -686,9 +686,9 @@ function ScreenNotJoined({ data }) {
           <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Organizing club</div>
           <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)", display: "flex", gap: 12, alignItems: "center" }}>
             {/* Club logo */}
-            <div style={{ width: 48, height: 48, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 8, background: "transparent", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
               {badgeImg
-                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
                 : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>
               }
             </div>
@@ -906,7 +906,7 @@ function ScreenJoined({ data }) {
 
         {/* Badge + title + goal + progress card */}
         <div style={{ padding: "32px 23px 0" }}>
-          <div style={{ width: 96, height: 96, borderRadius: 8, overflow: "hidden", marginBottom: 24, background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 96, height: 96, borderRadius: 8, overflow: "hidden", marginBottom: 24, background: "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
               : <span style={{ fontFamily: T.font, fontSize: 10, color: "#999", textAlign: "center", padding: 6 }}>Badge</span>
@@ -938,9 +938,9 @@ function ScreenJoined({ data }) {
         <div style={{ padding: "0 23px 32px" }}>
           <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Organizing club</div>
           <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)", display: "flex", gap: 12, alignItems: "center" }}>
-            <div style={{ width: 48, height: 48, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 8, background: "transparent", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
               {badgeImg
-                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
                 : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>
               }
             </div>
@@ -1178,9 +1178,9 @@ function ScreenTakeover({ data }) {
 
         {/* Badge */}
         <div style={{ padding: "32px 24px 0", display: "flex", justifyContent: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: "50%", background: "#E8E8E8", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", border: "3px solid #F0F0EE" }}>
+          <div style={{ width: 150, height: 150, borderRadius: "50%", background: "transparent", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", border: "3px solid #F0F0EE" }}>
             {badgeImg
-              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
               : <span style={{ fontFamily: T.font, fontSize: 11, color: "#999", textAlign: "center", padding: 8 }}>Challenge Badge</span>}
           </div>
         </div>
@@ -1305,7 +1305,7 @@ function ScreenMilestone({ data }) {
           {/* Texts */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 2 }}>
-              {brandName ? `${brandName} Challenge milestone reached!` : "Mark just became the Local Legend of Pso De Florencio Climb"}
+              {`Dante completed 75% of the ${title || "the challenge"}`}
             </div>
             <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 400, lineHeight: "13px", color: T.textSec }}>
               {title || "Most segment efforts in the last 90 days"}
@@ -1350,8 +1350,8 @@ function ScreenMilestone({ data }) {
 function VerticalCard({ badgeImg, title, goal, brandName }) {
   return (
     <div style={{ background: T.bgSurface, borderRadius: 12, padding: 16, display: "flex", flexDirection: "column", gap: 8, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
-      <div style={{ width: 53, height: 53, borderRadius: "50%", background: "#E8E8E8", overflow: "hidden" }}>
-        {badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}
+      <div style={{ width: 53, height: 53, borderRadius: "50%", background: "transparent", overflow: "hidden" }}>
+        {badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>}
       </div>
       <div style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, lineHeight: "18px" }}>{title || "Challenge Name"}</div>
       <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{goal || "Complete the goal"}</div>
@@ -1441,7 +1441,7 @@ function ScreenGroupsTab({ data }) {
           {/* Card 1 — user data, top-left */}
           <div style={{ background: T.bgSurface, borderRadius: 16, padding: 16, height: 279, display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ width: 55, height: 55, borderRadius: 8, background: "#E8E8E8", overflow: "hidden", flexShrink: 0 }}>
+              <div style={{ width: 55, height: 55, borderRadius: 8, background: "transparent", overflow: "hidden", flexShrink: 0 }}>
                 {badgeImg
                   ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
                   : <div style={{ width: "100%", height: "100%", background: "#E0E0DE" }}/>
@@ -1618,7 +1618,7 @@ function ScreenHomeFeedInUnit({ data }) {
         {/* Card content */}
         <div style={{ padding: "0 24px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
           {/* Badge 64×64 */}
-          <div style={{ width: 64, height: 64, borderRadius: 8, flexShrink: 0, overflow: "hidden", background: "#E8E8E8" }}>
+          <div style={{ width: 64, height: 64, borderRadius: 8, flexShrink: 0, overflow: "hidden", background: "transparent" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
               : <div style={{ width: "100%", height: "100%", background: "#E0E0DE" }}/>
@@ -1724,8 +1724,8 @@ function ScreenHomeFeed({ data, variant }) {
           <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, textTransform: "uppercase", letterSpacing: "0.06em" }}>Your friends are joining</div>
         </div>
         <div style={{ padding: "12px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
-          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden" }}>
-            {badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}
+          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "transparent", flexShrink: 0, overflow: "hidden" }}>
+            {badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>}
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", marginBottom: 4 }}>{title || "Challenge Title"}</div>
@@ -1741,6 +1741,235 @@ function ScreenHomeFeed({ data, variant }) {
 }
 
 // --- Segment Challenge Feed Card ----------------------------------------------
+// --- Custom In-feed screen assets (Figma node 2119:23147) ---
+const CINFEED_MAP         = "https://www.figma.com/api/mcp/asset/746693c7-3946-4f18-a6fb-db1f2d3c23fe";
+const CINFEED_PHOTO1      = "https://www.figma.com/api/mcp/asset/55372b1f-89ca-426d-9968-323b80e4cad0";
+const CINFEED_PHOTO2      = "https://www.figma.com/api/mcp/asset/70ff7080-b851-460e-b2f0-edf07c445f4d";
+const CINFEED_PHOTO3      = "https://www.figma.com/api/mcp/asset/29e013be-0e0b-4106-9a31-1611dd0061ff";
+const CINFEED_BIKE_ICON   = "https://www.figma.com/api/mcp/asset/ace43b38-dfd7-48da-ae2e-d7941d82bf57"; // bike xsmall
+const CINFEED_MORE_DOTS   = "https://www.figma.com/api/mcp/asset/36e8d443-7112-474e-af76-2b8dfb692baa";
+const CINFEED_MEDAL       = "https://www.figma.com/api/mcp/asset/8cc18335-c25a-4d38-9b93-65529d7cfffa";
+const CINFEED_TROPHY      = "https://www.figma.com/api/mcp/asset/ab238cbe-bb49-4672-9bf1-cae7a891cad9";
+const CINFEED_PR          = "https://www.figma.com/api/mcp/asset/d004f30a-c850-41e2-9e6c-0903ad1d197a";
+const CINFEED_KUDO        = "https://www.figma.com/api/mcp/asset/eb93c05e-db85-4a84-a791-a5d047b6b4ce";
+const CINFEED_COMMENT     = "https://www.figma.com/api/mcp/asset/ed7cfe9c-e5bf-467a-85cd-04734681e1a6";
+const CINFEED_SHARE       = "https://www.figma.com/api/mcp/asset/feac0d9f-3df6-4521-bf3b-68d8937f2ed5";
+const CINFEED_FP1         = "https://www.figma.com/api/mcp/asset/39b19022-f7c3-42df-8355-6e05d348015a";
+const CINFEED_FP2         = "https://www.figma.com/api/mcp/asset/fb586c5f-122c-4060-b492-256b5258323e"; // with stroke
+const CINFEED_FP3         = "https://www.figma.com/api/mcp/asset/b71baf23-7936-4b95-b744-173f7c128ec0";
+const CINFEED_CIRCLE_BG   = "https://www.figma.com/api/mcp/asset/2494e4eb-396b-402f-bff4-ebe986133b74"; // ellipse for grouped icon
+const CINFEED_BIKE_CIRCLE = "https://www.figma.com/api/mcp/asset/8cc18335-c25a-4d38-9b93-65529d7cfffa"; // bike in circle
+const CINFEED_GROUP_AVATAR= "https://www.figma.com/api/mcp/asset/adf80ded-3263-4743-a6b2-008a19907c5d"; // 32px avatar
+const CINFEED_LOCAL_LEG   = "https://www.figma.com/api/mcp/asset/bbc3011c-6109-49aa-bc42-a8bf18d13cd4"; // local legend icon
+const CINFEED_ECHELON     = "https://www.figma.com/api/mcp/asset/e26be10e-3627-426e-93ca-745b55bb47ca"; // circle echelon icon
+const CINFEED_NAV_PLUS    = "https://www.figma.com/api/mcp/asset/b8a7017b-9304-4e3b-a6b3-50a37f2be34c"; // add circle icon
+const CINFEED_NAV_MSG     = "https://www.figma.com/api/mcp/asset/0dfb4086-0b00-4fb7-a868-fb238bb7f3af"; // messaging
+const CINFEED_NAV_BELL    = "https://www.figma.com/api/mcp/asset/4ebc0c10-6c8c-4c7f-b79b-948e36319240"; // bell
+const CINFEED_VERIFIED2   = "https://www.figma.com/api/mcp/asset/cd7c14ee-c2bc-452f-b403-eb7f62b6528e"; // verified badge small
+const CINFEED_BIKE_INLINE = "https://www.figma.com/api/mcp/asset/4716d1b8-f211-4b01-a648-7865408539ab"; // bike inline xsmall (london post)
+
+// Shared sub-components for this screen
+function CInFeedFacepile() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", paddingRight: 4 }}>
+      {[CINFEED_FP1, CINFEED_FP2, CINFEED_FP3].map((src, i) => (
+        <div key={i} style={{ width: 24, height: 24, borderRadius: "50%", overflow: "hidden", marginRight: -4, zIndex: 3 - i, border: "1.5px solid #fff", flexShrink: 0 }}>
+          <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CInFeedActions() {
+  return (
+    <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}`, width: "100%" }}>
+      {[[CINFEED_KUDO,22,23],[CINFEED_COMMENT,24,21],[CINFEED_SHARE,20,23]].map(([src, w, h], i) => (
+        <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
+          <img src={src} alt="" style={{ width: w, height: h, display: "block" }}/>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CInFeedWorkoutTag() {
+  return (
+    <div style={{ position: "absolute", top: 12, left: 12, zIndex: 6, background: "#fff", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.10)" }}>
+      <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: T.textPri }}>Workout</span>
+    </div>
+  );
+}
+
+// Figma node 2119:23151 Dorado echelon asset
+const DORADO_ECHELON = "https://www.figma.com/api/mcp/asset/493a1fe4-eb26-4557-88be-55f1a97aa38a";
+
+function ScreenCustomInFeed({ data }) {
+  const { heroImg, badgeImg, title, customInfeedDesc, brandName } = data;
+  const adTitle = title    || "Lorem ipsum dolor sit amet";
+  const adBody  = customInfeedDesc || "Body copy 90 characters max. Lorem ipsum dolor sit amet.";
+  const adCTA   = brandName ? `Discover ${brandName}` : "[Custom]";
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken, flexGrow: 1 }}>
+
+      {/* Feed Entry 1: Dante Young - identical to In-feed Unit */}
+      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+        <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          <div style={{ position: "relative", width: 48, height: 48, flexShrink: 0 }}>
+            <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
+            <div style={{ position: "absolute", top: 0, right: 0, width: 12, height: 12 }}>
+              <img src={INFEED_VERIFIED_BADGE} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>Dante Young</div>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              <img src={INFEED_BIKE_ICON} alt="" style={{ width: 16, height: 11, display: "block" }}/>
+              <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Today at 9:31 AM · Los Angeles, California</span>
+            </div>
+          </div>
+          <div style={{ position: "absolute", right: 24, top: 24 }}>
+            <img src={INFEED_MORE_DOTS} alt="" style={{ width: 16, height: 5, display: "block" }}/>
+          </div>
+        </div>
+        <div style={{ padding: "16px 24px 0", fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>
+          Probably the most beautiful ride I've ever been on
+        </div>
+        <div style={{ padding: "16px 24px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", gap: 24 }}>
+            {[["Distance","18.33 mi"],["Time","2h 20m"],["Elevation","2,033 ft"]].map(([label, val]) => (
+              <div key={label}>
+                <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>{label}</div>
+                <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>{val}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "flex-end" }}>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Achievements</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              {[INFEED_MEDAL, INFEED_TROPHY, INFEED_PR].map((src, i) => (
+                <div key={i} style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: i !== 1 ? "0 1px" : 0 }}>
+                  <img src={src} alt="" style={{ width: i === 1 ? 16 : 14, height: 16, display: "block" }}/>
+                </div>
+              ))}
+              <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>3</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <InFeedFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+      </div>
+
+      {/* Custom In-feed Ad Unit — Figma node 2119:23151 */}
+      <div style={{ background: "#fff", marginBottom: 8 }}>
+        {/* Artwork area — uses heroImg, fallback grey */}
+        <div style={{ width: "100%", height: 125, background: "#C2C1BB", overflow: "hidden" }}>
+          {heroImg && <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>}
+        </div>
+        {/* Content row: badge circle + text block */}
+        <div style={{ display: "flex", gap: 12, padding: "16px 16px 0", alignItems: "flex-start" }}>
+          {/* Badge as circle icon */}
+          <div style={{ width: 48, height: 48, borderRadius: "50%", flexShrink: 0, overflow: "hidden", background: "#f2f2f0", border: "1px solid #e0e0de", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {badgeImg
+              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+              : <img src={DORADO_ECHELON} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+            }
+          </div>
+          {/* Title + body + button */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 500, lineHeight: "24px", color: "#000", letterSpacing: "0.34px", marginBottom: 8 }}>
+              {adTitle}
+            </div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: "#21211F", lineHeight: "17.5px", letterSpacing: "-0.08px", marginBottom: 16 }}>
+              {adBody}
+            </div>
+            <button style={{ height: 36, borderRadius: 18, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default", padding: "0 24px" }}>
+              {adCTA}
+            </button>
+          </div>
+        </div>
+        {/* Bottom padding */}
+        <div style={{ height: 20 }}/>
+      </div>
+
+      {/* Feed Entry 2: The Strava Club - identical to In-feed Unit */}
+      <div style={{ background: T.bgSurface }}>
+        <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 4, overflow: "hidden" }}>
+              <img src={INFEED_CLUB_AVATAR} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+            </div>
+            <div style={{ position: "absolute", top: -3, right: -3, width: 16, height: 16 }}>
+              <img src={INFEED_CLUB_VERIFIED} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>The Strava Club</div>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Today at 9:31 AM</div>
+          </div>
+          <div style={{ position: "absolute", right: 24, top: 24 }}>
+            <img src={INFEED_MORE_DOTS} alt="" style={{ width: 16, height: 5, display: "block" }}/>
+          </div>
+        </div>
+        <div style={{ padding: "16px 24px 0" }}>
+          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 8 }}>
+            Probably the most beautiful ride I've ever been on
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px", marginBottom: 4 }}>
+            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, lineHeight: "16px" }}>Read more...</div>
+        </div>
+        <div style={{ height: 24 }}/>
+        <div style={{ width: "100%", height: 250, position: "relative", overflow: "hidden" }}>
+          <img src={INFEED_PHOTO} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+          <div style={{ position: "absolute", top: 12, left: 12, background: "#fff", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
+            <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri }}>Workout</span>
+          </div>
+        </div>
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <InFeedFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+      </div>
+
+    </div>
+  );
+}
+
+// Custom in-feed top nav — + and search left, messaging + bell right
+function TopNavCustomInFeed() {
+  return (
+    <div style={{ background: T.bgSurface, flexShrink: 0, borderBottom: `0.5px solid ${T.divider}`, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.10)" }}>
+      <StatusBar/>
+      <div style={{ height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", position: "relative" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <img src={CINFEED_NAV_PLUS} alt="" style={{ width: 20, height: 20, display: "block" }}/>
+          <svg width="20" height="20" viewBox="24 12 24 24" fill="none"><path d="M33.4571 12C38.1515 12 41.9571 15.8056 41.9571 20.5C41.9571 21.9692 41.5844 23.3513 40.9283 24.557L47.5607 31.1893C48.1464 31.7751 48.1464 32.7249 47.5607 33.3107L46.2678 34.6036C45.682 35.1893 44.7322 35.1893 44.1464 34.6036L37.5141 27.9712C36.3084 28.6273 34.9263 29 33.4571 29C28.7627 29 24.9571 25.1944 24.9571 20.5C24.9571 15.8056 28.7627 12 33.4571 12ZM39.9571 20.5C39.9571 16.9101 37.047 14 33.4571 14C29.8673 14 26.9571 16.9101 26.9571 20.5C26.9571 24.0899 29.8673 27 33.4571 27C37.047 27 39.9571 24.0899 39.9571 20.5ZM39.1675 26.7962L45.2071 32.8358L45.7929 32.25L39.7533 26.2104C39.5676 26.415 39.3721 26.6105 39.1675 26.7962Z" fill="black"/></svg>
+        </div>
+        <span style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>Home</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <img src={CINFEED_NAV_MSG} alt="" style={{ width: 24, height: 23, display: "block" }}/>
+          <img src={CINFEED_NAV_BELL} alt="" style={{ width: 22, height: 23, display: "block" }}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FeedPost({ avatar, name, time, text }) {
   return (
     <div style={{ background: T.bgSurface, marginBottom: 8 }}>
@@ -1923,6 +2152,7 @@ function ScreenRouter({ screen, data }) {
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
     case "feed-follower":  return <ScreenHomeFeed data={data} variant="follower"/>;
     case "feed-inunit":    return <ScreenHomeFeed data={data} variant="inunit"/>;
+    case "custom-infeed":  return <ScreenCustomInFeed data={data}/>;
     case "segment":        return <ScreenSegmentChallenge data={data}/>;
     default:               return <ScreenNotJoined data={data}/>;
   }
@@ -2054,6 +2284,7 @@ function App() {
     reward: "Complete the challenge to unlock 20% off The North Face's latest apparel.",
     startDate: "Apr 1, 2026", endDate: "Apr 30, 2026",
     participants: "12,847", activityType: "Run, Virtual Run, Walk",
+    customInfeedDesc: "Body copy 90 characters max. Lorem ipsum dolor sit amet.",
     heroImg: null, badgeImg: null, mapImg: null,
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
@@ -2164,6 +2395,7 @@ function App() {
               <option value="groups-tab">Challenge Gallery</option>
               <option value="milestone">In-feed Milestone</option>
               <option value="feed-inunit">In-feed Unit</option>
+              <option value="custom-infeed">Custom In-feed</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
@@ -2208,6 +2440,7 @@ function App() {
         <Field label="Goal / One-liner"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Run 30km in one month"/></Field>
         <Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline/></Field>
         <Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline/></Field>
+        <Field label="Custom In-feed Body Copy"><Input value={data.customInfeedDesc} onChange={set("customInfeedDesc")} placeholder="Body copy 90 characters max." multiline/></Field>
 
         <div style={{ display: "flex", gap: 8 }}>
           <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
@@ -2238,7 +2471,9 @@ function App() {
         <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
           {screen === "milestone" || screen === "feed-inunit"
             ? <TopNavHome/>
-            : screen === "groups-tab"
+            : screen === "custom-infeed"
+              ? <TopNavCustomInFeed/>
+              : screen === "groups-tab"
               ? <TopNavGroups/>
               : screen === "segment"
               ? <TopNav title="Home" back=""/>
