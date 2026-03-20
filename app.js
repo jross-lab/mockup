@@ -28,7 +28,7 @@ function App() {
     reward: "Complete the challenge to unlock 20% off The North Face's latest apparel.",
     startDate: "Apr 1, 2026", endDate: "Apr 30, 2026",
     participants: "12,847", activityType: "Run, Virtual Run, Walk",
-    heroImg: null, badgeImg: null, mapImg: null,
+    heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
 
@@ -102,6 +102,7 @@ function App() {
 
         <UploadBox label="Hero Image (2:1 ratio)" preview={data.heroImg} onUpload={set("heroImg")} aspect="2/1"/>
         <UploadBox label="Challenge Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/>
+        <UploadBox label="Brand / Club Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/>
         {screen === "segment" && (
           <UploadBox label="Segment Map Image" preview={data.mapImg} onUpload={set("mapImg")} aspect="329/170"/>
         )}
