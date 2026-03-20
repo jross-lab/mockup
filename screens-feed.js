@@ -208,12 +208,13 @@ function ScreenSegmentChallenge({ data }) {
 }
 
 // --- Screen Router -----------------------------------------------------------
-const GROUPS_TAB_SCREENS = new Set(["not-joined","joined","takeover","groups-tab"]);
+const GROUPS_TAB_SCREENS = new Set(["not-joined","joined","completed","takeover","groups-tab"]);
 
 function ScreenRouter({ screen, data }) {
   switch(screen) {
     case "not-joined":     return <ScreenNotJoined data={data}/>;
     case "joined":         return <ScreenJoined data={data}/>;
+    case "completed":      return <ScreenCompleted data={data}/>;
     case "milestone":      return <ScreenMilestone data={data}/>;
     case "takeover":       return <ScreenTakeover data={data}/>;
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
