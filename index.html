@@ -565,25 +565,250 @@ function DescriptionSection({ title, description }) {
 // --- SCREENS ------------------------------------------------------------------
 
 function ScreenNotJoined({ data }) {
-  const { heroImg, badgeImg, brandName, title, goal, description, participants } = data;
+  const { heroImg, badgeImg, brandName, title, goal, description, startDate, endDate, activityType } = data;
+
+  const LEADERBOARD_NAMES = ["Terry Hannigan","Sarah Johnson","Marcus Chen","Amara Diallo","Tom Williams","Yuki Tanaka"];
+  const LEADERBOARD_PACES = ["4:47 /mi","5:02 /mi","5:15 /mi","5:28 /mi","5:41 /mi","5:54 /mi"];
+  const LEADERBOARD_DIST  = ["13.49 km","12.80 km","12.10 km","11.40 km","10.70 km","10.00 km"];
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
-      <HeroBadge heroImg={heroImg} badgeImg={badgeImg}/>
-      <div style={{ height: 60, background: T.bgSurface }}/>
-      <div style={{ background: T.bgSurface, padding: "8px 24px 0", textAlign: "center" }}>
-        <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", marginBottom: 8 }}>{title || "Challenge Title"}</div>
-        <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 24 }}>{goal || "Challenge goal"}</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center", paddingBottom: 16 }}>
-          <OrangeBtn label="Join Challenge"/><OrangeBtn label="Invite Friends" outline/>
+    <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
+
+      {/* ── Floating nav overlay (status bar + circular buttons over hero) ── */}
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", zIndex: 10, pointerEvents: "none" }}>
+        {/* Status bar */}
+        <div style={{ height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px" }}>
+          <span style={{ fontFamily: "'SF Pro Text', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.3px", color: "#fff" }}>9:41</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="6" width="3" height="6" rx="1" fill="white"/><rect x="4.5" y="4" width="3" height="8" rx="1" fill="white"/><rect x="9" y="2" width="3" height="10" rx="1" fill="white"/><rect x="13.5" y="0" width="3" height="12" rx="1" fill="white"/></svg>
+            <svg width="18" height="13" viewBox="0 0 18 13" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M8.5713 2.46628C11.0584 2.46639 13.4504 3.38847 15.2529 5.04195C15.3887 5.1696 15.6056 5.16799 15.7393 5.03834L17.0368 3.77487C17.1045 3.70911 17.1422 3.62004 17.1417 3.52735C17.1411 3.43467 17.1023 3.34603 17.0338 3.28104C12.3028 -1.09368 4.83907 -1.09368 0.108056 3.28104C0.039524 3.34598 0.000639766 3.4346 7.82398e-06 3.52728C-0.000624118 3.61996 0.0370483 3.70906 0.104689 3.77487L1.40255 5.03834C1.53615 5.16819 1.75327 5.1698 1.88893 5.04195C3.69167 3.38836 6.08395 2.46628 8.5713 2.46628ZM8.56795 6.68656C9.92527 6.68647 11.2341 7.19821 12.2403 8.12234C12.3763 8.2535 12.5907 8.25065 12.7234 8.11593L14.0106 6.79663C14.0784 6.72742 14.1161 6.63355 14.1151 6.536C14.1141 6.43844 14.0746 6.34536 14.0054 6.27757C10.9416 3.38672 6.19688 3.38672 3.13305 6.27757C3.06384 6.34536 3.02435 6.43849 3.02345 6.53607C3.02254 6.63366 3.06028 6.72752 3.12822 6.79663L4.41513 8.11593C4.54778 8.25065 4.76215 8.2535 4.89823 8.12234C5.90368 7.19882 7.21152 6.68713 8.56795 6.68656ZM11.0924 9.48011C11.0943 9.58546 11.0572 9.68703 10.9899 9.76084L8.81327 12.2156C8.74946 12.2877 8.66247 12.3283 8.5717 12.3283C8.48093 12.3283 8.39394 12.2877 8.33013 12.2156L6.1531 9.76084C6.08585 9.68697 6.04886 9.58537 6.05085 9.48002C6.05284 9.37467 6.09365 9.27491 6.16364 9.20429C7.55374 7.8904 9.58966 7.8904 10.9798 9.20429C11.0497 9.27497 11.0904 9.37476 11.0924 9.48011Z" fill="white"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="white" strokeOpacity="0.7"/><rect x="2" y="2" width="19" height="9" rx="2" fill="white"/><path d="M25 4.5v4a2 2 0 000-4z" fill="white" fillOpacity="0.4"/></svg>
+          </div>
+        </div>
+        {/* Circular buttons row */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 20px" }}>
+          {/* Back button */}
+          <div style={{ width: 40, height: 40, borderRadius: 20, background: "#fff", boxShadow: "0px 2px 6px rgba(0,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <IcoBackArrow/>
+          </div>
+          {/* Info + Share */}
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 20, background: "#fff", boxShadow: "0px 2px 6px rgba(0,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#000" strokeWidth="1.5"/><path d="M12 11v6M12 8v1" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </div>
+            <div style={{ width: 40, height: 40, borderRadius: 20, background: "#fff", boxShadow: "0px 2px 6px rgba(0,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 1v14M4 7l6-6 6 6M1 16v4h18v-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+          </div>
         </div>
       </div>
-      <div style={{ background: T.bgSurface, padding: "12px 24px", display: "flex", alignItems: "center", gap: 10 }}>
-        <Facepile/><span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>{participants ? `${participants} athletes have joined` : "Athletes have joined"}</span>
+      <div style={{ width: "100%", height: 266, position: "relative", overflow: "hidden", flexShrink: 0 }}>
+        {heroImg
+          ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+          : <div style={{ width: "100%", height: "100%", background: "linear-gradient(180deg,#6B8FA8 0%,#3A5A72 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ fontFamily: T.font, fontSize: 13, color: "rgba(255,255,255,0.6)" }}>Hero Image</span>
+            </div>
+        }
       </div>
-      <InfoRows data={data}/>
-      <SponsorCard brandName={brandName} badgeImg={badgeImg}/>
-      <DescriptionSection title={title} description={description}/>
-      <div style={{ height: 24 }}/>
+
+      {/* ── Content sheet (white card sliding up over hero) ── */}
+      <div style={{ background: "#fff", borderRadius: "32px 32px 0 0", marginTop: -33, position: "relative", zIndex: 1, paddingBottom: 32 }}>
+
+        {/* Badge + title + goal + join button */}
+        <div style={{ padding: "32px 23px 0" }}>
+          {/* Challenge badge 96×96 */}
+          <div style={{ width: 96, height: 96, borderRadius: 8, overflow: "hidden", marginBottom: 24, background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {badgeImg
+              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
+              : <span style={{ fontFamily: T.font, fontSize: 10, color: "#999", textAlign: "center", padding: 6 }}>Badge</span>
+            }
+          </div>
+
+          {/* Title */}
+          <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri, marginBottom: 5 }}>
+            {title || "Challenge Title"}
+          </div>
+          {/* Goal */}
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 32 }}>
+            {goal || "Challenge goal"}
+          </div>
+
+          {/* Join the Challenge button — full width, large */}
+          <button style={{ width: "100%", height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default", marginBottom: 32 }}>
+            Join the Challenge
+          </button>
+        </div>
+
+        {/* ── Organizing club ── */}
+        <div style={{ padding: "0 23px 32px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Organizing club</div>
+          <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)", display: "flex", gap: 12, alignItems: "center" }}>
+            {/* Club logo */}
+            <div style={{ width: 48, height: 48, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
+              {badgeImg
+                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+                : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>
+              }
+            </div>
+            {/* Club info */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, lineHeight: "20px", color: T.textPri, marginBottom: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {brandName || "Club Name"}
+              </div>
+              <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.9"><path d="M5.78292 1.8963e-10C5.29058 1.00138e-05 4.81429 0.175088 4.43916 0.493947L2.43902 2.19405C2.43514 2.19735 2.4307 2.19991 2.4259 2.2016L0.416987 2.91063C0.167105 2.99882 0 3.23501 0 3.5C0 4.54992 0.13411 5.33428 0.387357 5.95881C0.645232 6.59477 1.00943 7.0222 1.39571 7.37698C1.58922 7.55471 1.77703 7.70843 1.95926 7.85758C2.50374 8.30322 2.99849 8.70815 3.4473 9.59152C4.13978 11.306 5.02254 12.6847 6.40088 13.6211C7.78387 14.5608 9.58409 15 12 15C13.3678 15 14.3116 14.6941 14.9483 14.2154C15.5915 13.7318 15.8522 13.1238 15.9502 12.661C16.0892 12.004 15.7156 11.4718 15.3494 11.1775L12.7703 9.10388C12.6594 9.01471 12.5779 8.89419 12.5365 8.75803L10.4546 1.91568C10.2891 1.37176 9.78744 1 9.21889 1H8.31882C7.97051 1 7.63696 1.14067 7.39384 1.39011L6.99597 1.79832L6.66084 0.657163C6.54643 0.267576 6.18895 -8.22525e-06 5.78292 1.8963e-10ZM5.24872 1.44637C5.33534 1.37274 5.43553 1.3184 5.54266 1.28578L6.39898 4.20168L8.28898 2.26258C8.29683 2.25454 8.30759 2.25 8.31882 2.25H9.21889C9.23723 2.25 9.25342 2.26199 9.25876 2.27954L10.0865 5H8V6.25H10.4668L10.695 7H9V8.25H11.0753L11.3406 9.12188C11.4551 9.49832 11.6804 9.83152 11.9871 10.0781L13.9156 11.6286C13.4013 11.6951 12.7498 11.75 12 11.75C10.6698 11.75 9.85676 11.4797 9.27742 11.0657C8.68513 10.6425 8.26165 10.0177 7.80307 9.1464C7.65262 8.86054 7.50097 8.55256 7.3401 8.22586C6.59022 6.70298 5.64009 4.77344 3.67763 2.78179L5.24872 1.44637ZM2.59524 3.4674C4.53234 5.36695 5.42673 7.17769 6.2006 8.74442C6.36857 9.0845 6.53087 9.41309 6.69693 9.72859C7.17585 10.6385 7.71071 11.4825 8.5507 12.0827C9.40366 12.6922 10.4968 13 12 13C13.0385 13 13.9054 12.9027 14.5158 12.8046L14.5775 12.7945C14.4949 12.9371 14.3741 13.0832 14.1971 13.2163C13.8407 13.4842 13.1892 13.75 12 13.75C9.72525 13.75 8.20411 13.3351 7.10336 12.5872C6.00466 11.8407 5.24317 10.7074 4.59698 9.10019C4.5905 9.08406 4.58334 9.06821 4.57554 9.05268C3.99256 7.89268 3.23938 7.28056 2.66054 6.81012C2.50621 6.68469 2.36427 6.56934 2.24125 6.45635C1.94703 6.18612 1.71448 5.90523 1.54575 5.4891C1.40068 5.13134 1.29131 4.64479 1.25947 3.93885L2.59524 3.4674Z" fill="#64635E"/></g></svg>
+                <span style={{ fontFamily: T.font, fontSize: 13, color: T.textTer, lineHeight: "18px" }}>5,678 Athletes</span>
+              </div>
+            </div>
+            {/* Join Club button */}
+            <button style={{ height: 32, borderRadius: 16, background: "transparent", border: `1.5px solid ${T.orange}`, fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.orange, cursor: "default", padding: "0 14px", flexShrink: 0 }}>
+              Join Club
+            </button>
+          </div>
+        </div>
+
+        {/* ── Challenge details ── */}
+        <div style={{ padding: "0 23px 32px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Challenge details</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {/* Date row */}
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 74, background: "#F2F2F0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <IcoDate/>
+              </div>
+              <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px" }}>
+                {startDate && endDate ? `${startDate} to ${endDate}` : "Mar 1, 2026 to Mar 31, 2026"}
+              </div>
+            </div>
+            {/* Activity type row */}
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 74, background: "#F2F2F0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <IcoActivityType/>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px" }}>Complete a 5 km (3.1 mi) run.</div>
+                <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer, lineHeight: "18px" }}>
+                  Qualifying Activities: {activityType || "Run, Virtual Run, Walk"}
+                </div>
+              </div>
+            </div>
+            {/* Trophy row */}
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 74, background: "#F2F2F0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <IcoReward/>
+              </div>
+              <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px" }}>
+                Earn a digital finisher's badge for your Trophy Case.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Challenge stats ── */}
+        <div style={{ padding: "0 23px 32px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 8 }}>Challenge stats</div>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textTer, lineHeight: "20px", marginBottom: 24 }}>
+            These are cumulative stats across all qualifying activities during this challenge.
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+            {[
+              [["Distance","147.7 mi"],["Moving Time","18:02:25"]],
+              [["Elevation Gain","5,576 ft"],["Elapsed Time","24:17:47"]],
+              [["Activities","42"],["Avg Pace","5:12 /mi"]],
+            ].map((row, i) => (
+              <div key={i} style={{ display: "flex" }}>
+                {row.map(([label, val]) => (
+                  <div key={label} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+                    <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", textAlign: "center" }}>{label}</div>
+                    <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, textAlign: "center" }}>{val}</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Featured athletes ── */}
+        <div style={{ paddingBottom: 32 }}>
+          <div style={{ padding: "0 23px", fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Featured athletes</div>
+          <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingLeft: 23, paddingRight: 8, scrollbarWidth: "none" }}>
+            {[
+              { name: "Single Name", country: "Belgium" },
+              { name: "First Last but a longer name", country: "United States" },
+            ].map(({ name, country }) => (
+              <div key={name} style={{ background: "#fff", borderRadius: 16, padding: 16, width: 232, flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, boxShadow: "0px 3px 8px rgba(0,0,0,0.12),0px 3px 1px rgba(0,0,0,0.04)", minHeight: 222 }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, width: "100%", flex: 1 }}>
+                  {/* Avatar placeholder */}
+                  <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#E8E8E8" }}/>
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{name}</div>
+                    <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginTop: 8 }}>{country}</div>
+                  </div>
+                </div>
+                <button style={{ width: "100%", height: 32, borderRadius: 16, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "default" }}>Follow</button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Leaderboard ── */}
+        <div style={{ paddingBottom: 32 }}>
+          <div style={{ padding: "0 23px", fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 24 }}>Leaderboard</div>
+          {/* Eligibility disclaimer */}
+          <div style={{ margin: "0 23px 24px", background: "#F7F7F7", borderRadius: 8, padding: "16px 18px" }}>
+            <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>
+              Any qualifying activity, whether private or not, will count towards your private progress, badges, and rewards for this challenge. Only activities marked as visible to Everyone will be applied toward leaderboard rankings.
+            </div>
+          </div>
+          {/* Tabs */}
+          <div style={{ display: "flex", borderBottom: `1px solid ${T.divider}`, marginBottom: 0, position: "relative" }}>
+            {["Overall","Following"].map((t, i) => (
+              <div key={t} style={{ flex: 1, textAlign: "center", padding: "16px 4px", borderBottom: i === 0 ? `2px solid ${T.orange}` : "none", marginBottom: -1 }}>
+                <span style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: i === 0 ? T.textPri : T.textTer }}>{t}</span>
+              </div>
+            ))}
+          </div>
+          {/* Column headers */}
+          <div style={{ display: "flex", alignItems: "center", padding: "0 20px", gap: 8, marginTop: 0 }}>
+            <div style={{ flex: 1, fontFamily: T.font, fontSize: 12, fontWeight: 700, color: T.textPri, lineHeight: "16px", paddingTop: 8, paddingBottom: 8 }}>Rank</div>
+            <div style={{ display: "flex", gap: 26 }}>
+              <span style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, color: T.textPri, lineHeight: "16px" }}>Pace</span>
+              <span style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, color: T.textPri, lineHeight: "16px" }}>Distance</span>
+            </div>
+          </div>
+          {/* Entries */}
+          {LEADERBOARD_NAMES.map((name, i) => (
+            <div key={name} style={{ display: "flex", alignItems: "center", padding: "16px 24px", gap: 8, background: "#fff", borderBottom: i < 5 ? `0.5px solid ${T.divider}` : "none" }}>
+              <div style={{ display: "flex", flex: 1, gap: 8, alignItems: "center", minWidth: 0 }}>
+                <div style={{ display: "flex", flex: 1, gap: 4, alignItems: "center", minWidth: 0 }}>
+                  {/* Rank number */}
+                  <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px", minWidth: 24, paddingLeft: 4 }}>{i+1}</div>
+                  {/* Avatar */}
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0 }}/>
+                  {/* Name */}
+                  <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, lineHeight: "18px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>{name}</div>
+                </div>
+              </div>
+              {/* Pace + Distance */}
+              <div style={{ display: "flex", gap: 20, flexShrink: 0 }}>
+                <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px", textAlign: "right" }}>{LEADERBOARD_PACES[i]}</span>
+                <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px", textAlign: "right" }}>{LEADERBOARD_DIST[i]}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Description / About ── */}
+        <div style={{ padding: "40px 24px 24px", background: "#fff" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 8 }}>
+            {title || "About this Challenge"}
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textTer, lineHeight: "20px", whiteSpace: "pre-wrap" }}>
+            {description || "Challenge description goes here."}
+          </div>
+        </div>
+
+      </div>{/* end content sheet */}
     </div>
   );
 }
@@ -1485,6 +1710,8 @@ function App() {
               ? <TopNav title="Home" back=""/>
               : screen === "takeover"
               ? <TopNav title="Groups" back=""/>
+              : screen === "not-joined" || screen === "joined"
+              ? null
               : <TopNav title="Challenge" back="Groups"/>
           }
           <ScreenRouter screen={screen} data={data}/>
