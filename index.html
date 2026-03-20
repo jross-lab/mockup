@@ -137,11 +137,8 @@ const IcoBattery = () => (
   </svg>
 );
 const IcoWifi = () => (
-  <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-    <path d="M8 9.5a1.5 1.5 0 110 2.5 1.5 1.5 0 010-2.5z" fill="black"/>
-    <path d="M4.9 7a4.5 4.5 0 016.2 0" stroke="black" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M2.1 4.2a8 8 0 0111.8 0" stroke="black" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M0 1.5A11 11 0 0116 1.5" stroke="black" strokeWidth="1.5" strokeLinecap="round"/>
+  <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M8.5713 2.46628C11.0584 2.46639 13.4504 3.38847 15.2529 5.04195C15.3887 5.1696 15.6056 5.16799 15.7393 5.03834L17.0368 3.77487C17.1045 3.70911 17.1422 3.62004 17.1417 3.52735C17.1411 3.43467 17.1023 3.34603 17.0338 3.28104C12.3028 -1.09368 4.83907 -1.09368 0.108056 3.28104C0.039524 3.34598 0.000639766 3.4346 7.82398e-06 3.52728C-0.000624118 3.61996 0.0370483 3.70906 0.104689 3.77487L1.40255 5.03834C1.53615 5.16819 1.75327 5.1698 1.88893 5.04195C3.69167 3.38836 6.08395 2.46628 8.5713 2.46628ZM8.56795 6.68656C9.92527 6.68647 11.2341 7.19821 12.2403 8.12234C12.3763 8.2535 12.5907 8.25065 12.7234 8.11593L14.0106 6.79663C14.0784 6.72742 14.1161 6.63355 14.1151 6.536C14.1141 6.43844 14.0746 6.34536 14.0054 6.27757C10.9416 3.38672 6.19688 3.38672 3.13305 6.27757C3.06384 6.34536 3.02435 6.43849 3.02345 6.53607C3.02254 6.63366 3.06028 6.72752 3.12822 6.79663L4.41513 8.11593C4.54778 8.25065 4.76215 8.2535 4.89823 8.12234C5.90368 7.19882 7.21152 6.68713 8.56795 6.68656ZM11.0924 9.48011C11.0943 9.58546 11.0572 9.68703 10.9899 9.76084L8.81327 12.2156C8.74946 12.2877 8.66247 12.3283 8.5717 12.3283C8.48093 12.3283 8.39394 12.2877 8.33013 12.2156L6.1531 9.76084C6.08585 9.68697 6.04886 9.58537 6.05085 9.48002C6.05284 9.37467 6.09365 9.27491 6.16364 9.20429C7.55374 7.8904 9.58966 7.8904 10.9798 9.20429C11.0497 9.27497 11.0904 9.37476 11.0924 9.48011Z" fill="black"/>
   </svg>
 );
 const IcoCellular = () => (
@@ -196,13 +193,69 @@ function UploadBox({ label, preview, onUpload, aspect }) {
 
 // --- Phone chrome -------------------------------------------------------------
 
+function StatusBar() {
+  return (
+    <div style={{ height: 44, background: T.bgSurface, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", flexShrink: 0 }}>
+      <span style={{ fontFamily: "'SF Pro Text', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.3px" }}>9:41</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <IcoCellular/>
+        <IcoWifi/>
+        <IcoBattery/>
+      </div>
+    </div>
+  );
+}
+
 function TopNav({ title = "Challenge", back = "Groups" }) {
   return (
-    <div style={{ height: 48, background: T.bgSurface, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", borderBottom: `0.5px solid ${T.divider}`, flexShrink: 0 }}>
-      <div style={{ position: "absolute", left: 12, display: "flex", alignItems: "center", gap: 5 }}>
-        <IcoBackArrow/><span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 400 }}>{back}</span>
+    <div style={{ background: T.bgSurface, flexShrink: 0, borderBottom: `0.5px solid ${T.divider}`, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.10)" }}>
+      <StatusBar/>
+      <div style={{ height: 44, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        <div style={{ position: "absolute", left: 12, display: "flex", alignItems: "center", gap: 5 }}>
+          <IcoBackArrow/><span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 400 }}>{back}</span>
+        </div>
+        <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>{title}</span>
       </div>
-      <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>{title}</span>
+    </div>
+  );
+}
+
+// Home-style top nav for Milestone / HomeFeed screens (no back arrow, has action icons)
+const IcoPlus = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M12 5v14M5 12h14" stroke="black" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+const IcoSearch = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <circle cx="11" cy="11" r="7" stroke="black" strokeWidth="2"/>
+    <path d="M16.5 16.5L21 21" stroke="black" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+const IcoMessage = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path fillRule="evenodd" clipRule="evenodd" d="M2 5C2 3.9 2.9 3 4 3h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H7l-5 4V5z" stroke="black" strokeWidth="2" strokeLinejoin="round" fill="none"/>
+  </svg>
+);
+const IcoBell = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+function TopNavHome() {
+  return (
+    <div style={{ background: T.bgSurface, flexShrink: 0, borderBottom: `0.5px solid ${T.divider}`, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.10)" }}>
+      <StatusBar/>
+      <div style={{ height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px", position: "relative" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <IcoPlus/><IcoSearch/>
+        </div>
+        <span style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>Home</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <IcoMessage/><IcoBell/>
+        </div>
+      </div>
     </div>
   );
 }
@@ -223,7 +276,7 @@ function PhoneShell({ children, screenRef, phoneRef, bgColor }) {
         background: T.bgSunken,
         position: "relative",
       }}>
-        <div style={{ maxHeight: 780, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <div style={{ height: 780, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {children}
         </div>
       </div>
@@ -693,10 +746,10 @@ function ScreenTakeover({ data }) {
 function ScreenMilestone({ data }) {
   const { badgeImg, brandName, title } = data;
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSurface }}>
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSurface, flexGrow: 1 }}>
 
       {/* Feed Owner Header */}
-      <div style={{ padding: "16px 24px", display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
+      <div style={{ padding: "24px 24px 24px", display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
         {/* Subscriber avatar */}
         <div style={{ position: "relative", flexShrink: 0, width: 48, height: 48, overflow: "visible" }}>
           <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
@@ -732,14 +785,14 @@ function ScreenMilestone({ data }) {
       </div>
 
       {/* Activity Title */}
-      <div style={{ padding: "0 24px 12px" }}>
+      <div style={{ padding: "0 24px 16px" }}>
         <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>
           Probably the most beautiful ride I've ever been on
         </div>
       </div>
 
       {/* Stats row */}
-      <div style={{ padding: "0 24px 12px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+      <div style={{ padding: "0 24px 16px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
         <div style={{ display: "flex", gap: 24 }}>
           {[["Distance","18.33 mi"],["Time","2h 20m"],["Elevation","2,033 ft"]].map(([label, val]) => (
             <div key={label}>
@@ -796,17 +849,17 @@ function ScreenMilestone({ data }) {
       </div>
 
       {/* Media carousel */}
-      <div style={{ padding: "0 0 0 24px", marginBottom: 0 }}>
-        <div style={{ display: "flex", gap: 8, height: 220, overflow: "hidden" }}>
+      <div style={{ padding: "16px 0 0 24px" }}>
+        <div style={{ display: "flex", gap: 8, height: 250, overflow: "hidden" }}>
           {/* Map tile */}
-          <div style={{ width: 280, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "#D8EACF" }}>
+          <div style={{ width: 260, height: 250, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "#D8EACF" }}>
             <img src={CAROUSEL_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
             <div style={{ position: "absolute", top: 10, left: 10, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
               <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700 }}>Workout</span>
             </div>
           </div>
           {/* Photo tile */}
-          <div style={{ width: 220, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
+          <div style={{ width: 190, height: 250, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
             <div style={{ position: "absolute", top: 10, left: 10, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
               <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700 }}>Workout</span>
             </div>
@@ -815,14 +868,14 @@ function ScreenMilestone({ data }) {
       </div>
 
       {/* Social summary */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 24px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Facepile/>
           <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span>
         </div>
         <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
       </div>
-      <div style={{ height: 12 }}/>
+      <div style={{ height: 27 }}/>
     </div>
   );
 }
@@ -1427,23 +1480,7 @@ function App() {
         <ScaledPhone>
         <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
           {screen === "milestone"
-            ? <div style={{ position: "relative", flexShrink: 0, paddingTop: 6, background: "#fff" }}>
-                <svg width="375" height="48" viewBox="0 0 375 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", background: "#fff" }}>
-                <g clipPath="url(#clip0_2255_5721)">
-                  <path d="M35.3423 31.5V24.6542H28.5V23.3042H35.3423V16.5H36.6923V23.3042H43.5V24.6542H36.6923V31.5H35.3423Z" fill="black"/>
-                  <path fillRule="evenodd" clipRule="evenodd" d="M29.5137 33.7076C31.4336 34.9905 33.6909 35.6752 36 35.6752C39.0953 35.6718 42.0629 34.4406 44.2516 32.2519C46.4404 30.0631 47.6715 27.0955 47.675 24.0002C47.675 21.6911 46.9902 19.4339 45.7074 17.5139C44.4245 15.594 42.6011 14.0976 40.4678 13.2139C38.3345 12.3303 35.987 12.099 33.7223 12.5495C31.4575 13 29.3773 14.112 27.7445 15.7447C26.1117 17.3775 24.9998 19.4578 24.5493 21.7225C24.0988 23.9872 24.33 26.3347 25.2137 28.468C26.0973 30.6014 27.5937 32.4247 29.5137 33.7076ZM30.2637 15.4153C31.9616 14.2808 33.9579 13.6752 36 13.6752C38.7373 13.6784 41.3617 14.7672 43.2973 16.7028C45.233 18.6385 46.3218 21.2628 46.325 24.0002C46.325 26.0423 45.7194 28.0385 44.5849 29.7365C43.4504 31.4344 41.8378 32.7578 39.9512 33.5393C38.0645 34.3207 35.9885 34.5252 33.9856 34.1268C31.9828 33.7284 30.1431 32.7451 28.6991 31.3011C27.2551 29.8571 26.2717 28.0174 25.8733 26.0145C25.475 24.0117 25.6794 21.9356 26.4609 20.049C27.2424 18.1623 28.5658 16.5498 30.2637 15.4153Z" fill="black"/>
-                </g>
-                <path d="M76.0001 12.3301C74.2097 12.3289 72.4628 12.8823 70.9998 13.9143C69.5367 14.9463 68.4292 16.4061 67.8296 18.0932C67.23 19.7802 67.1677 21.6115 67.6512 23.3354C68.1348 25.0593 69.1405 26.591 70.5301 27.7201L67.0901 34.2001L70.2401 35.9201L73.7301 29.3701C74.4697 29.5725 75.2333 29.6734 76.0001 29.6701C78.2995 29.6701 80.5048 28.7566 82.1307 27.1307C83.7566 25.5048 84.6701 23.2995 84.6701 21.0001C84.6701 18.7007 83.7566 16.4954 82.1307 14.8695C80.5048 13.2435 78.2995 12.3301 76.0001 12.3301ZM76.0001 28.3301C75.4547 28.3273 74.9113 28.2636 74.3801 28.1401C73.9328 28.0429 73.4971 27.8988 73.0801 27.7101C72.7999 27.6016 72.5318 27.4642 72.2801 27.3001C71.887 27.0757 71.5183 26.8109 71.1801 26.5101C69.892 25.3788 69.0418 23.8314 68.7778 22.1375C68.5138 20.4437 68.8526 18.7109 69.7353 17.2412C70.6179 15.7716 71.9884 14.6584 73.6077 14.0957C75.227 13.533 76.9925 13.5564 78.5962 14.162C80.2 14.7676 81.5404 15.9169 82.3837 17.4094C83.2269 18.902 83.5196 20.6432 83.2106 22.3294C82.9016 24.0157 82.0106 25.54 80.6929 26.6366C79.3752 27.7332 77.7144 28.3325 76.0001 28.3301ZM69.6901 34.0801L68.9101 33.6501L71.6501 28.4901C71.9048 28.6458 72.1686 28.786 72.4401 28.9101L69.6901 34.0801Z" fill="black"/>
-                <path d="M167.013 29V17.015H169.478V21.69H174.68V17.015H177.145V29H174.68V23.866H169.478V29H167.013ZM183.101 29.255C180.466 29.255 178.834 27.351 178.834 24.614C178.834 21.877 180.466 19.99 183.101 19.99C185.719 19.99 187.368 21.877 187.368 24.614C187.368 27.351 185.719 29.255 183.101 29.255ZM183.101 27.3C184.223 27.3 184.954 26.331 184.954 24.614C184.954 22.897 184.223 21.945 183.101 21.945C181.962 21.945 181.231 22.897 181.231 24.614C181.231 26.331 181.962 27.3 183.101 27.3ZM188.922 29V20.245H191.166V21.248H191.234C191.676 20.449 192.509 19.99 193.495 19.99C194.566 19.99 195.382 20.466 195.824 21.35H195.892C196.385 20.483 197.286 19.99 198.306 19.99C200.091 19.99 201.077 21.129 201.06 23.186V29H198.714V23.305C198.714 22.387 198.323 21.945 197.575 21.945C196.98 21.945 196.453 22.336 196.164 22.982V29H193.818V23.305C193.818 22.387 193.427 21.945 192.679 21.945C192.084 21.945 191.557 22.319 191.268 22.965V29H188.922ZM206.79 29.255C204.172 29.255 202.608 27.487 202.608 24.597C202.608 21.809 204.274 19.99 206.671 19.99C209.102 19.99 210.734 21.707 210.734 24.24C210.734 24.631 210.7 24.988 210.649 25.277H205.022C205.039 26.739 205.719 27.453 206.79 27.453C207.538 27.453 207.997 27.079 208.235 26.382L210.513 26.96C210.071 28.371 208.711 29.255 206.79 29.255ZM205.022 23.815H208.371C208.337 22.523 207.793 21.707 206.722 21.707C205.685 21.707 205.039 22.37 205.022 23.815Z" fill="black"/>
-                <path d="M292.819 20.5377H305.799L305.089 21.8777H292.819V20.5377Z" fill="black"/>
-                <path d="M292.819 24.5377H303.669L302.959 25.8777H292.819V24.5377Z" fill="black"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M287 22.2076C287 17.7894 290.582 14.2076 295 14.2076H303C307.418 14.2076 311 17.7894 311 22.2076V24.2076C311 27.0092 309.56 29.4744 307.38 30.9034V35.726L300.816 32.2076H295C290.582 32.2076 287 28.6259 287 24.2076V22.2076ZM295 15.5576H303C306.673 15.5576 309.65 18.5349 309.65 22.2076V24.2076C309.65 26.7925 308.175 29.0329 306.021 30.1333L306.021 31.6175L306.03 31.6141V33.4706L303.628 32.1833L303.649 32.1817L301.183 30.8576H295C291.327 30.8576 288.35 27.8803 288.35 24.2076V22.2076C288.35 18.5349 291.327 15.5576 295 15.5576Z" fill="black"/>
-                <path d="M349.116 31.7L345.675 25.14V19.027C345.675 18.1507 345.502 17.283 345.167 16.4734C344.832 15.6638 344.34 14.9281 343.721 14.3085C343.101 13.6888 342.365 13.1973 341.556 12.862C340.746 12.5266 339.878 12.354 339.002 12.354C338.126 12.354 337.258 12.5266 336.448 12.862C335.639 13.1973 334.903 13.6888 334.284 14.3085C333.664 14.9281 333.172 15.6638 332.837 16.4734C332.502 17.283 332.329 18.1507 332.329 19.027V25.142L328.884 31.7H334.6C334.707 32.7943 335.217 33.8097 336.032 34.5484C336.846 35.2871 337.906 35.6963 339.006 35.6963C340.106 35.6963 341.166 35.2871 341.98 34.5484C342.795 33.8097 343.305 32.7943 343.412 31.7H349.116ZM333.675 25.474V19.027C333.675 17.6142 334.236 16.2593 335.235 15.2602C336.234 14.2612 337.589 13.7 339.002 13.7C340.415 13.7 341.77 14.2612 342.769 15.2602C343.768 16.2593 344.329 17.6142 344.329 19.027V25.474L346.884 30.353H331.116L333.675 25.474ZM339.007 34.353C338.264 34.3505 337.547 34.0812 336.986 33.5943C336.425 33.1074 336.057 32.4351 335.95 31.7H342.063C341.956 32.435 341.589 33.1071 341.028 33.594C340.467 34.0809 339.75 34.3502 339.007 34.353Z" fill="black"/>
-                <defs><clipPath id="clip0_2255_5721"><rect width="24" height="24" fill="white" transform="translate(24 12)"/></clipPath></defs>
-              </svg>
-              {/* Shadow strip — rendered outside overflow:hidden clip */}
-              <div style={{ height: 4, background: "linear-gradient(to bottom, rgba(0,0,0,0.08), transparent)", flexShrink: 0 }}/>
-              </div>
+            ? <TopNavHome/>
             : screen === "segment"
               ? <TopNav title="Home" back=""/>
               : screen === "takeover"
