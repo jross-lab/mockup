@@ -148,7 +148,7 @@ function App() {
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden" }}>
         <div style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
-            {screen === "not-joined"
+            {screen === "not-joined" || screen === "joined"
               ? null
               : screen === "segment" || screen === "milestone"
               ? <TopNav title="Home" back=""/>
