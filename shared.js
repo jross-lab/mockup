@@ -150,11 +150,12 @@ function OrangeBtn({ label, outline }) {
     <button style={{ width: 327, height: 34, borderRadius: 17, background: outline ? "transparent" : T.orange, border: `1.5px solid ${T.orange}`, fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: outline ? T.orange : "#fff", cursor: "default", display: "flex", alignItems: "center", justifyContent: "center" }}>{label}</button>
   );
 }
-function SponsorCard({ brandName, badgeImg }) {
+function SponsorCard({ brandName, badgeImg, logoImg }) {
+  const clubImg = logoImg || badgeImg;
   return (
     <div style={{ background: T.bgSurface, marginTop: 8, padding: 24, display: "flex", gap: 16 }}>
       <div style={{ width: 64, height: 64, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/> : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>}
+        {clubImg ? <img src={clubImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/> : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>}
       </div>
       <div style={{ flex: 1 }}>
         <div style={{ fontFamily: T.font, fontSize: 10, color: T.textPri, textTransform: "uppercase", letterSpacing: "0.08em", lineHeight: "14px" }}>Organizing club</div>
