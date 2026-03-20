@@ -146,7 +146,7 @@ function App() {
 
       {/* Phone preview */}
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden" }}>
-        <div style={{ flexShrink: 0, transform: "scale(0.88)", transformOrigin: "center center" }}>
+        <div style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined"
               ? null
