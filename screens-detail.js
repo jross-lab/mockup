@@ -118,7 +118,7 @@ function ScreenNotJoined({ data }) {
                   </div>
                 </div>
                 {/* Join Club button */}
-                <button style={{ borderRadius: 8, background: "transparent", border: "1px solid #fd9766", fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: T.orange, cursor: "default", padding: "4px 12px", flexShrink: 0 }}>
+                <button style={{ height: 28, borderRadius: 14, background: "transparent", border: "1px solid #fd9766", fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: T.orange, cursor: "default", padding: "0 12px", flexShrink: 0 }}>
                   Join Club
                 </button>
               </div>
