@@ -243,6 +243,48 @@ const IcoBell = () => (
   </svg>
 );
 
+// Groups screen top nav — exact icons from Figma node 2119:23015
+const NAV_SEARCH_ICON = "https://www.figma.com/api/mcp/asset/9854cde7-438b-42b4-9a7e-2240fbf1268f";
+const NAV_MESSAGING_ICON = "https://www.figma.com/api/mcp/asset/46931265-6b49-4151-b974-732a11ffbe5f";
+const NAV_SETTINGS_ICON = "https://www.figma.com/api/mcp/asset/edae21b1-09e8-4e5c-8f8e-249adf03bba6";
+const RECOMMENDED_AVATAR = "https://www.figma.com/api/mcp/asset/8c2547e6-00df-45a9-9de8-fbc015b905e8";
+// Figma card badge assets (node 2119:23042)
+const BADGE_ANTI     = "https://www.figma.com/api/mcp/asset/4c29110f-469e-4f1b-8c2b-6fb21cab6f6c";
+const BADGE_PRIME    = "https://www.figma.com/api/mcp/asset/4daa23d2-b503-4d86-83a0-415520201632";
+const BADGE_NIKE     = "https://www.figma.com/api/mcp/asset/f7e0db6d-2011-4a69-aeba-473df0ae26bc";
+const BADGE_ADIDAS   = "https://www.figma.com/api/mcp/asset/2aae270b-d9c9-411c-ad28-04a6cbb97d5e";
+// Card icon assets from Figma tiles node
+const ICON_MULTI     = "https://www.figma.com/api/mcp/asset/18b0c90e-fbf6-4326-a08d-4082fe8f6132";
+const ICON_RUN_SMALL = "https://www.figma.com/api/mcp/asset/c3dc67ff-756b-4aaf-be96-c74ed2a432b4";
+const ICON_BIKE_SMALL= "https://www.figma.com/api/mcp/asset/be5de0c6-aad8-4c51-abe8-71d59586dad8";
+
+function TopNavGroups() {
+  return (
+    <div style={{ background: T.bgSurface, flexShrink: 0, borderBottom: `0.5px solid ${T.divider}`, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.10)" }}>
+      <StatusBar/>
+      <div style={{ height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", position: "relative" }}>
+        {/* Search icon left */}
+        <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="20" height="20" viewBox="24 12 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M33.4571 12C38.1515 12 41.9571 15.8056 41.9571 20.5C41.9571 21.9692 41.5844 23.3513 40.9283 24.557L47.5607 31.1893C48.1464 31.7751 48.1464 32.7249 47.5607 33.3107L46.2678 34.6036C45.682 35.1893 44.7322 35.1893 44.1464 34.6036L37.5141 27.9712C36.3084 28.6273 34.9263 29 33.4571 29C28.7627 29 24.9571 25.1944 24.9571 20.5C24.9571 15.8056 28.7627 12 33.4571 12ZM39.9571 20.5C39.9571 16.9101 37.047 14 33.4571 14C29.8673 14 26.9571 16.9101 26.9571 20.5C26.9571 24.0899 29.8673 27 33.4571 27C37.047 27 39.9571 24.0899 39.9571 20.5ZM39.1675 26.7962L45.2071 32.8358L45.7929 32.25L39.7533 26.2104C39.5676 26.415 39.3721 26.6105 39.1675 26.7962Z" fill="black"/>
+          </svg>
+        </div>
+        {/* Title centred */}
+        <span style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>Groups</span>
+        {/* Messaging + Settings right */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={NAV_MESSAGING_ICON} alt="" style={{ width: 24, height: 23, display: "block" }}/>
+          </div>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={NAV_SETTINGS_ICON} alt="" style={{ width: 23, height: 24, display: "block" }}/>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TopNavHome() {
   return (
     <div style={{ background: T.bgSurface, flexShrink: 0, borderBottom: `0.5px solid ${T.divider}`, boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.10)" }}>
@@ -1320,41 +1362,127 @@ function VerticalCard({ badgeImg, title, goal, brandName }) {
 }
 
 function ScreenGroupsTab({ data }) {
-  const { heroImg, badgeImg, title, goal, brandName, startDate } = data;
+  const { badgeImg, title, goal, startDate, endDate, activityType } = data;
+
+  // Cycling icon reused from existing IcoBike in the codebase
+  const IcoCycle16 = () => (
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+      <path d="M2.00004 0.99988H6.00004V2.24988H5.43413L5.8627 2.99988H9.83496L9.41263 1.83847C9.34295 1.64686 9.37112 1.43331 9.48808 1.26632C9.60505 1.09932 9.79612 0.99988 10 0.99988H13.5C14.3284 0.99988 15 1.67145 15 2.49988C15 3.32831 14.3284 3.99988 13.5 3.99988H13V2.74988H13.5C13.6381 2.74988 13.75 2.63795 13.75 2.49988C13.75 2.36181 13.6381 2.24988 13.5 2.24988H10.8923L11.9103 5.04934C12.102 5.01682 12.299 4.99988 12.5 4.99988C14.433 4.99988 16 6.56688 16 8.4999C16 10.4329 14.433 11.9999 12.5 11.9999C10.567 11.9999 9 10.4329 9 8.4999C9 7.21035 9.69737 6.08371 10.7356 5.47652L10.4107 4.58312L7.98846 8.6923C7.87609 8.8829 7.67131 8.9999 7.45004 8.9999H6.96457C6.72199 10.6961 5.26326 12 3.5 12C1.567 12 0 10.433 0 8.5C0 6.56696 1.567 4.99996 3.5 4.99996C3.87529 4.99996 4.23678 5.05903 4.57569 5.16837L5.09112 4.16906L3.99444 2.24988H2.00004V0.99988ZM5.83035 5.46271L4.65065 7.74988H7.09296L7.11547 7.71168L5.83035 5.46271ZM7.84651 6.47153L9.15611 4.24988H6.57699L7.84651 6.47153ZM3.5 6.24996C2.25736 6.24996 1.25 7.25732 1.25 8.5C1.25 9.74264 2.25736 10.75 3.5 10.75C4.57082 10.75 5.46693 10.0019 5.69426 8.9999H3.62504C3.40703 8.9999 3.20478 8.8863 3.09133 8.7001C2.97789 8.514 2.96964 8.2821 3.06958 8.0884L3.99019 6.30351C3.83239 6.26845 3.66836 6.24996 3.5 6.24996ZM11.1739 6.682C10.6138 7.09126 10.25 7.75308 10.25 8.4999C10.25 9.74254 11.2574 10.7499 12.5 10.7499C13.7426 10.7499 14.75 9.74254 14.75 8.4999C14.75 7.25724 13.7426 6.24988 12.5 6.24988C12.4491 6.24988 12.3987 6.25156 12.3487 6.25489L13.301 8.8737L12.1262 9.3008L11.1739 6.682Z" fill="#43423F"/>
+    </svg>
+  );
+
+  const CHIPS = [
+    { label: "Running",  icon: <img src={ICON_RUN_SMALL} alt="" style={{ width: 16, height: 15, display: "block" }}/>, selected: true },
+    { label: "Cycling",  icon: <IcoCycle16/>,                                                                           selected: false },
+    { label: "Hiking",   icon: <img src={ICON_MULTI} alt="" style={{ width: 16, height: 16, display: "block" }}/>,     selected: false },
+    { label: "Swimming", icon: <img src={ICON_MULTI} alt="" style={{ width: 16, height: 16, display: "block" }}/>,     selected: false },
+    { label: "All",      icon: <img src={ICON_MULTI} alt="" style={{ width: 16, height: 16, display: "block" }}/>,     selected: false },
+  ];
+
+  const dateRange = startDate && endDate ? `${startDate} to ${endDate}` : "March 1, 2026 to March 31 2026";
+  const goalText = goal || "Complete a 5 km (3.1 mi) run.";
+  const challengeTitle = title || "Challenge Name";
+
+  // Cards: top-left = user data, top-right = Prime (Joined), bottom-left = Nike, bottom-right = Adidas
+  const STATIC_CARDS = [
+    { badge: BADGE_PRIME,  title: "Prime Fast Track Challenge",                  goal: "Log a top 3 fastest 5K of all time",  date: "March 1, 2026 to March 31 2026", icon: ICON_RUN_SMALL,  joined: true  },
+    { badge: BADGE_NIKE,   title: "The Big Run Powered by Nike and Secret Run Club", goal: "Complete a 5 km (3.1 mi) run.",   date: "March 1 to March 31, 2024",       icon: ICON_BIKE_SMALL, joined: false },
+    { badge: BADGE_ADIDAS, title: "You Got This: 100 Days powered by adidas",    goal: "Complete a 5 km (3.1 mi) run.",      date: "March 1 to March 31, 2024",       icon: ICON_BIKE_SMALL, joined: false },
+  ];
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
-      <div style={{ background: T.bgSurface, display: "flex", borderBottom: `0.5px solid ${T.divider}` }}>
-        {["Challenges","Clubs","Events"].map((t,i) => (
-          <div key={t} style={{ flex: 1, textAlign: "center", padding: "14px 0", borderBottom: i === 0 ? `2px solid ${T.orange}` : "none" }}>
-            <span style={{ fontFamily: T.font, fontSize: 16, fontWeight: i === 0 ? 700 : 400, color: i === 0 ? T.textPri : T.textTer }}>{t}</span>
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken, overflowY: "auto", flexGrow: 1 }}>
+
+      {/* Tabs */}
+      <div style={{ background: T.bgSurface, display: "flex", borderBottom: `1px solid ${T.divider}`, flexShrink: 0 }}>
+        {[["Active", false], ["Challenges", true], ["Clubs", false]].map(([label, selected]) => (
+          <div key={label} style={{ flex: 1, textAlign: "center", padding: "16px 4px", borderBottom: selected ? `2px solid ${T.orange}` : "none", marginBottom: -1 }}>
+            <span style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: selected ? T.textPri : T.textTer }}>{label}</span>
           </div>
         ))}
       </div>
-      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
-        <div style={{ width: "100%", height: 185, background: "#C8C8C8", overflow: "hidden" }}>
-          {heroImg ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/> : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)" }}/>}
-        </div>
-        <div style={{ padding: "16px 24px" }}>
-          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 16 }}>
-            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden" }}>
-              {badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}
-            </div>
-            <div>
-              <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", marginBottom: 4 }}>{title || "Challenge Title"}</div>
-              <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>{goal || "Challenge goal"}</div>
-              <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginTop: 2 }}>{startDate || "Apr 1"} ? {brandName || "Brand"}</div>
-            </div>
+
+      {/* Chip bar */}
+      <div style={{ background: T.bgSurface, display: "flex", gap: 8, overflowX: "auto", padding: "16px 24px", scrollbarWidth: "none", flexShrink: 0, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)" }}>
+        {CHIPS.map(({ label, icon, selected }) => (
+          <div key={label} style={{ display: "flex", alignItems: "center", gap: 8, height: 32, padding: "0 12px", borderRadius: 8, border: `1px solid ${selected ? T.orange : "#C2C1BB"}`, background: T.bgSurface, flexShrink: 0 }}>
+            {icon}
+            <span style={{ fontFamily: T.font, fontSize: 12, color: selected ? T.orange : T.textPri, whiteSpace: "nowrap" }}>{label}</span>
           </div>
-          <OrangeBtn label="Join Challenge"/>
+        ))}
+      </div>
+
+      {/* Past Group Challenges row */}
+      <div style={{ background: T.bgSurface, display: "flex", alignItems: "center", padding: "0 24px", minHeight: 64, gap: 12, flexShrink: 0 }}>
+        <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.70711 2.87868C8.26972 2.31607 9.03278 2 9.82843 2H11C11.4465 2 11.8389 2.29598 11.9615 2.72528L12.7594 5.51782C13.4148 7.8118 15.1935 9.61401 17.4786 10.2996L21.1494 11.4008C22.8413 11.9084 24 13.4657 24 15.2321V15.6307C24 15.9465 23.9648 16.3312 23.8078 16.7211C23.5697 17.3127 23.0137 18.3878 21.8582 19.3177C20.6872 20.2602 18.9657 21 16.5 21H14C13.9182 21 13.8368 20.99 13.7575 20.9701L10.3068 20.1075L9.70711 20.7071C9.51957 20.8946 9.26522 21 9 21H4C1.79086 21 0 19.2091 0 17V16.8284C0 16.0328 0.316071 15.2697 0.87868 14.7071L1.04048 14.5453L1.82486 6.70149C1.97822 5.16789 3.26872 4 4.80998 4H6.58579L7.70711 2.87868ZM9.82843 4C9.56321 4 9.30886 4.10536 9.12132 4.29289L7.41421 6H4.80998C4.29622 6 3.86606 6.38929 3.81494 6.9005L3.10497 14.0002C5.37921 14.0079 6.51857 14.2675 7.44292 14.5411C7.5535 14.5738 7.65795 14.6057 7.75855 14.6364C8.44339 14.8454 8.95008 15 10 15H17.5C17.8955 15 18.1089 14.8915 18.273 14.7573C18.4811 14.587 18.6523 14.3437 18.9179 13.9453L18.9448 13.905C19.1131 13.6522 19.3282 13.3291 19.6091 13.0268L16.9039 12.2152C16.768 12.1744 16.6335 12.1306 16.5004 12.0837L14.2995 14.2932L12.8826 12.8817L14.6043 11.1533C14.3202 10.9697 14.0474 10.7706 13.7868 10.5571L12.1742 12.176L10.7572 10.7645L12.3899 9.12552C12.161 8.83171 11.95 8.5232 11.7583 8.20158L9.97822 9.98855L8.56128 8.57706L10.888 6.24136C10.8702 6.18358 10.853 6.12554 10.8363 6.06726L10.2457 4H9.82843ZM2.29289 16.1213C2.10536 16.3089 2 16.5632 2 16.8284V17C2 18.1046 2.89543 19 4 19H8.58579L9.69325 17.8925L14.1231 19H16.5C18.5357 19 19.8085 18.4001 20.6043 17.7597C21.4157 17.1066 21.799 16.3556 21.9525 15.9743C21.9787 15.9091 22 15.8054 22 15.6307V15.2321C22 14.7936 21.8572 14.3808 21.6098 14.0453C21.4443 14.0893 21.3265 14.1613 21.227 14.2427C21.0189 14.413 20.8477 14.6563 20.5821 15.0547L20.5552 15.095C20.3227 15.4442 20.0008 15.9277 19.5395 16.3052C19.0161 16.7335 18.3545 17 17.5 17H10C8.64489 17 7.89345 16.7698 7.16892 16.5478C7.07104 16.5178 6.97366 16.488 6.87534 16.4589C6.12439 16.2366 5.15563 16 3 16H2.41421L2.29289 16.1213Z" fill="black"/></svg>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px" }}>Past Group Challenges</div>
+          <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px" }}>3</div>
+        </div>
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#C2C1BB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </div>
+
+      {/* Recommended section */}
+      <div style={{ background: T.bgSunken }}>
+        {/* Recommended header — Figma avatar */}
+        <div style={{ display: "flex", gap: 16, alignItems: "center", padding: "16px 24px", background: T.bgSunken }}>
+          <img src={RECOMMENDED_AVATAR} alt="" style={{ width: 32, height: 32, borderRadius: "50%", flexShrink: 0, display: "block" }}/>
+          <div>
+            <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: "21px", color: T.textPri }}>Recommended for You</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px" }}>Based on your activities</div>
+          </div>
+        </div>
+
+        {/* 2×2 card grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, padding: "0 8px 16px" }}>
+
+          {/* Card 1 — user data, top-left */}
+          <div style={{ background: T.bgSurface, borderRadius: 16, padding: 16, height: 279, display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ width: 55, height: 55, borderRadius: 8, background: "#E8E8E8", overflow: "hidden", flexShrink: 0 }}>
+                {badgeImg
+                  ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
+                  : <div style={{ width: "100%", height: "100%", background: "#E0E0DE" }}/>
+                }
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: "18px", color: T.textPri, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{challengeTitle}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <img src={ICON_MULTI} alt="" style={{ width: 16, height: 16, display: "block" }}/>
+                  <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{goalText}</div>
+                  <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{dateRange}</div>
+                </div>
+              </div>
+            </div>
+            <button style={{ width: "100%", height: 32, borderRadius: 16, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "default" }}>Join</button>
+          </div>
+
+          {/* Cards 2/3/4 — Figma static data */}
+          {STATIC_CARDS.map(({ badge, title: ct, goal: cg, date: cd, icon, joined }, i) => (
+            <div key={i} style={{ background: T.bgSurface, borderRadius: 16, padding: 16, height: 279, display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ width: 55, height: 55, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+                  <img src={badge} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: joined ? "21px" : "18px", color: T.textPri, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ct}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <img src={icon} alt="" style={{ width: 16, height: 15, display: "block" }}/>
+                    <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{cg}</div>
+                    <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{cd}</div>
+                  </div>
+                </div>
+              </div>
+              <button style={{ width: "100%", height: 32, borderRadius: 16, background: joined ? "transparent" : T.orange, border: joined ? `1.5px solid ${T.orange}` : "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: joined ? T.orange : "#fff", cursor: "default" }}>
+                {joined ? "Joined" : "Join"}
+              </button>
+            </div>
+          ))}
+
         </div>
       </div>
-      <div style={{ background: T.bgSurface, padding: "16px 8px" }}>
-        <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, padding: "0 16px 12px" }}>Recommended</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, padding: "0 8px" }}>
-          {[1,2,3,4].map(i => <VerticalCard key={i} badgeImg={i===1?badgeImg:null} title={i===1?title:`Challenge ${i}`} goal={i===1?goal:"Complete the goal"} brandName={i===1?brandName:"Brand"}/>)}
-        </div>
-      </div>
-      <div style={{ height: 24 }}/>
     </div>
   );
 }
@@ -1829,7 +1957,7 @@ function App() {
               <option value="takeover">Challenge Takeover</option>
             </optgroup>
             <optgroup label="Discovery">
-              <option value="groups-tab">Groups Tab / Challenges</option>
+              <option value="groups-tab">Challenge Gallery</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
@@ -1905,7 +2033,9 @@ function App() {
         <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
           {screen === "milestone"
             ? <TopNavHome/>
-            : screen === "segment"
+            : screen === "groups-tab"
+              ? <TopNavGroups/>
+              : screen === "segment"
               ? <TopNav title="Home" back=""/>
               : screen === "takeover"
               ? <TopNav title="Groups" back=""/>
