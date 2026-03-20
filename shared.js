@@ -65,10 +65,12 @@ function TopNav({ title = "Challenge", back = "Groups" }) {
 function PhoneShell({ children, screenRef, bgColor }) {
   const frameColor = bgColor === "#FC5200" ? "#000000" : T.orange;
   return (
-    <div ref={screenRef} style={{ position: "relative", width: 375, borderRadius: 50, background: frameColor, padding: 8, flexShrink: 0 }}>
-      <div style={{ borderRadius: 42, overflow: "hidden", background: T.bgSunken, position: "relative" }}>
-        <div style={{ maxHeight: 780, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          {children}
+    <div ref={screenRef} style={{ display: "inline-block" }}>
+      <div style={{ position: "relative", width: 375, borderRadius: 50, background: frameColor, padding: 8, flexShrink: 0, overflow: "hidden" }}>
+        <div style={{ borderRadius: 42, overflow: "hidden", background: T.bgSunken, position: "relative" }}>
+          <div style={{ maxHeight: 780, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {children}
+          </div>
         </div>
       </div>
     </div>
