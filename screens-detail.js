@@ -13,26 +13,236 @@ const { T, FALLBACK_COLORS, MILESTONE_AVATAR,
 } = window.MT;
 
 // --- Screen: Not Joined (Challenge Detail) -----------------------------------
+// Redesigned to match Figma node 2150:19885
 function ScreenNotJoined({ data }) {
-  const { heroImg, badgeImg, brandName, title, goal, description, participants } = data;
+  const { heroImg, badgeImg, brandName, title, goal, description, participants,
+          startDate, endDate, activityType, reward } = data;
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
-      <HeroBadge heroImg={heroImg} badgeImg={badgeImg}/>
-      <div style={{ height: 60, background: T.bgSurface }}/>
-      <div style={{ background: T.bgSurface, padding: "8px 24px 0", textAlign: "center" }}>
-        <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", marginBottom: 8 }}>{title || "Challenge Title"}</div>
-        <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 24 }}>{goal || "Challenge goal"}</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center", paddingBottom: 16 }}>
-          <OrangeBtn label="Join Challenge"/><OrangeBtn label="Invite Friends" outline/>
+    <div style={{ display: "flex", flexDirection: "column", background: "#000" }}>
+
+      {/* ── Cover Image ── */}
+      <div style={{ width: "100%", height: 266, overflow: "hidden", flexShrink: 0, position: "relative" }}>
+        {heroImg
+          ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+          : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ fontFamily: T.font, fontSize: 12, color: "#fff", opacity: 0.6 }}>Hero Image (2:1)</span>
+            </div>}
+      </div>
+
+      {/* ── CDP Details card (overlaps hero) ── */}
+      <div style={{ background: "#fff", borderRadius: 32, marginTop: -36, position: "relative", zIndex: 1, boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
+        <div style={{ padding: "32px 23px 0", display: "flex", flexDirection: "column", gap: 32 }}>
+
+          {/* ── Badge + Title + Description + Button ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {/* Badge (96px square, not circular) */}
+              <div style={{ width: 96, height: 96, flexShrink: 0 }}>
+                {badgeImg
+                  ? <img src={badgeImg} alt="" style={{ width: 96, height: 96, objectFit: "contain" }}/>
+                  : <div style={{ width: 96, height: 96, background: "#E8E8E8", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ fontFamily: T.font, fontSize: 9, color: "#999" }}>Badge</span>
+                    </div>}
+              </div>
+              {/* Title + Goal text */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri }}>
+                  {title || "Challenge Title"}
+                </div>
+                <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 400, lineHeight: "20px", color: T.textSec }}>
+                  {goal || "Challenge goal"}
+                </div>
+              </div>
+            </div>
+            {/* Join button */}
+            <button style={{ width: "100%", height: 48, borderRadius: 24, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>
+              Join the Challenge
+            </button>
+          </div>
+
+          {/* ── Organizing club ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>
+              Organizing club
+            </div>
+            <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)", display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                {/* Club profile image */}
+                <div style={{ width: 48, height: 48, borderRadius: 8, background: "#E8E8E8", flexShrink: 0, overflow: "hidden", boxShadow: "0px 1.5px 3px rgba(0,0,0,0.1)" }}>
+                  {badgeImg
+                    ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 8 }}/>
+                    : <span style={{ display: "flex", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontFamily: T.font, fontSize: 9, color: "#999" }}>Logo</span>}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, lineHeight: "20px", color: T.textPri, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {brandName || "Club Name"}
+                  </div>
+                  <div style={{ display: "flex", gap: 4, alignItems: "center", marginTop: 2 }}>
+                    <div style={{ width: 16, height: 16, flexShrink: 0, opacity: 0.9, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8.68843 0C8.02519 0 7.37985 0.215115 6.84926 0.613058L3.52982 3.10263L0.683772 4.05132C0.27543 4.18743 0 4.56957 0 5C0 6.57896 0.196721 7.77215 0.566654 8.73398C0.942709 9.71172 1.4741 10.3883 2.04289 10.9571C2.34815 11.2624 2.64313 11.524 2.92865 11.7772C3.71439 12.4741 4.42845 13.1075 5.08755 14.4114C6.12048 16.9818 7.45819 19.1594 9.53364 20.6814C11.6286 22.2177 14.3564 23 18 23C20.1284 23 21.5871 22.4466 22.5488 21.589C23.5046 20.7365 23.8434 19.6954 23.9567 18.9614C24.1091 17.974 23.5681 17.1739 22.9903 16.7116L19.0976 13.5974C18.9434 13.4741 18.8292 13.3079 18.7693 13.1198L15.6746 3.39359C15.4106 2.56364 14.6397 2 13.7688 2H12.3333C11.9006 2 11.4795 2.14036 11.1333 2.4L10.5624 2.82823L10.0471 1.02486C9.8738 0.418234 9.31933 0 8.68843 0Z" fill="#43423F"/></svg>
+                    </div>
+                    <span style={{ fontFamily: T.font, fontSize: 13, color: T.textTer, lineHeight: "18px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {participants ? `${participants} Athletes` : "5,678 Athletes"}
+                    </span>
+                  </div>
+                </div>
+                {/* Join Club button */}
+                <button style={{ height: 28, borderRadius: 14, background: "transparent", border: `1.5px solid ${T.orange}`, fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.orange, cursor: "default", padding: "0 12px", flexShrink: 0 }}>
+                  Join Club
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Challenge details ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>
+              Challenge details
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {/* Date row */}
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <div style={{ padding: 10, flexShrink: 0 }}><IcoDate/></div>
+                <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {startDate && endDate ? `${startDate} to ${endDate}` : "Start date to End date"}
+                </div>
+              </div>
+              {/* Activity row */}
+              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <div style={{ padding: 10, flexShrink: 0 }}><IcoActivityType/></div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>
+                    {goal || "Complete the challenge activity"}
+                  </div>
+                  <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textTer }}>
+                    Qualifying Activities: {activityType || "Run, Virtual Run, Walk"}
+                  </div>
+                </div>
+              </div>
+              {/* Reward row */}
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <div style={{ padding: 10, flexShrink: 0 }}><IcoReward/></div>
+                <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>
+                  {reward || "Earn a digital finisher's badge for your Trophy Case."}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Challenge stats ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>
+                Challenge stats
+              </div>
+              <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textTer }}>
+                These are cumulative stats across all qualifying of your activities during this challenge.
+              </div>
+            </div>
+            {/* 3-row stats grid */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+              {[
+                [{ label: "Distance", value: "147.7 mi" }, { label: "Moving Time", value: "18:02:25" }],
+                [{ label: "Elevation Gain", value: "5,576 ft" }, { label: "Elapsed Time", value: "24:17:47" }],
+                [{ label: "Steps", value: "45,254" }, { label: "Steps", value: "45,254" }],
+              ].map((row, ri) => (
+                <div key={ri} style={{ display: "flex", padding: "0 24px" }}>
+                  {row.map(({ label, value }, ci) => (
+                    <div key={ci} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+                      <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>{label}</span>
+                      <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, color: T.textPri, lineHeight: "22px" }}>{value}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Featured athletes ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>
+              Featured athletes
+            </div>
+            <div style={{ display: "flex", gap: 8, overflow: "hidden" }}>
+              {[
+                { name: "Single Name", location: "Belgium" },
+                { name: "First Last but a longer name goes two lines", location: "United States" },
+              ].map((a, i) => (
+                <div key={i} style={{ background: "#fff", borderRadius: 16, padding: 16, width: 232, height: 260, flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", boxShadow: "0px 3px 8px rgba(0,0,0,0.12), 0px 3px 1px rgba(0,0,0,0.04)" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center", width: "100%" }}>
+                    <div style={{ width: 64, height: 64, borderRadius: "50%", background: FALLBACK_COLORS[i % 3], flexShrink: 0 }}/>
+                    <div style={{ textAlign: "center", width: "100%", display: "flex", flexDirection: "column", gap: 8 }}>
+                      <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, overflow: "hidden" }}>{a.name}</div>
+                      <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec, overflow: "hidden" }}>{a.location}</div>
+                    </div>
+                  </div>
+                  <button style={{ width: "100%", height: 32, borderRadius: 16, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "default" }}>Follow</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Leaderboard section ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, marginTop: 32, alignItems: "center" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, width: 343 }}>
+            Leaderboard
+          </div>
+          {/* Privacy notice */}
+          <div style={{ background: "#f7f7f7", borderRadius: 8, padding: "16px 18px", width: 344 }}>
+            <div style={{ fontFamily: T.font, fontSize: 12, lineHeight: "16px", color: T.textSec }}>
+              Any qualifying activity, whether private or not, will count towards your private progress, badges, and rewards for this challenge. To respect activity visibility settings, only activities marked as visible to Everyone will be applied toward leaderboard rankings. Manual activities will not count towards the leaderboard.
+            </div>
+          </div>
+          {/* Tabs */}
+          <div style={{ display: "flex", width: "100%", borderBottom: "1px solid #e0e0de", position: "relative", padding: "0 24px" }}>
+            <div style={{ flex: 1, textAlign: "center", padding: "16px 4px", borderBottom: `2px solid ${T.orange}` }}>
+              <span style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.textPri }}>Overall</span>
+            </div>
+            <div style={{ flex: 1, textAlign: "center", padding: "16px 4px" }}>
+              <span style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.textTer }}>Following</span>
+            </div>
+          </div>
+          {/* Column headers */}
+          <div style={{ display: "flex", alignItems: "center", padding: "0 20px", width: "100%", gap: 8 }}>
+            <div style={{ width: 222 }}>
+              <span style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, lineHeight: "16px", color: T.textPri }}>Rank</span>
+            </div>
+            <div style={{ display: "flex", gap: 26, width: 126 }}>
+              <span style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, lineHeight: "16px", color: T.textPri }}>Pace</span>
+              <span style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, lineHeight: "16px", color: T.textPri }}>Distance</span>
+            </div>
+          </div>
+          {/* Entries */}
+          <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+            {["Sarah Johnson","Marcus Chen","Amara Diallo","Tom Williams","Yuki Tanaka","Elena Rossi"].map((name, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", padding: "16px 24px", gap: 4 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1 }}>
+                  <span style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, padding: "0 4px", minWidth: 30 }}>{i + 1}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: `hsl(${i*55},40%,62%)`, flexShrink: 0 }}/>
+                    <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</span>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 20 }}>
+                  <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, textAlign: "right", whiteSpace: "nowrap" }}>4:4{i} /mi</span>
+                  <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, textAlign: "right", whiteSpace: "nowrap" }}>{(13+i*1.2).toFixed(1)} km</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Description / About section ── */}
+        <div style={{ padding: "40px 24px 24px", overflow: "hidden" }}>
+          <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 8 }}>
+            {title || "About this Challenge"}
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textTer, whiteSpace: "pre-wrap" }}>
+            {description || ""}
+          </div>
         </div>
       </div>
-      <div style={{ background: T.bgSurface, padding: "12px 24px", display: "flex", alignItems: "center", gap: 10 }}>
-        <Facepile/><span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>{participants ? `${participants} athletes have joined` : "Athletes have joined"}</span>
-      </div>
-      <InfoRows data={data}/>
-      <SponsorCard brandName={brandName} badgeImg={badgeImg}/>
-      <DescriptionSection title={title} description={description}/>
-      <div style={{ height: 24 }}/>
     </div>
   );
 }
@@ -98,32 +308,16 @@ function ScreenTakeover({ data }) {
         <div style={{ background: T.bgSurface, padding: "16px 24px", display: "flex", gap: 16, alignItems: "center" }}>
           <div style={{ width: 56, height: 56, borderRadius: 4, background: "#E8E8E8", flexShrink: 0 }}/>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: "22px", marginBottom: 4 }}>Get Sponsored by {brandName || "Brand"}</div>
-            <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec }}>17 km / 80 km</div>
-          </div>
-          <button style={{ height: 34, borderRadius: 17, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", padding: "0 16px" }}>Join</button>
-        </div>
-        <div style={{ background: T.bgSurface, padding: "12px 24px" }}>
-          <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Active Challenges</div>
-          <div style={{ display: "flex", gap: 16 }}>
-            {[...Array(3)].map((_, i) => (
-              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 60, height: 60, borderRadius: "50%", background: "#E8E8E8", border: `3px solid ${["#88CF25","#FC5200","#4A7FA5"][i]}` }}/>
-                <div style={{ fontFamily: T.font, fontSize: 10, color: T.textSec, textAlign: "center", width: 72, lineHeight: "12px" }}>Challenge {i+1}</div>
-              </div>
-            ))}
+            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, lineHeight: "20px" }}>Challenge Title</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginTop: 2 }}>Goal summary</div>
           </div>
         </div>
       </div>
-      {/* Scrim */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 1 }}/>
-      {/* Modal */}
-      <div style={{ position: "absolute", left: 16, right: 16, top: "50%", transform: "translateY(-50%)", background: "#fff", borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 24px rgba(0,0,0,0.2)", zIndex: 2 }}>
-        <div style={{ position: "absolute", top: 12, right: 12, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#64635E" strokeWidth="1.5" strokeLinecap="round"/></svg>
-        </div>
-        <div style={{ padding: "32px 24px 0", display: "flex", justifyContent: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: "50%", background: "#E8E8E8", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", border: "3px solid #F0F0EE" }}>
+      {/* Takeover modal */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "#fff", borderTopLeftRadius: 24, borderTopRightRadius: 24, boxShadow: "0 -4px 24px rgba(0,0,0,0.2)", padding: 0, zIndex: 10 }}>
+        <div style={{ display: "flex", justifyContent: "center", paddingTop: 12, paddingBottom: 8 }}><div style={{ width: 36, height: 5, borderRadius: 3, background: "#D1D1D6" }}/></div>
+        <div style={{ display: "flex", justifyContent: "center", padding: "12px 0 20px" }}>
+          <div style={{ width: 100, height: 100, borderRadius: "50%", background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
             {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/> : <span style={{ fontFamily: T.font, fontSize: 11, color: "#999", textAlign: "center", padding: 8 }}>Challenge Badge</span>}
           </div>
         </div>
