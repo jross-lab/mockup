@@ -66,9 +66,9 @@ function PhoneShell({ children, screenRef, bgColor }) {
   const frameColor = bgColor === "#FC5200" ? "#000000" : T.orange;
   return (
     <div ref={screenRef} style={{ display: "inline-block" }}>
-      <div style={{ position: "relative", width: 402, borderRadius: 50, background: frameColor, padding: "10px 14px", flexShrink: 0, overflow: "hidden" }}>
-        <div style={{ borderRadius: 32, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 819 }}>
-          <div style={{ maxHeight: 819, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+      <div style={{ position: "relative", width: 391, borderRadius: 44, background: frameColor, padding: 8, flexShrink: 0, overflow: "hidden" }}>
+        <div style={{ borderRadius: 36, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 812 }}>
+          <div style={{ maxHeight: 812, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
             {children}
           </div>
         </div>
