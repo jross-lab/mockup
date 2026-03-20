@@ -1885,7 +1885,7 @@ function ScreenCustomInFeed({ data }) {
           </div>
           {/* Title + body + button */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 500, lineHeight: "24px", color: "#000", letterSpacing: "0.34px", marginBottom: 8 }}>
+            <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: "#000", letterSpacing: "0.34px", marginBottom: 8 }}>
               {adTitle}
             </div>
             <div style={{ fontFamily: T.font, fontSize: 13, color: "#21211F", lineHeight: "17.5px", letterSpacing: "-0.08px", marginBottom: 16 }}>
@@ -1966,6 +1966,276 @@ function TopNavCustomInFeed() {
           <img src={CINFEED_NAV_BELL} alt="" style={{ width: 22, height: 23, display: "block" }}/>
         </div>
       </div>
+    </div>
+  );
+}
+
+// --- Challenge Carousel screen assets (Figma node 2119:23162) ---
+const CC_SUBSCRIBER   = "https://www.figma.com/api/mcp/asset/7f7c2b08-128f-4e98-b0ae-65b369d5774d"; // Union (subscriber avatar)
+const CC_VERIFIED     = "https://www.figma.com/api/mcp/asset/6119a868-6bfb-4d9c-b686-d173f6e478a9"; // verified badge 12px
+const CC_BIKE         = "https://www.figma.com/api/mcp/asset/2cdba7f9-61dc-4671-89b9-6eba9765f458"; // bike icon xsmall
+const CC_MORE         = "https://www.figma.com/api/mcp/asset/d80a125f-d14a-4e32-b385-719904f3ec78"; // more dots
+const CC_MEDAL        = "https://www.figma.com/api/mcp/asset/4113d067-6a62-4db2-b527-43397a5686f5"; // medal
+const CC_TROPHY       = "https://www.figma.com/api/mcp/asset/5a8be919-8899-4a6c-ae8e-48df22a57544"; // trophy
+const CC_PR           = "https://www.figma.com/api/mcp/asset/9ede64ef-0134-48b9-b058-f5aa337dc1fd"; // PR medal
+const CC_KUDO         = "https://www.figma.com/api/mcp/asset/8a8b2f98-7010-4f1b-887f-fd9df9a791dd"; // kudo
+const CC_COMMENT      = "https://www.figma.com/api/mcp/asset/734d5e85-f3b5-4468-bca0-0bb00e9944b8"; // comment
+const CC_SHARE        = "https://www.figma.com/api/mcp/asset/6adaf205-5ca8-40ba-9413-607ededd844d"; // share (was imgVector9)
+const CC_FP1          = "https://www.figma.com/api/mcp/asset/23f778db-4d2b-4276-974f-27f412284ef3";
+const CC_FP2          = "https://www.figma.com/api/mcp/asset/a30ad1d8-d6ad-4764-986c-2a554b764857"; // with stroke
+const CC_FP3          = "https://www.figma.com/api/mcp/asset/b2128b18-17a0-4d76-87f0-9fbdabd31c14";
+const CC_MAP          = "https://www.figma.com/api/mcp/asset/76eef85a-817e-4144-b3a0-5d0f094116e4"; // mapbox
+const CC_PHOTO1       = "https://www.figma.com/api/mcp/asset/eedc18d4-afe4-43a9-8dae-827bb717fe50";
+const CC_PHOTO2       = "https://www.figma.com/api/mcp/asset/31f2bbe0-6479-48d8-ae40-b6ad36b699ed";
+const CC_PHOTO3       = "https://www.figma.com/api/mcp/asset/72b6e279-2b56-4331-a981-c4c0aa28a25a";
+const CC_BADGE2       = "https://www.figma.com/api/mcp/asset/45384d60-1a5b-4c15-96ed-9d7c5f2b0307"; // Smartwool diecut badge
+const CC_LOCAL_LEG    = "https://www.figma.com/api/mcp/asset/872007ed-5495-4e64-96cb-fa3e5eb12dc6"; // local legend icon
+const CC_COMMENT_ICON = "https://www.figma.com/api/mcp/asset/94f71335-b16d-4040-91e4-4cdec1d7bbc3"; // comment icon for footer
+const CC_NAV_PLUS     = "https://www.figma.com/api/mcp/asset/e441ba6b-eeda-4822-93ca-76f9a97a4ec4"; // + icon (avatar slot in Figma)
+const CC_NAV_MSG      = "https://www.figma.com/api/mcp/asset/f44b1b45-194f-4f08-b284-05c95203331c"; // messaging
+const CC_NAV_BELL     = "https://www.figma.com/api/mcp/asset/155a6548-8aeb-4e13-a13b-e01062638eb5"; // bell
+const CC_HEART        = "https://www.figma.com/api/mcp/asset/df87914a-bb46-49db-b296-574ff70f9f29"; // heart icon for comment
+
+function ScreenChallengeCarousel({ data }) {
+  var badgeImg = data.badgeImg;
+  var title = data.title;
+  var goal = data.goal;
+
+  var CCFacepile = function() {
+    return (
+      <div style={{ display: "flex", alignItems: "center", paddingRight: 4 }}>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", overflow: "hidden", marginRight: -4, zIndex: 3, border: "1.5px solid #fff", flexShrink: 0 }}>
+          <img src={CC_FP1} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+        </div>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", overflow: "hidden", marginRight: -4, zIndex: 2, border: "1.5px solid #fff", flexShrink: 0 }}>
+          <img src={CC_FP2} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+        </div>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", overflow: "hidden", marginRight: -4, zIndex: 1, border: "1.5px solid #fff", flexShrink: 0 }}>
+          <img src={CC_FP3} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+        </div>
+      </div>
+    );
+  };
+
+  var CCActionStrip = function() {
+    return (
+      <div style={{ display: "flex", borderTop: "0.5px solid " + T.divider, width: "100%" }}>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
+          <img src={CC_KUDO} alt="" style={{ width: 22, height: 23, display: "block" }}/>
+        </div>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
+          <img src={CC_COMMENT} alt="" style={{ width: 24, height: 21, display: "block" }}/>
+        </div>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
+          <img src={CC_SHARE} alt="" style={{ width: 20, height: 23, display: "block" }}/>
+        </div>
+      </div>
+    );
+  };
+
+  var CCWorkoutTag = function() {
+    return (
+      <div style={{ position: "absolute", top: 12, left: 12, zIndex: 6, background: "#fff", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.10)" }}>
+        <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: T.textPri }}>Workout</span>
+      </div>
+    );
+  };
+
+  var CCRewardTag = function() {
+    return (
+      <div style={{ display: "inline-flex", alignItems: "center", height: 17, background: "#EEAF0B", borderRadius: 2, padding: "0 4px", width: 47 }}>
+        <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: "#000" }}>Reward</span>
+      </div>
+    );
+  };
+
+  var challengeTitle = title || "Challenge Name";
+  var challengeGoal = goal || "Log 10 active days outside to earn an exclusive reward!";
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken, flexGrow: 1 }}>
+
+      {/* Feed Entry 1 - bottom portion */}
+      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <CCFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+      </div>
+
+      {/* Suggested Challenges block */}
+      <div style={{ background: T.bgSunken, marginBottom: 8 }}>
+        <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri }}>
+            Suggested Challenges
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>
+            Make accountability a little easier, more fun and earn rewards!
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", padding: "0 24px", scrollbarWidth: "none" }}>
+
+          {/* Card 1 - user data */}
+          <div style={{ background: "#fff", borderRadius: 16, padding: 24, width: 327, flexShrink: 0, boxShadow: "0px 2px 4px rgba(0,0,0,0.10)", display: "flex", flexDirection: "column", justifyContent: "space-between", height: 231 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px" }}>4,252 athletes in your state have already joined</div>
+              <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                <div style={{ width: 64, height: 64, flexShrink: 0 }}>
+                  {badgeImg
+                    ? <img src={badgeImg} alt="" style={{ width: 64, height: 64, objectFit: "contain", display: "block" }}/>
+                    : <div style={{ width: 64, height: 64, background: "#E0E0DE", borderRadius: 8 }}/>
+                  }
+                </div>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>{challengeTitle}</div>
+                    <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", overflow: "hidden" }}>{challengeGoal}</div>
+                  </div>
+                  <CCRewardTag/>
+                </div>
+              </div>
+            </div>
+            <button style={{ width: "100%", height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
+          </div>
+
+          {/* Card 2 - Smartwool */}
+          <div style={{ background: "#fff", borderRadius: 16, padding: 24, width: 327, flexShrink: 0, boxShadow: "0px 2px 4px rgba(0,0,0,0.10)", display: "flex", flexDirection: "column", justifyContent: "space-between", height: 231 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px" }}>4,252 athletes in your state have already joined</div>
+              <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                <div style={{ width: 64, height: 64, flexShrink: 0, overflow: "hidden", borderRadius: 8 }}>
+                  <img src={CC_BADGE2} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+                </div>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>February Snowsport x Smartwool Challenge</div>
+                    <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", overflow: "hidden" }}>Complete 300 minutes of skiing, snowboarding or snowshoeing in a month.</div>
+                  </div>
+                  <CCRewardTag/>
+                </div>
+              </div>
+            </div>
+            <button style={{ width: "100%", height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
+          </div>
+
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: 24 }}>
+          <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.orange }}>Explore All Challenges</span>
+        </div>
+      </div>
+
+      {/* Feed Entry 2 - Dante Young */}
+      <div style={{ background: T.bgSurface }}>
+        <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          <div style={{ position: "relative", width: 48, height: 48, flexShrink: 0 }}>
+            <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
+            <div style={{ position: "absolute", top: 0, right: 0, width: 12, height: 12 }}>
+              <img src={INFEED_VERIFIED_BADGE} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>Dante Young</div>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              <img src={INFEED_BIKE_ICON} alt="" style={{ width: 16, height: 11, display: "block" }}/>
+              <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Today at 9:31 AM - Los Angeles, California</span>
+            </div>
+          </div>
+          <div style={{ position: "absolute", right: 24, top: 24 }}>
+            <img src={CC_MORE} alt="" style={{ width: 16, height: 5, display: "block" }}/>
+          </div>
+        </div>
+
+        <div style={{ padding: "16px 24px 0", fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>
+          Probably the most beautiful ride ever
+        </div>
+
+        <div style={{ padding: "16px 24px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", gap: 24 }}>
+            <div><div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>Distance</div><div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>18.33 mi</div></div>
+            <div><div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>Time</div><div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>2h 20m</div></div>
+            <div><div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>Elevation</div><div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>2,033 ft</div></div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "flex-end" }}>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Achievements</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1px" }}><img src={CC_MEDAL} alt="" style={{ width: 14, height: 16, display: "block" }}/></div>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}><img src={CC_TROPHY} alt="" style={{ width: 16, height: 16, display: "block" }}/></div>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1px" }}><img src={CC_PR} alt="" style={{ width: 14, height: 16, display: "block" }}/></div>
+              <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>3</span>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ height: 24 }}/>
+        <div style={{ padding: "0 24px 12px" }}>
+          <div style={{ background: "#fff", borderRadius: 8, padding: 12, boxShadow: "0px 2px 6px rgba(0,0,0,0.11)", display: "flex", gap: 12, alignItems: "flex-start" }}>
+            <div style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <img src={CC_LOCAL_LEG} alt="" style={{ width: 32, height: 29, display: "block" }}/>
+            </div>
+            <div>
+              <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>Mark just became the Local Legend of Pso De Florencio Climb</div>
+              <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Most segment efforts in the last 90 days</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ height: 12 }}/>
+
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", padding: "0 24px", scrollbarWidth: "none", height: 250 }}>
+          <div style={{ width: 327, height: 250, borderRadius: 8, overflow: "hidden", flexShrink: 0, position: "relative" }}>
+            <img src={CC_MAP} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+            <CCWorkoutTag/>
+          </div>
+          <div style={{ width: 327, height: 250, borderRadius: 8, overflow: "hidden", flexShrink: 0, position: "relative" }}>
+            <img src={CC_PHOTO1} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+            <CCWorkoutTag/>
+          </div>
+          <div style={{ width: 157, height: 250, borderRadius: 8, overflow: "hidden", flexShrink: 0, position: "relative" }}>
+            <img src={CC_PHOTO3} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+            <CCWorkoutTag/>
+            <div style={{ position: "absolute", top: 12, right: 12, background: "rgba(0,0,0,0.6)", borderRadius: 4, padding: "2px 4px" }}>
+              <span style={{ fontFamily: T.font, fontSize: 12, color: "#fff", lineHeight: "16px" }}>0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <CCFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+
+        <div style={{ borderTop: "0.5px solid " + T.divider }}/>
+        <div style={{ height: 12 }}/>
+        <div style={{ padding: "0 24px 12px", display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <img src={MILESTONE_AVATAR} alt="" style={{ width: 24, height: 24, display: "block", flexShrink: 0 }}/>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: T.font, fontSize: 12, lineHeight: "16px", color: T.textPri, marginBottom: 8 }}>
+              <span style={{ fontWeight: 700 }}>Alex Macintosh</span>{" - "}Skeggs point, waterdog park are the closest to Redwood City. Skeggs is super fun.
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <img src={CC_HEART} alt="" style={{ width: 14, height: 12, display: "block" }}/>
+              <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 Like</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ padding: "0 24px 12px", display: "flex", gap: 12, alignItems: "center" }}>
+          <img src={CC_COMMENT_ICON} alt="" style={{ width: 24, height: 21, display: "block" }}/>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, lineHeight: "13px" }}>Add a comment...</span>
+        </div>
+        <div style={{ height: 12 }}/>
+      </div>
+
     </div>
   );
 }
@@ -2152,7 +2422,8 @@ function ScreenRouter({ screen, data }) {
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
     case "feed-follower":  return <ScreenHomeFeed data={data} variant="follower"/>;
     case "feed-inunit":    return <ScreenHomeFeed data={data} variant="inunit"/>;
-    case "custom-infeed":  return <ScreenCustomInFeed data={data}/>;
+    case "custom-infeed":       return <ScreenCustomInFeed data={data}/>;
+    case "challenge-carousel":  return <ScreenChallengeCarousel data={data}/>;
     case "segment":        return <ScreenSegmentChallenge data={data}/>;
     default:               return <ScreenNotJoined data={data}/>;
   }
@@ -2396,6 +2667,7 @@ function App() {
               <option value="milestone">In-feed Milestone</option>
               <option value="feed-inunit">In-feed Unit</option>
               <option value="custom-infeed">Custom In-feed</option>
+              <option value="challenge-carousel">Challenge Carousel</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
@@ -2469,7 +2741,7 @@ function App() {
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <ScaledPhone>
         <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
-          {screen === "milestone" || screen === "feed-inunit"
+          {screen === "milestone" || screen === "feed-inunit" || screen === "challenge-carousel"
             ? <TopNavHome/>
             : screen === "custom-infeed"
               ? <TopNavCustomInFeed/>
