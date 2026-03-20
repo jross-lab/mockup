@@ -127,8 +127,8 @@ function HeroBadge({ heroImg, badgeImg }) {
               <span style={{ fontFamily: T.font, fontSize: 12, color: "#fff", opacity: 0.6 }}>Hero Image (2:1)</span>
             </div>}
       </div>
-      <div style={{ position: "absolute", left: "calc(50% - 60px)", bottom: -60, width: 120, height: 120, borderRadius: "50%", background: "#E8E8E8", border: "3px solid white", overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+      <div style={{ position: "absolute", left: "calc(50% - 60px)", bottom: -60, width: 120, height: 120, borderRadius: "50%", background: badgeImg ? "transparent" : "#E8E8E8", border: badgeImg ? "none" : "3px solid white", overflow: "hidden", boxShadow: badgeImg ? "none" : "0 2px 12px rgba(0,0,0,0.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
           : <span style={{ fontFamily: T.font, fontSize: 9, color: "#999", textAlign: "center", padding: 6 }}>Badge</span>}
       </div>
     </div>
