@@ -36,13 +36,8 @@ function App() {
     if (!h2cReady) { alert("Export library still loading -- try again in a moment."); return; }
     if (!screenRef.current) return;
     setBusy(true);
-    const el = screenRef.current;
-    const prevMaxH = el.style.maxHeight;
-    const prevOverflowY = el.style.overflowY;
-    el.style.maxHeight = "none";
-    el.style.overflowY = "visible";
     try {
-      const canvas = await window.html2canvas(el, {
+      const canvas = await window.html2canvas(screenRef.current, {
         scale: 2, useCORS: true, allowTaint: true,
         backgroundColor: null, logging: false, scrollY: -window.scrollY,
       });
@@ -52,11 +47,7 @@ function App() {
       a.download = `strava-${screen}-mockup.png`;
       a.click();
     } catch(e) { alert("Export failed: " + e.message); }
-    finally {
-      el.style.maxHeight = prevMaxH;
-      el.style.overflowY = prevOverflowY;
-      setBusy(false);
-    }
+    finally { setBusy(false); }
   };
 
   const activeTab = GROUPS_TAB_SCREENS.has(screen) ? "groups" : "home";
