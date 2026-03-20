@@ -63,7 +63,7 @@ function App() {
         </svg>
         <div style={{ height: 24, width: 1, background: "#DFDFE8", flexShrink: 0 }}/>
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Mockup Tool</span>
-        <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Upload assets, customise fields, select a screen, and download.</span>
+        <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Create pixel perfect mockups.</span>
       </div>
 
       {/* Main layout */}
@@ -145,7 +145,7 @@ function App() {
       </div>
 
       {/* Phone preview */}
-      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 32, overflowY: "auto", overflowX: "clip" }}>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto", overflowX: "clip" }}>
         <div style={{ flexShrink: 0 }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined"
