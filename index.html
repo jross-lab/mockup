@@ -3,22 +3,27 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Strava for Business Mockup Tool</title>
-  
-  <!-- External CSS -->
-  <link rel="stylesheet" href="styles/design-tokens.css">
-  <link rel="stylesheet" href="styles/phone-chrome.css">
-  
-  <!-- External dependencies -->
+  <title>Strava for Business - Challenge Mockup Tool</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>html,body,#root{margin:0;padding:0;height:100%;overflow:hidden;}</style>
 </head>
 <body>
   <div id="root"></div>
-  
-  <!-- External JS -->
-  <script src="js/app.js"></script>
+  <!--
+    Module load order matters — each file registers onto window.MT (MockupTool).
+    1. tokens-icons.js    — design tokens, hooks, all SVG icon components
+    2. shared.js          — reusable UI primitives (PhoneShell, BottomNav, InfoRow, etc.)
+    3. screens-detail.js  — Challenge Detail screens (NotJoined, Joined, Takeover, Milestone)
+    4. screens-feed.js    — Discovery + Feed screens (GroupsTab, HomeFeed, Segment) + Router
+    5. app.js             — App component (control panel, state, export) + ReactDOM.render
+  -->
+  <script type="text/babel" src="tokens-icons.js"></script>
+  <script type="text/babel" src="shared.js"></script>
+  <script type="text/babel" src="screens-detail.js"></script>
+  <script type="text/babel" src="screens-feed.js"></script>
+  <script type="text/babel" src="app.js"></script>
 </body>
 </html>
