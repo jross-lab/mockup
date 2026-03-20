@@ -1487,7 +1487,225 @@ function ScreenGroupsTab({ data }) {
   );
 }
 
+// Asset URLs from Figma node 2119:23119
+const INFEED_SUBSCRIBER_AVATAR = "https://www.figma.com/api/mcp/asset/04293eea-ceaa-4f98-821c-c091db5fe71e";
+const INFEED_VERIFIED_BADGE    = "https://www.figma.com/api/mcp/asset/5eeaf203-64d5-4fc1-8b85-7eb120682758";
+const INFEED_BIKE_ICON         = "https://www.figma.com/api/mcp/asset/4716d1b8-f211-4b01-a648-7865408539ab";
+const INFEED_MORE_DOTS         = "https://www.figma.com/api/mcp/asset/3dc4fa5f-c9aa-469f-88a7-7c8c9b541f63";
+const INFEED_MEDAL             = "https://www.figma.com/api/mcp/asset/239dfc26-ff5a-4b3a-b3f9-89e658b600b8";
+const INFEED_TROPHY            = "https://www.figma.com/api/mcp/asset/18bfdf6f-abed-4ed0-bec5-bc0843ebd92e";
+const INFEED_PR                = "https://www.figma.com/api/mcp/asset/eec76e32-f4a4-4271-a58b-d172fbda6fba";
+const INFEED_KUDO              = "https://www.figma.com/api/mcp/asset/23d77358-61de-4c0f-86d0-637d59b7da8f";
+const INFEED_COMMENT           = "https://www.figma.com/api/mcp/asset/59d4d861-09c5-4986-8de3-6fb858252bc1";
+const INFEED_SHARE             = "https://www.figma.com/api/mcp/asset/35eb2888-0a06-41ea-bd0c-a8cfdc87d32f";
+const INFEED_FACEPILE_1        = "https://www.figma.com/api/mcp/asset/6bcd24f0-d68e-48dc-ad2a-9802e18ac0ef";
+const INFEED_FACEPILE_2        = "https://www.figma.com/api/mcp/asset/54da7952-06a8-4f96-946f-0a9edbdcda38";
+const INFEED_FACEPILE_3        = "https://www.figma.com/api/mcp/asset/335bd282-1cfc-4ce9-b502-0a52937d3752";
+const INFEED_CLUB_AVATAR       = "https://www.figma.com/api/mcp/asset/9fd99b50-5efc-463b-a0d1-d00243401685";
+const INFEED_CLUB_VERIFIED     = "https://www.figma.com/api/mcp/asset/2cd4c46e-5b8b-4790-a1bd-377cda4b5f92";
+const INFEED_PHOTO             = "https://www.figma.com/api/mcp/asset/e1262c73-f023-4711-bff7-1496d8d3809a";
+const INFEED_ANTI_BADGE        = "https://www.figma.com/api/mcp/asset/1c09809d-ff73-473b-a354-7d7b95b22baf";
+
+function InFeedFacepile() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", paddingRight: 4 }}>
+      {[INFEED_FACEPILE_1, INFEED_FACEPILE_2, INFEED_FACEPILE_3].map((src, i) => (
+        <div key={i} style={{ width: 24, height: 24, borderRadius: "50%", overflow: "hidden", marginRight: -4, zIndex: 3 - i, border: "1.5px solid #fff", flexShrink: 0 }}>
+          <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function InFeedSocialActionStrip() {
+  return (
+    <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}`, width: "100%" }}>
+      {[INFEED_KUDO, INFEED_COMMENT, INFEED_SHARE].map((src, i) => (
+        <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
+          <img src={src} alt="" style={{ width: i === 0 ? 22 : i === 1 ? 24 : 20, height: i === 0 ? 23 : i === 1 ? 21 : 23, display: "block" }}/>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ScreenHomeFeedInUnit({ data }) {
+  const { badgeImg, title, goal, startDate, endDate } = data;
+  const dateRange = startDate && endDate ? `${startDate} to ${endDate}` : "March 3 2025 to Dec 31 2025";
+  const challengeTitle = title || "Jess's Biggest Challenge Yet so big it's on two lines";
+  const challengeGoal = goal || "Log 10 active days outside in June to unlock Boots summer prizes!";
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken, flexGrow: 1 }}>
+
+      {/* ── Feed Entry 1: Dante Young activity ── */}
+      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+        {/* Feed header */}
+        <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          {/* Subscriber avatar with verified badge */}
+          <div style={{ position: "relative", width: 48, height: 48, flexShrink: 0 }}>
+            <img src={INFEED_SUBSCRIBER_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
+            <div style={{ position: "absolute", top: 0, right: 0, width: 12, height: 12 }}>
+              <img src={INFEED_VERIFIED_BADGE} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
+            </div>
+          </div>
+          {/* Name + meta */}
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>Dante Young</div>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              <img src={INFEED_BIKE_ICON} alt="" style={{ width: 16, height: 11, display: "block" }}/>
+              <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Today at 9:31 AM · Los Angeles, California</span>
+            </div>
+          </div>
+          {/* More dots */}
+          <div style={{ position: "absolute", right: 24, top: 24, width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={INFEED_MORE_DOTS} alt="" style={{ width: 16, height: 5, display: "block" }}/>
+          </div>
+        </div>
+
+        {/* Activity title */}
+        <div style={{ padding: "16px 24px 0", fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>
+          Probably the most beautiful ride I've ever been on
+        </div>
+
+        {/* Stats + Achievements */}
+        <div style={{ padding: "16px 24px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", gap: 24 }}>
+            {[["Distance","18.33 mi"],["Time","2h 20m"],["Elevation","2,033 ft"]].map(([label, val]) => (
+              <div key={label}>
+                <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>{label}</div>
+                <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>{val}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "flex-end" }}>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Achievements</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1px" }}>
+                <img src={INFEED_MEDAL} alt="" style={{ width: 14, height: 16, display: "block" }}/>
+              </div>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <img src={INFEED_TROPHY} alt="" style={{ width: 16, height: 16, display: "block" }}/>
+              </div>
+              <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1px" }}>
+                <img src={INFEED_PR} alt="" style={{ width: 14, height: 16, display: "block" }}/>
+              </div>
+              <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>3</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Social summary */}
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <InFeedFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+      </div>
+
+      {/* ── In-feed Challenge Unit ── */}
+      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+        {/* "In progress" header */}
+        <div style={{ padding: "24px 24px 24px", display: "flex", alignItems: "center" }}>
+          <span style={{ fontFamily: T.font, fontSize: 13, color: T.textPri, lineHeight: "18px" }}>In progress</span>
+        </div>
+        {/* Card content */}
+        <div style={{ padding: "0 24px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
+          {/* Badge 64×64 */}
+          <div style={{ width: 64, height: 64, borderRadius: 8, flexShrink: 0, overflow: "hidden", background: "#E8E8E8" }}>
+            {badgeImg
+              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+              : <img src={INFEED_ANTI_BADGE} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}/>
+            }
+          </div>
+          {/* Copy + button */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri, marginBottom: 4 }}>
+              {challengeTitle}
+            </div>
+            <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 4 }}>
+              {challengeGoal}
+            </div>
+            <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "20px", marginBottom: 16 }}>
+              {dateRange}
+            </div>
+            <button style={{ width: "100%", height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>
+              Join Challenge
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Feed Entry 2: The Strava Club post ── */}
+      <div style={{ background: T.bgSurface }}>
+        {/* Club post header */}
+        <div style={{ padding: "24px 24px 0", display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          {/* Club avatar (square with rounded corners) + verified badge */}
+          <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 4, overflow: "hidden" }}>
+              <img src={INFEED_CLUB_AVATAR} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+            </div>
+            <div style={{ position: "absolute", top: -3, right: -3, width: 16, height: 16 }}>
+              <img src={INFEED_CLUB_VERIFIED} alt="" style={{ width: "100%", height: "100%", display: "block" }}/>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>The Strava Club</div>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Today at 9:31 AM</div>
+          </div>
+          <div style={{ position: "absolute", right: 24, top: 24, width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={INFEED_MORE_DOTS} alt="" style={{ width: 16, height: 5, display: "block" }}/>
+          </div>
+        </div>
+
+        {/* Post text */}
+        <div style={{ padding: "16px 24px 0" }}>
+          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 8 }}>
+            Probably the most beautiful ride I've ever been on
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textPri, lineHeight: "20px", marginBottom: 4 }}>
+            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, lineHeight: "16px" }}>Read more...</div>
+        </div>
+
+        {/* Vertical margin */}
+        <div style={{ height: 24 }}/>
+
+        {/* Photo media tile */}
+        <div style={{ width: "100%", height: 250, position: "relative", overflow: "hidden" }}>
+          <img src={INFEED_PHOTO} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+          {/* Workout tag */}
+          <div style={{ position: "absolute", top: 12, left: 12, background: "#fff", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
+            <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri }}>Workout</span>
+          </div>
+        </div>
+
+        {/* Social summary */}
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <InFeedFacepile/>
+            <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
+        </div>
+
+        <InFeedSocialActionStrip/>
+        <div style={{ height: 12 }}/>
+      </div>
+
+    </div>
+  );
+}
+
 function ScreenHomeFeed({ data, variant }) {
+  if (variant === "inunit") return <ScreenHomeFeedInUnit data={data}/>;
   const { badgeImg, brandName, title, goal } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
@@ -1496,16 +1714,14 @@ function ScreenHomeFeed({ data, variant }) {
           <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C8D8E8", flexShrink: 0 }}/>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, marginBottom: 2 }}>Sarah Johnson</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer }}>Ran 8.2 km ? 2h ago</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginTop: 8 }}>Morning run in the park ?</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer }}>Ran 8.2 km · 2h ago</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginTop: 8 }}>Morning run in the park</div>
           </div>
         </div>
       </div>
       <div style={{ background: T.bgSurface, marginBottom: 8 }}>
         <div style={{ padding: "10px 24px 8px", borderBottom: `0.5px solid ${T.divider}` }}>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            {variant === "follower" ? "Your friends are joining" : "Featured Challenge"}
-          </div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, textTransform: "uppercase", letterSpacing: "0.06em" }}>Your friends are joining</div>
         </div>
         <div style={{ padding: "12px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
           <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden" }}>
@@ -1516,15 +1732,6 @@ function ScreenHomeFeed({ data, variant }) {
             <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginBottom: 4 }}>{goal || "Challenge goal"}</div>
             <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 12 }}>{brandName || "Brand"}</div>
             <button style={{ height: 34, borderRadius: 17, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default", padding: "0 24px" }}>Join Challenge</button>
-          </div>
-        </div>
-      </div>
-      <div style={{ background: T.bgSurface }}>
-        <div style={{ padding: "16px 24px", display: "flex", gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#D8C8E8", flexShrink: 0 }}/>
-          <div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, marginBottom: 2 }}>Marcus Chen</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer }}>Cycled 42 km ? 4h ago</div>
           </div>
         </div>
       </div>
@@ -1959,7 +2166,7 @@ function App() {
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
-              <option value="feed-inunit">Home Feed / In-Feed Unit</option>
+              <option value="feed-inunit">In-feed Unit</option>
               <option value="segment">Home Feed / Segment Challenge</option>
             </optgroup>
           </select>
@@ -2029,7 +2236,7 @@ function App() {
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <ScaledPhone>
         <PhoneShell screenRef={screenRef} phoneRef={phoneRef} bgColor={bgColor}>
-          {screen === "milestone"
+          {screen === "milestone" || screen === "feed-inunit"
             ? <TopNavHome/>
             : screen === "groups-tab"
               ? <TopNavGroups/>
