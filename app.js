@@ -240,7 +240,7 @@ function App() {
 
         {/* Image uploads — 3 across in a row */}
         <div ref={tourImagesRef}>
-          <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Images</div>
+          <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 8 }}>Images</div>
           <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
             <div style={{ flex: 1 }}><UploadBox label="Hero" preview={data.heroImg} onUpload={set("heroImg")} aspect="1/1"/></div>
             <div style={{ flex: 1 }}><UploadBox label="Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/></div>
@@ -266,8 +266,8 @@ function App() {
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={2}/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={2}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={3}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={3}/></Field></div>
           </div>
         </div>
       </div>
@@ -278,8 +278,11 @@ function App() {
         {/* Toolbar: background picker + download buttons */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 20px", background: "#fff", borderBottom: "1px solid #DFDFE8", flexShrink: 0 }}>
           {/* Background picker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78" }}>Background</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div>
+              <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, color: T.textPri, lineHeight: "14px" }}>Background</div>
+              <div style={{ fontSize: 10, fontFamily: T.font, color: T.textTer, lineHeight: "13px", marginTop: 1 }}>Preview colour</div>
+            </div>
             <div style={{ display: "flex", gap: 6 }}>
               {[["#FFFFFF","White"],["#000000","Black"],["#FC5200","Orange"]].map(([color, label]) => (
                 <button key={color} onClick={() => setBgColor(color)} style={{
@@ -290,15 +293,19 @@ function App() {
             </div>
           </div>
           {/* Download buttons */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, color: T.textPri, lineHeight: "14px" }}>Download</div>
+              <div style={{ fontSize: 10, fontFamily: T.font, color: T.textTer, lineHeight: "13px", marginTop: 1 }}>Export as PNG</div>
+            </div>
             {!h2cReady && <span style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>Loading...</span>}
             <button onClick={dl} disabled={busy || !h2cReady}
               style={{ height: 36, borderRadius: 18, background: (busy || !h2cReady) ? "#aaa" : T.orange, border: "none", fontFamily: T.font, fontSize: 12, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "0 16px" }}>
-              <IcoDownload/>{busy ? "..." : "PNG"}
+              <IcoDownload/>{busy ? "..." : "This screen"}
             </button>
             <button onClick={dlAll} disabled={busy || !h2cReady}
               style={{ height: 36, borderRadius: 18, background: (busy || !h2cReady) ? "#aaa" : T.textPri, border: "none", fontFamily: T.font, fontSize: 12, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "0 16px" }}>
-              <IcoDownload/>{busy ? "..." : "All (ZIP)"}
+              <IcoDownload/>{busy ? "..." : "All screens (ZIP)"}
             </button>
           </div>
         </div>
