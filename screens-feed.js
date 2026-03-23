@@ -84,7 +84,9 @@ function ScreenGroupsTab({ data }) {
 
       {/* Recommended for You header */}
       <div style={{ display: "flex", gap: 16, alignItems: "center", padding: "16px 24px" }}>
-        <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#C8C8C8", flexShrink: 0 }}/>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", flexShrink: 0, overflow: "hidden" }}>
+          <img src="assets/gallery_avatar.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+        </div>
         <div>
           <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: "21px", color: T.textPri }}>Recommended for You</div>
           <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textSec }}>Based on your activities</div>
