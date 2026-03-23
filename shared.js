@@ -103,7 +103,7 @@ function PhoneShell({ children, screenRef, bgColor }) {
     <div ref={screenRef} style={{ display: "inline-block" }}>
       <div style={{ position: "relative", width: 391, borderRadius: 44, background: frameColor, padding: 8, flexShrink: 0, overflow: "hidden" }}>
         <div style={{ borderRadius: 36, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 812 }}>
-          <div style={{ maxHeight: 812, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <div style={{ minHeight: 812, display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
             {children}
           </div>
         </div>
