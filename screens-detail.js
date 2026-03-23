@@ -772,7 +772,8 @@ function ScreenMilestone({ data }) {
   const { badgeImg, brandName, title } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: T.bgSurface, flex: 1 }}>
-      <div style={{ padding: "16px 24px", display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
+      {/* Feed Owner Header — p-24, gap-12 */}
+      <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
         <div style={{ position: "relative", flexShrink: 0, width: 48, height: 48, overflow: "visible" }}>
           <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
           <div style={{ position: "absolute", top: -3, right: -3, width: 14, height: 14 }}>
@@ -780,8 +781,9 @@ function ScreenMilestone({ data }) {
           </div>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 3 }}>Dante Young</div>
-          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Dante Young</div>
+          <div style={{ height: 4 }}/>
+          <div style={{ display: "flex", gap: 4, alignItems: "center", height: 16 }}>
             <div style={{ width: 16, height: 16, flexShrink: 0, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 2 }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.00004 2.99988H6.00004V4.24988H5.43413L5.8627 4.99988H9.83496L9.41263 3.83847C9.34295 3.64686 9.37112 3.43331 9.48808 3.26632C9.60505 3.09932 9.79612 2.99988 10 2.99988H13.5C14.3284 2.99988 15 3.67145 15 4.49988C15 5.32831 14.3284 5.99988 13.5 5.99988H13V4.74988H13.5C13.6381 4.74988 13.75 4.63795 13.75 4.49988C13.75 4.36181 13.6381 4.24988 13.5 4.24988H10.8923L11.9103 7.04934C12.102 7.01682 12.299 6.99988 12.5 6.99988C14.433 6.99988 16 8.56688 16 10.4999C16 12.4329 14.433 13.9999 12.5 13.9999C10.567 13.9999 9 12.4329 9 10.4999C9 9.21035 9.69737 8.08371 10.7356 7.47652L10.4107 6.58312L7.98846 10.6923C7.87609 10.8829 7.67131 10.9999 7.45004 10.9999H6.96457C6.72199 12.6961 5.26326 14 3.5 14C1.567 14 0 12.433 0 10.5C0 8.56696 1.567 6.99996 3.5 6.99996C3.87529 6.99996 4.23678 7.05903 4.57569 7.16837L5.09112 6.16906L3.99444 4.24988H2.00004V2.99988ZM5.83035 7.46271L4.65065 9.74988H7.09296L7.11547 9.71168L5.83035 7.46271ZM7.84651 8.47153L9.15611 6.24988H6.57699L7.84651 8.47153ZM3.5 8.24996C2.25736 8.24996 1.25 9.25732 1.25 10.5C1.25 11.7426 2.25736 12.75 3.5 12.75C4.57082 12.75 5.46693 12.0019 5.69426 10.9999H3.62504C3.40703 10.9999 3.20478 10.8863 3.09133 10.7001C2.97789 10.514 2.96964 10.2821 3.06958 10.0884L3.99019 8.30351C3.83239 8.26845 3.66836 8.24996 3.5 8.24996ZM11.1739 8.682C10.6138 9.09126 10.25 9.75308 10.25 10.4999C10.25 11.7425 11.2574 12.7499 12.5 12.7499C13.7426 12.7499 14.75 11.7425 14.75 10.4999C14.75 9.25724 13.7426 8.24988 12.5 8.24988C12.4491 8.24988 12.3987 8.25156 12.3487 8.25489L13.301 10.8737L12.1262 11.3008L11.1739 8.682Z" fill="#43423F"/></svg>
             </div>
@@ -792,11 +794,15 @@ function ScreenMilestone({ data }) {
           <svg width="16" height="5" viewBox="0 0 16 5" fill="none"><circle cx="2" cy="2.5" r="1.5" fill="#000"/><circle cx="8" cy="2.5" r="1.5" fill="#000"/><circle cx="14" cy="2.5" r="1.5" fill="#000"/></svg>
         </div>
       </div>
-      <div style={{ padding: "0 24px 12px" }}>
+      {/* Text — px-24, gap-8 */}
+      <div style={{ padding: "0 24px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>Probably the most beautiful ride I've ever been on</div>
       </div>
-      <div style={{ padding: "0 24px 12px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", gap: 24 }}>
+      {/* Vertical Margin — 16px */}
+      <div style={{ height: 16 }}/>
+      {/* Stats row — px-24 */}
+      <div style={{ padding: "0 24px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", gap: 24, height: 37, alignItems: "center" }}>
           {[["Distance","18.33 mi"],["Time","2h 20m"],["Elevation","2,033 ft"]].map(([label, val]) => (
             <div key={label}><div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginBottom: 2 }}>{label}</div><div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px" }}>{val}</div></div>
           ))}
@@ -815,35 +821,54 @@ function ScreenMilestone({ data }) {
           </div>
         </div>
       </div>
-      <div style={{ padding: "0 24px 12px" }}>
+      {/* Vertical Margin — 24px */}
+      <div style={{ height: 24 }}/>
+      {/* Celebration row (achievement banner) — px-24 */}
+      <div style={{ padding: "0 24px" }}>
         <div style={{ background: "#fff", borderRadius: 8, padding: "12px 16px 12px 12px", display: "flex", gap: 12, alignItems: "flex-start", boxShadow: "0px 2px 6px 0px rgba(0,0,0,0.11)" }}>
           <div style={{ width: 32, height: 32, flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {badgeImg ? <img src={badgeImg} alt="" style={{ width: 32, height: 32, objectFit: "contain" }}/> : <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#E8E8E8" }}/>}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 2 }}>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri, marginBottom: 4 }}>
               {brandName ? `${brandName} Challenge milestone reached!` : "Mark just became the Local Legend of Pso De Florencio Climb"}
             </div>
             <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 400, lineHeight: "13px", color: T.textSec }}>{title || "Most segment efforts in the last 90 days"}</div>
           </div>
         </div>
       </div>
-      <div style={{ padding: "0 0 0 24px", marginBottom: 0 }}>
-        <div style={{ display: "flex", gap: 8, height: 220, overflow: "hidden" }}>
-          <div style={{ width: 280, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
+      {/* Vertical Margin — 12px + 12px = 24px */}
+      <div style={{ height: 24 }}/>
+      {/* Media carousel — h-250, px-24, card w-327, gap-8 */}
+      <div style={{ padding: "0 24px", overflow: "hidden" }}>
+        <div style={{ display: "flex", gap: 8, height: 250 }}>
+          <div style={{ width: 327, height: 250, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
             <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
-            <div style={{ position: "absolute", top: 10, left: 10, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700 }}>Workout</span></div>
+            <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
           </div>
-          <div style={{ width: 220, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
-            <div style={{ position: "absolute", top: 10, left: 10, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700 }}>Workout</span></div>
+          <div style={{ width: 327, height: 250, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
+            <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 24px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span></div>
-        <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
+      {/* Social Summary — px-24, py-16, minH-56 */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", minHeight: 56 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span></div>
+        <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", textAlign: "right" }}>1 comment</span>
       </div>
-
+      {/* Social Action Strip — 3 buttons with py-12 */}
+      <div style={{ display: "flex", width: 374 }}>
+        {[
+          <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M11.5 0C11.2239 0 11 0.223858 11 0.5V3H8.5C5.46243 3 3 5.46243 3 8.5C3 11.5376 5.46243 14 8.5 14H9V16.5C9 16.7022 9.11509 16.8866 9.29617 16.9715C9.47726 17.0565 9.69171 17.0269 9.84518 16.8964L15.5 12H17.5C20.5376 12 23 9.53757 23 6.5C23 3.46243 20.5376 1 17.5 1H12V0.5C12 0.223858 11.7761 0 11.5 0Z" fill="none" stroke="#43423F" strokeWidth="2"/></svg>,
+          <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M3 1H21C22.1046 1 23 1.89543 23 3V14C23 15.1046 22.1046 16 21 16H14.4142L10.9142 19.5C10.7893 19.625 10.6168 19.6929 10.4393 19.6857C10.0835 19.6713 9.80005 19.3718 9.80005 19.0154V16H3C1.89543 16 1 15.1046 1 14V3C1 1.89543 1.89543 1 3 1Z" fill="none" stroke="#43423F" strokeWidth="2"/></svg>,
+          <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1V13M5 6L10 1L15 6M1 15V19C1 20.1046 1.89543 21 3 21H17C18.1046 21 19 20.1046 19 19V15" fill="none" stroke="#43423F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+        ].map((icon, i) => (
+          <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>{icon}</div>
+        ))}
+      </div>
+      {/* Vertical Margin — 12px */}
+      <div style={{ height: 12 }}/>
+      {/* Flex spacer to push bottom nav down */}
       <div style={{ flex: 1 }}/>
     </div>
   );
