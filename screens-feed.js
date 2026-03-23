@@ -174,25 +174,25 @@ function ScreenCustomInFeed({ data }) {
         {/* Ad content */}
         <div style={{ padding: "0 24px 24px", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: -8 }}>
-            {/* Strava echelon badge */}
+            {/* Challenge badge */}
             <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden", marginTop: -16, border: "2px solid white" }}>
               {badgeImg
                 ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
                 : <div style={{ width: "100%", height: "100%", background: "#E0E0DE", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.8 0L0 19.2h6.4L10.8 11l4.4 8.2H21.6L10.8 0z" fill="#FC5200"/><path d="M15.2 11l2.8 5.2 2.8-5.2h-5.6z" fill="rgba(252,82,0,0.5)"/></svg>
+                    <span style={{ fontFamily: T.font, fontSize: 7, color: "#999", textAlign: "center" }}>Badge</span>
                   </div>}
             </div>
             <div style={{ flex: 1, paddingTop: 16 }}>
               <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 500, lineHeight: "24px", color: T.textPri, letterSpacing: "0.34px", marginBottom: 8 }}>
                 {title || "Lorem ipsum dolor sit amet"}
               </div>
-              <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "17.5px", color: "#21211F", letterSpacing: "-0.08px" }}>
+              <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "22px", color: T.textSec }}>
                 {description || "Body copy 90 characters max. Lorem ipsum dolor sit amet."}
               </div>
             </div>
           </div>
           {/* CTA button */}
-          <button style={{ width: 183, height: 28, borderRadius: 2, background: T.orange, border: "none", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11, color: "#fff", cursor: "default", marginTop: 16, marginLeft: 60, textAlign: "center", letterSpacing: "-0.07px", lineHeight: "15px" }}>
+          <button style={{ width: 183, height: 34, borderRadius: 17, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: "#fff", cursor: "default", marginTop: 16, marginLeft: 60, textAlign: "center" }}>
             {brandName ? `Check it out` : "[Custom]"}
           </button>
         </div>
