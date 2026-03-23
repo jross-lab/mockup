@@ -137,12 +137,12 @@ function ScreenCustomInFeed({ data }) {
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
         {/* Map carousel area — only bottom portion visible */}
         <div style={{ padding: "0 24px", overflow: "hidden" }}>
-          <div style={{ display: "flex", gap: 8, height: 170 }}>
-            <div style={{ width: 327, height: 170, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
+          <div style={{ display: "flex", gap: 8, height: 120 }}>
+            <div style={{ width: 327, height: 120, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
               <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
               <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
             </div>
-            <div style={{ width: 327, height: 170, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
+            <div style={{ width: 327, height: 120, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
               <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
             </div>
           </div>
