@@ -33,13 +33,13 @@ function useFonts() {
   }, []);
 }
 
-// --- html2canvas loader ------------------------------------------------------
+// --- dom-to-image-more loader ------------------------------------------------
 function useHtml2Canvas() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (window.html2canvas) { setReady(true); return; }
+    if (window.domtoimage) { setReady(true); return; }
     const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+    s.src = "https://cdn.jsdelivr.net/npm/dom-to-image-more@3.4.5/dist/dom-to-image-more.min.js";
     s.onload = () => setReady(true);
     document.head.appendChild(s);
   }, []);
