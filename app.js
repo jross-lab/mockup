@@ -37,11 +37,14 @@ function App() {
     if (!screenRef.current) return;
     setBusy(true);
     try {
-      const canvas = await window.html2canvas(screenRef.current, {
-        scale: 2, useCORS: true, allowTaint: true,
-        backgroundColor: null, logging: false, scrollY: -window.scrollY,
+      await document.fonts.ready;
+      const node = screenRef.current;
+      const url = await window.domtoimage.toPng(node, {
+        width: node.scrollWidth * 2,
+        height: node.scrollHeight * 2,
+        style: { transform: "scale(2)", transformOrigin: "top left" },
+        quality: 1,
       });
-      const url = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = url;
       a.download = `strava-${screen}-mockup.png`;
