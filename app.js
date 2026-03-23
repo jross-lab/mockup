@@ -40,9 +40,9 @@ function App() {
       await document.fonts.ready;
       const node = screenRef.current;
       const url = await window.domtoimage.toPng(node, {
-        width: node.scrollWidth * 2,
-        height: node.scrollHeight * 2,
-        style: { transform: "scale(2)", transformOrigin: "top left" },
+        width: node.scrollWidth * 1.75,
+        height: node.scrollHeight * 1.75,
+        style: { transform: "scale(1.75)", transformOrigin: "top left" },
         quality: 1,
       });
       const a = document.createElement("a");
