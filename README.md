@@ -8,20 +8,32 @@ A multi-file React app for generating branded Strava Sponsored Challenge mockup 
 
 ## File structure
 
-| File | What's in it |
-|---|---|
-| `index.html` | HTML shell + CDN script imports (React 18, Babel). Load order matters. |
-| `tokens-icons.js` | Design tokens (`T` object), font/html2canvas loaders, avatar + facepile + map image data (base64), all SVG icon components, bottom nav icon paths + tab config |
-| `shared.js` | Panel helpers (Field, Input, UploadBox), PhoneShell, TopNav, TopNavHome, BottomNav, and shared screen building blocks (HeroBadge, InfoRow, OrangeBtn, SponsorCard, Leaderboard, ProgressCard, StatsGrid, FeaturedAthletes, DescriptionSection, Facepile) |
-| `screens-detail.js` | Challenge Detail screens: Not Joined, Joined, Completed, Takeover, Follower Callout: Milestone |
-| `screens-feed.js` | Discovery + Feed screens: Groups Tab, Home Feed (Follower + In-Feed Unit), Segment Challenge. Also contains ScreenRouter and `GROUPS_TAB_SCREENS` set. |
-| `app.js` | App component (control panel, state management, screen selector dropdown, export logic) + ReactDOM.render |
+```
+├── index.html                          # HTML shell, CDN imports, @font-face declarations
+├── tokens-icons.js                     # Design tokens, icon components, image asset references
+├── shared.js                           # PhoneShell, TopNavHome, BottomNav, shared UI primitives
+├── screens-detail.js                   # Detail screens: Not Joined, Joined, Completed, Takeover, Milestone
+├── screens-feed.js                     # Feed screens: Groups Tab, Home Feed, Segment + ScreenRouter
+├── app.js                              # App component: control panel, state, export logic
+├── assets/
+│   ├── milestone_avatar.png            # Subscriber cyclist avatar (96×96, transparent)
+│   ├── subscriber_avatar.jpg           # Secondary avatar (48×48)
+│   ├── facepile_img.png                # 3 overlapping athlete avatars (transparent)
+│   ├── milestone_map_img.jpg           # Strava route map (560×440)
+│   └── fonts/
+│       ├── Boathouse-Light.woff2       # weight 300
+│       ├── Boathouse-Regular.woff2     # weight 400
+│       ├── Boathouse-Medium.woff2      # weight 500
+│       ├── Boathouse-Bold.woff2        # weight 700
+│       └── Boathouse-Black.woff2       # weight 900
+└── README.md
+```
 
-All files register their exports onto `window.MT` so subsequent files can destructure them.
+All JS files register exports onto `window.MT`. Load order matters: tokens → shared → screens-detail → screens-feed → app.
 
 ## Screen registry
 
-| Screen key | Label in UI | Dropdown group | File | Bottom nav tab |
+| Screen key | Label in UI | Dropdown group | File | Bottom nav |
 |---|---|---|---|---|
 | `not-joined` | Not Joined | Challenge Detail | screens-detail.js | groups |
 | `joined` | Joined | Challenge Detail | screens-detail.js | groups |
@@ -33,48 +45,32 @@ All files register their exports onto `window.MT` so subsequent files can destru
 | `feed-inunit` | Home Feed / In-Feed Unit | Home Feed | screens-feed.js | home |
 | `segment` | Home Feed / Segment Challenge | Home Feed | screens-feed.js | home |
 
-## Embedded image assets
+## Fonts
 
-Several images are stored as base64 data URLs in `tokens-icons.js` to avoid external dependencies:
-
-| Constant | What it is | Format |
-|---|---|---|
-| `MILESTONE_AVATAR` | Strava subscriber avatar (cyclist with sunglasses) | PNG with transparent background, 96x96 (2x retina) |
-| `SUBSCRIBER_AVATAR` | Secondary subscriber avatar | JPEG, 48x48 |
-| `AVATAR_IMG` | Generic placeholder avatar (SVG silhouette) | Inline SVG data URL |
-| `FACEPILE_IMG` | 3 overlapping athlete avatars | PNG with transparent background |
-| `MILESTONE_MAP_IMG` | Strava route map (Stamford Hill area) | JPEG, 560x440 (2x retina) |
-
-## SVG components
-
-The Follower Callout: Milestone screen uses pixel-perfect SVGs for the status bar and top navigation bar, provided directly from Figma exports. These are rendered as inline `<svg>` elements inside the `TopNavHome` component in `shared.js`.
+Boathouse (5 weights) is self-hosted in `assets/fonts/` with `@font-face` declarations in `index.html` using `font-display: swap`. Maison Neue falls back to Helvetica Neue.
 
 ## How to make edits
 
-This repo is connected to a Claude AI project that can commit changes directly via the GitHub API. The workflow is:
+This repo is connected to a Claude AI project that commits changes directly via the GitHub API:
 
 1. Open the Claude project for this mockup tool
-2. Describe the change you want (e.g. "change the badge size to 100px" or "add a new screen for...")
-3. Claude fetches the relevant file(s) from GitHub, makes the edit, and commits directly to the `structured` branch
-4. Pull locally to preview, or wait for GitHub Pages to deploy
+2. Describe the change (e.g. "update the badge size" or "rebuild the takeover screen")
+3. Claude fetches files, makes edits, and commits directly to the `structured` branch
+4. Pull locally to preview (`git pull` → open `index.html`) or wait for GitHub Pages
 
-**Local preview:** This is a no-build-step app. Just open `index.html` in any browser. It loads React and Babel from CDNs and compiles JSX client-side. No `npm install` or dev server needed.
-
-## How to deploy
-
-1. All files live in the root of the `structured` branch
-2. GitHub Pages is configured to serve from this branch
-3. Any commit to `structured` triggers a redeploy automatically
+**Local preview:** Just open `index.html` in any browser — no build step, no npm install.
 
 ## Architecture notes
 
 - No build step — Babel compiles JSX in-browser via `<script type="text/babel">`
 - All modules share state via `window.MT` namespace
-- html2canvas is loaded from CDN for PNG export
+- html2canvas loaded from CDN for PNG export
 - React 18 loaded from unpkg CDN
-- PhoneShell renders at 375x812px (iPhone viewport) inside a 391px frame with 8px orange padding
-- Phone is displayed at 0.85x scale in the preview area
-- The `screenRef` on PhoneShell is used by html2canvas for PNG export — don't break this ref chain
+- PhoneShell: 375×812px viewport, `overflowY: auto`, flex column
+- BottomNav: `position: sticky, bottom: 0, marginTop: auto` — always at bottom
+- TopNavHome: pixel-perfect SVG (status bar + title bar), 102px total height
+- Takeover screen: modal overlay with scrim extending over top nav via `top: -102px`
+- Images stored as separate files in `assets/` (not base64 inline)
 
 ## Design tokens
 
@@ -87,8 +83,8 @@ const T = {
   bgSurface:  "#FFFFFF",   // Card/surface background
   bgSunken:   "#F2F2F0",   // Sunken/recessed background
   divider:    "rgba(0,0,0,0.10)",
-  font:       "'Boathouse', ...",      // Display/heading font
-  fontMaison: "'Maison Neue', ...",    // UI/body font
+  font:       "'Boathouse', ...",
+  fontMaison: "'Maison Neue', ...",
 };
 ```
 
@@ -97,12 +93,12 @@ const T = {
 | What you want to do | Edit this file |
 |---|---|
 | Change colours, fonts, or design tokens | `tokens-icons.js` |
-| Add or modify an SVG icon | `tokens-icons.js` |
-| Replace an embedded image (avatar, facepile, map) | `tokens-icons.js` |
-| Change the phone shell, bottom nav, or top nav | `shared.js` |
-| Modify a shared component (badge, info rows, sponsor card, leaderboard, etc.) | `shared.js` |
-| Edit Challenge Detail screens (Not Joined, Joined, Completed) | `screens-detail.js` |
-| Edit the Takeover or Follower Callout: Milestone screen | `screens-detail.js` |
-| Edit the Groups Tab, Home Feed, or Segment Challenge | `screens-feed.js` |
-| Add a brand-new screen | The relevant screens file + register in `screens-feed.js` ScreenRouter + add option in `app.js` |
-| Add a new control panel field or change export logic | `app.js` |
+| Add/modify an SVG icon | `tokens-icons.js` |
+| Replace an embedded image (avatar, map) | Replace file in `assets/`, update path in `tokens-icons.js` |
+| Change phone shell, bottom nav, or top nav | `shared.js` |
+| Modify shared components (badge, sponsor card, leaderboard, etc.) | `shared.js` |
+| Edit Challenge Detail screens | `screens-detail.js` |
+| Edit feed/discovery screens | `screens-feed.js` |
+| Add a new screen | Screens file + `screens-feed.js` (router) + `app.js` (dropdown) |
+| Add control panel fields or change export | `app.js` |
+| Add fonts | Upload to `assets/fonts/`, add `@font-face` in `index.html` |
