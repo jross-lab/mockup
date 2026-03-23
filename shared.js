@@ -103,7 +103,7 @@ function PhoneShell({ children, screenRef, bgColor }) {
     <div ref={screenRef} style={{ display: "inline-block" }}>
       <div style={{ position: "relative", width: 391, borderRadius: 44, background: frameColor, padding: 8, flexShrink: 0, overflow: "hidden" }}>
         <div style={{ borderRadius: 36, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 812 }}>
-          <div style={{ minHeight: 812, display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <div style={{ height: 812, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none", msOverflowStyle: "none" }}>
             {children}
           </div>
         </div>
@@ -115,7 +115,7 @@ function PhoneShell({ children, screenRef, bgColor }) {
 // --- Bottom Nav (pixel-perfect from Figma node 2048:13139) -------------------
 function BottomNav({ activeTab = "groups" }) {
   return (
-    <div style={{ background: "#fff", boxShadow: "0px -0.5px 0px 0px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", alignItems: "center", gap: 22, paddingTop: 7, paddingBottom: 1, paddingLeft: 11, paddingRight: 11, flexShrink: 0 }}>
+    <div style={{ background: "#fff", boxShadow: "0px -0.5px 0px 0px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", alignItems: "center", gap: 22, paddingTop: 7, paddingBottom: 1, paddingLeft: 11, paddingRight: 11, flexShrink: 0, position: "sticky", bottom: 0, zIndex: 10, marginTop: "auto" }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", width: "100%", minWidth: 323 }}>
         {NAV_TABS.map(({ key, label }) => {
           const active = key === activeTab;

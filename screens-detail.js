@@ -856,20 +856,8 @@ function ScreenMilestone({ data }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span></div>
         <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", textAlign: "right" }}>1 comment</span>
       </div>
-      {/* Social Action Strip — 3 buttons with py-12 */}
-      <div style={{ display: "flex", width: 374 }}>
-        {[
-          <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M11.5 0C11.2239 0 11 0.223858 11 0.5V3H8.5C5.46243 3 3 5.46243 3 8.5C3 11.5376 5.46243 14 8.5 14H9V16.5C9 16.7022 9.11509 16.8866 9.29617 16.9715C9.47726 17.0565 9.69171 17.0269 9.84518 16.8964L15.5 12H17.5C20.5376 12 23 9.53757 23 6.5C23 3.46243 20.5376 1 17.5 1H12V0.5C12 0.223858 11.7761 0 11.5 0Z" fill="none" stroke="#43423F" strokeWidth="2"/></svg>,
-          <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M3 1H21C22.1046 1 23 1.89543 23 3V14C23 15.1046 22.1046 16 21 16H14.4142L10.9142 19.5C10.7893 19.625 10.6168 19.6929 10.4393 19.6857C10.0835 19.6713 9.80005 19.3718 9.80005 19.0154V16H3C1.89543 16 1 15.1046 1 14V3C1 1.89543 1.89543 1 3 1Z" fill="none" stroke="#43423F" strokeWidth="2"/></svg>,
-          <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1V13M5 6L10 1L15 6M1 15V19C1 20.1046 1.89543 21 3 21H17C18.1046 21 19 20.1046 19 19V15" fill="none" stroke="#43423F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-        ].map((icon, i) => (
-          <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>{icon}</div>
-        ))}
-      </div>
       {/* Vertical Margin — 12px */}
       <div style={{ height: 12 }}/>
-      {/* Flex spacer to push bottom nav down */}
-      <div style={{ flex: 1 }}/>
     </div>
   );
 }
