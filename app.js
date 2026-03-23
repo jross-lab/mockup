@@ -233,26 +233,10 @@ function App() {
       </div>
 
       {/* Main layout */}
-      <div style={{ display: "flex", flex: 1, minHeight: 0, background: bgColor }}>
+      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
       {/* Left panel */}
       <div style={{ width: 400, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
-
-        <div style={{ marginBottom: 13 }}>
-          <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Background</div>
-          <div style={{ display: "flex", gap: 8 }}>
-            {[["#FFFFFF","White"],["#000000","Black"],["#FC5200","Orange"]].map(([color, label]) => (
-              <button key={color} onClick={() => setBgColor(color)} style={{
-                flex: 1, height: 32, borderRadius: 6, border: bgColor === color ? "2px solid #FC5200" : "2px solid #DFDFE8",
-                background: color, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                <span style={{ fontFamily: T.font, fontSize: 10, fontWeight: 700, color: color === "#000000" ? "#fff" : color === "#FC5200" ? "#fff" : "#242428" }}>{label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
 
         {/* Image uploads — 3 across in a row */}
         <div ref={tourImagesRef}>
@@ -266,7 +250,7 @@ function App() {
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "0 0 13px" }}/>
 
-        {/* Text fields — using 2-col grid where it makes sense */}
+        {/* Text fields */}
         <div ref={tourPanelRef}>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field></div>
@@ -286,29 +270,41 @@ function App() {
             <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={2}/></Field></div>
           </div>
         </div>
-
-        <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
-
-        <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Download</div>
-
-        {!h2cReady && (
-          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 8, textAlign: "center" }}>Loading export library...</div>
-        )}
-
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={dl} disabled={busy || !h2cReady}
-            style={{ flex: 1, height: 44, borderRadius: 22, background: (busy || !h2cReady) ? "#aaa" : T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-            <IcoDownload/>{busy ? "..." : "PNG"}
-          </button>
-          <button onClick={dlAll} disabled={busy || !h2cReady}
-            style={{ flex: 1, height: 44, borderRadius: 22, background: (busy || !h2cReady) ? "#aaa" : T.textPri, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-            <IcoDownload/>{busy ? "..." : "All (ZIP)"}
-          </button>
-        </div>
       </div>
 
+      {/* Right side: toolbar + phone + gallery */}
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+
+        {/* Toolbar: background picker + download buttons */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 20px", background: "#fff", borderBottom: "1px solid #DFDFE8", flexShrink: 0 }}>
+          {/* Background picker */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78" }}>Background</span>
+            <div style={{ display: "flex", gap: 6 }}>
+              {[["#FFFFFF","White"],["#000000","Black"],["#FC5200","Orange"]].map(([color, label]) => (
+                <button key={color} onClick={() => setBgColor(color)} style={{
+                  width: 28, height: 28, borderRadius: 6, border: bgColor === color ? "2px solid #FC5200" : "1.5px solid #DFDFE8",
+                  background: color, cursor: "pointer", padding: 0,
+                }} title={label}/>
+              ))}
+            </div>
+          </div>
+          {/* Download buttons */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {!h2cReady && <span style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>Loading...</span>}
+            <button onClick={dl} disabled={busy || !h2cReady}
+              style={{ height: 36, borderRadius: 18, background: (busy || !h2cReady) ? "#aaa" : T.orange, border: "none", fontFamily: T.font, fontSize: 12, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "0 16px" }}>
+              <IcoDownload/>{busy ? "..." : "PNG"}
+            </button>
+            <button onClick={dlAll} disabled={busy || !h2cReady}
+              style={{ height: 36, borderRadius: 18, background: (busy || !h2cReady) ? "#aaa" : T.textPri, border: "none", fontFamily: T.font, fontSize: 12, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "0 16px" }}>
+              <IcoDownload/>{busy ? "..." : "All (ZIP)"}
+            </button>
+          </div>
+        </div>
+
       {/* Phone preview + screen gallery */}
-      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32 }}>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32, background: bgColor }}>
         <div ref={tourPhoneRef} style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             <ScreenPhoneContent screenKey={screen} data={data}/>
@@ -345,6 +341,7 @@ function App() {
             </div>
           ))}
         </div>
+      </div>
       </div>
       </div>
 
