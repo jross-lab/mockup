@@ -236,7 +236,7 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0, background: bgColor }}>
 
       {/* Left panel */}
-      <div style={{ width: 340, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
+      <div style={{ width: 400, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
 
         <div style={{ marginBottom: 13 }}>
           <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Background</div>
@@ -281,8 +281,10 @@ function App() {
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
           </div>
-          <Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline/></Field>
-          <Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline/></Field>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={2}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={2}/></Field></div>
+          </div>
         </div>
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
