@@ -130,8 +130,8 @@ function ScreenGroupsTab({ data }) {
 function ScreenHomeFeed({ data, variant }) {
   const { badgeImg, brandName, title, goal } = data;
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
-      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, background: T.bgSunken }}>
+      <div style={{ background: T.bgSurface }}>
         <div style={{ padding: "16px 24px", display: "flex", gap: 12 }}>
           <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C8D8E8", flexShrink: 0 }}/>
           <div style={{ flex: 1 }}>
@@ -141,7 +141,7 @@ function ScreenHomeFeed({ data, variant }) {
           </div>
         </div>
       </div>
-      <div style={{ background: T.bgSurface, marginBottom: 8 }}>
+      <div style={{ background: T.bgSurface }}>
         <div style={{ padding: "10px 24px 8px", borderBottom: `0.5px solid ${T.divider}` }}>
           <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             {variant === "follower" ? "Your friends are joining" : "Featured Challenge"}
@@ -166,7 +166,6 @@ function ScreenHomeFeed({ data, variant }) {
           </div>
         </div>
       </div>
-      <div style={{ height: 24 }}/>
     </div>
   );
 }
