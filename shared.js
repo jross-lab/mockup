@@ -17,17 +17,25 @@ const { T, AVATAR_IMG, FACEPILE_IMG, NAV_ICONS, NAV_TABS, FALLBACK_COLORS,
 // --- Panel helpers -----------------------------------------------------------
 function Field({ label, children }) {
   return (
-    <div style={{ marginBottom: 13 }}>
-      <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 4 }}>{label}</div>
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>{label}</div>
       {children}
     </div>
   );
 }
 function Input({ value, onChange, placeholder, multiline }) {
-  const s = { width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#fff", border: "1px solid #DFDFE8", borderRadius: 6, padding: "7px 10px", outline: "none", resize: multiline ? "vertical" : "none" };
+  const [focused, setFocused] = useState(false);
+  const s = {
+    width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA",
+    border: focused ? "1.5px solid " + T.orange : "1.5px solid #E8E8E5", borderRadius: 8,
+    padding: multiline ? "10px 12px" : "9px 12px", outline: "none",
+    resize: multiline ? "vertical" : "none", lineHeight: "18px",
+    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
+    boxShadow: focused ? "0 0 0 3px rgba(252,82,0,0.08)" : "none",
+  };
   return multiline
-    ? <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={3} style={s}/>
-    : <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={s}/>;
+    ? <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={3} style={s} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>
+    : <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={s} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>;
 }
 function useFileUpload(onLoad) {
   const ref = useRef();
@@ -42,11 +50,23 @@ function useFileUpload(onLoad) {
 }
 function UploadBox({ label, preview, onUpload, aspect }) {
   const { ref, handle, open } = useFileUpload(onUpload);
+  const [hover, setHover] = useState(false);
   return (
     <Field label={label}>
       <div onClick={open} onDrop={e => { e.preventDefault(); handle(e); }} onDragOver={e => e.preventDefault()}
-        style={{ border: preview ? "none" : "1.5px dashed #DFDFE8", borderRadius: 8, background: preview ? "transparent" : "#F7F7FA", cursor: "pointer", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", aspectRatio: aspect, width: "100%", minHeight: 60 }}>
-        {preview ? <img src={preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }}/> : <span style={{ fontSize: 11, color: "#6D6D78", fontFamily: T.font }}>Click or drag to upload</span>}
+        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+        style={{ border: preview ? "1.5px solid #E8E8E5" : "1.5px dashed #D0D0CE", borderRadius: 10, background: preview ? "#FAFAFA" : (hover ? "#F2F1EF" : "#F7F7F5"), cursor: "pointer", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", height: 72, width: "100%", position: "relative", transition: "background 0.15s ease, border-color 0.15s ease" }}>
+        {preview
+          ? <>
+              <img src={preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+              <div style={{ position: "absolute", inset: 0, background: hover ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0)", transition: "background 0.15s ease", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {hover && <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: "#fff" }}>Replace</span>}
+              </div>
+            </>
+          : <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="#9E9E99" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 14v2a1 1 0 001 1h12a1 1 0 001-1v-2" stroke="#9E9E99" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <span style={{ fontSize: 10, color: "#9E9E99", fontFamily: T.font, fontWeight: 500 }}>Click or drag</span>
+            </div>}
       </div>
       <input ref={ref} type="file" accept="image/*" style={{ display: "none" }} onChange={handle}/>
     </Field>
