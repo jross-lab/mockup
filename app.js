@@ -279,6 +279,8 @@ function App() {
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "8px 0 13px" }}/>
 
+        <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Download</div>
+
         {!h2cReady && (
           <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 8, textAlign: "center" }}>Loading export library...</div>
         )}
