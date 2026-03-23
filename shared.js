@@ -174,7 +174,7 @@ function BottomNav({ activeTab = "groups" }) {
                 <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, "--fill-0": color }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{NAV_ICONS[key]}</div>
                 </div>
-                <span style={{ fontFamily: "'Maison Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 600, fontSize: 11, lineHeight: "13px", color, textAlign: "center", whiteSpace: "nowrap", display: "block", width: 53 }}>{label}</span>
+                <span style={{ fontFamily: T.font, fontWeight: 700, fontSize: 11, lineHeight: "13px", color, textAlign: "center", whiteSpace: "nowrap", display: "block", width: 53 }}>{label}</span>
               </div>
             </div>
           );
