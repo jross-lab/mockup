@@ -151,13 +151,11 @@ function App() {
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined" || screen === "joined" || screen === "completed"
               ? null
-              : screen === "milestone"
+              : screen === "milestone" || screen === "takeover"
               ? <TopNavHome/>
               : screen === "segment"
               ? <TopNav title="Home" back=""/>
-              : screen === "takeover"
-                ? <TopNav title="Groups" back=""/>
-                : <TopNav title="Challenge" back="Groups"/>
+              : <TopNav title="Challenge" back="Groups"/>
             }
             <ScreenRouter screen={screen} data={data}/>
             <BottomNav activeTab={activeTab}/>
