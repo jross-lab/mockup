@@ -355,14 +355,14 @@ function ScreenReward({ data }) {
           {/* ── Reward notification card (Figma 2179:29239) ── */}
           <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 0.5px 4px rgba(0,0,0,0.1), 0px 6px 12px rgba(0,0,0,0.1)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                 {/* Kudo/thumbs-up icon (orange, filled) */}
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7199 6.04257C14.7986 6.24014 14.8367 6.45157 14.8319 6.66421C14.8133 7.0543 14.645 7.42218 14.362 7.69131C14.4643 7.89789 14.5171 8.1254 14.5164 8.3559C14.5152 8.63233 14.4398 8.90337 14.2981 9.14072C14.1564 9.37807 13.9536 9.57302 13.7108 9.70523L13.6034 11.2022C13.572 11.6347 13.378 12.0392 13.0604 12.3344C12.7428 12.6296 12.3252 12.7935 11.8916 12.7932H6.72926L6.7024 12.8067L4.48709 7.04014L4.94358 6.79847L7.0112 2.82433L7.6758 0.206238H7.77649C8.29209 0.236215 8.77673 0.462162 9.13116 0.837815C9.4856 1.21347 9.68302 1.7104 9.68301 2.22687C9.68407 2.32821 9.67507 2.4294 9.65615 2.52896L9.02512 5.04636H13.2275C13.4402 5.04333 13.6513 5.0832 13.8482 5.16361C14.0451 5.24401 14.2238 5.36328 14.3735 5.51431C14.5233 5.66533 14.6411 5.845 14.7199 6.04257Z" fill="#FC5200"/><path d="M0.418945 9.20847L3.52038 7.55705L3.6815 7.46978L5.89681 13.2363L2.64097 14.975L0.418945 9.20847Z" fill="#FC5200"/></svg>
-                <span style={{ fontFamily: T.fontMaison, fontSize: 12, fontWeight: 600, lineHeight: "16px", color: T.textPri }}>
+                <svg width="18" height="18" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7199 6.04257C14.7986 6.24014 14.8367 6.45157 14.8319 6.66421C14.8133 7.0543 14.645 7.42218 14.362 7.69131C14.4643 7.89789 14.5171 8.1254 14.5164 8.3559C14.5152 8.63233 14.4398 8.90337 14.2981 9.14072C14.1564 9.37807 13.9536 9.57302 13.7108 9.70523L13.6034 11.2022C13.572 11.6347 13.378 12.0392 13.0604 12.3344C12.7428 12.6296 12.3252 12.7935 11.8916 12.7932H6.72926L6.7024 12.8067L4.48709 7.04014L4.94358 6.79847L7.0112 2.82433L7.6758 0.206238H7.77649C8.29209 0.236215 8.77673 0.462162 9.13116 0.837815C9.4856 1.21347 9.68302 1.7104 9.68301 2.22687C9.68407 2.32821 9.67507 2.4294 9.65615 2.52896L9.02512 5.04636H13.2275C13.4402 5.04333 13.6513 5.0832 13.8482 5.16361C14.0451 5.24401 14.2238 5.36328 14.3735 5.51431C14.5233 5.66533 14.6411 5.845 14.7199 6.04257Z" fill="#FC5200"/><path d="M0.418945 9.20847L3.52038 7.55705L3.6815 7.46978L5.89681 13.2363L2.64097 14.975L0.418945 9.20847Z" fill="#FC5200"/></svg>
+                <span style={{ fontFamily: T.fontMaison, fontSize: 13, fontWeight: 600, lineHeight: "18px", color: T.textPri }}>
                   You got a reward from {brandName || "Brand"}!
                 </span>
               </div>
-              <button style={{ height: 26, borderRadius: 13, background: T.orange, border: "none", fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px", color: "#fff", cursor: "default", padding: "0 12px", flexShrink: 0 }}>
+              <button style={{ height: 30, borderRadius: 15, background: T.orange, border: "none", fontFamily: T.fontMaison, fontSize: 11, fontWeight: 600, lineHeight: "13px", color: "#fff", cursor: "default", padding: "0 16px", flexShrink: 0 }}>
                 Redeem
               </button>
             </div>
