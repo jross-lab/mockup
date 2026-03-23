@@ -10,7 +10,9 @@
 
 const { useState, useRef, useCallback, useEffect } = React;
 const { T, AVATAR_IMG, NAV_ICONS, NAV_TABS, FALLBACK_COLORS,
-        IcoDate, IcoActivityType, IcoReward, IcoBackArrow } = window.MT;
+        IcoDate, IcoActivityType, IcoReward, IcoBackArrow,
+        IcoViewfinder, IcoSearch, IcoMessaging, IcoNotifications,
+        IcoBattery, IcoWifi, IcoCellular } = window.MT;
 
 // --- Panel helpers -----------------------------------------------------------
 function Field({ label, children }) {
@@ -59,6 +61,37 @@ function TopNav({ title = "Challenge", back = "Groups" }) {
         <IcoBackArrow/><span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 400 }}>{back}</span>
       </div>
       <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700 }}>{title}</span>
+    </div>
+  );
+}
+// TopNavHome — matches Figma node 2119:22942: status bar + "Home" title + 4 icons + drop shadow
+function TopNavHome() {
+  return (
+    <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", flexShrink: 0 }}>
+      {/* iOS Status Bar */}
+      <div style={{ height: 54, position: "relative", width: "100%" }}>
+        <div style={{ position: "absolute", left: 33, top: 18, fontFamily: "'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 17, fontWeight: 600, letterSpacing: -0.408, lineHeight: "22px", color: T.textPri }}>9:41</div>
+        <div style={{ position: "absolute", right: 16, top: 20, display: "flex", alignItems: "center", gap: 7 }}>
+          <IcoCellular/><IcoWifi/><IcoBattery/>
+        </div>
+      </div>
+      {/* Title and Controls row */}
+      <div style={{ height: 46, display: "flex", alignItems: "center", position: "relative" }}>
+        {/* Leading icons */}
+        <div style={{ position: "absolute", left: 0, display: "flex", alignItems: "center", gap: 16, paddingLeft: 24, height: "100%" }}>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><IcoViewfinder/></div>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><IcoSearch/></div>
+        </div>
+        {/* Center title */}
+        <div style={{ flex: 1, textAlign: "center", paddingLeft: 82, paddingRight: 82 }}>
+          <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>Home</span>
+        </div>
+        {/* Trailing icons */}
+        <div style={{ position: "absolute", right: 0, display: "flex", alignItems: "center", gap: 16, paddingRight: 24, height: "100%" }}>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><IcoMessaging/></div>
+          <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><IcoNotifications/></div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -280,7 +313,7 @@ function DescriptionSection({ title, description }) {
 // --- Register onto shared namespace ------------------------------------------
 Object.assign(window.MT, {
   Field, Input, useFileUpload, UploadBox,
-  TopNav, PhoneShell, BottomNav,
+  TopNav, TopNavHome, PhoneShell, BottomNav,
   Facepile, HeroBadge, InfoRow, OrangeBtn, SponsorCard, InfoRows,
   StatsGrid, FeaturedAthletes, ProgressCard, Leaderboard, DescriptionSection,
 });
