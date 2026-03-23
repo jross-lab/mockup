@@ -9,7 +9,39 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <style>html,body,#root{margin:0;padding:0;height:100%;overflow:hidden;}</style>
+  <style>
+    /* Boathouse font family — base width */
+    @font-face {
+      font-family: 'Boathouse';
+      src: url('assets/fonts/Boathouse-Light.woff2') format('woff2');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Boathouse';
+      src: url('assets/fonts/Boathouse-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Boathouse';
+      src: url('assets/fonts/Boathouse-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    /* Temporary: Medium mapped to 700 until Bold .woff2 is uploaded */
+    @font-face {
+      font-family: 'Boathouse';
+      src: url('assets/fonts/Boathouse-Medium.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    html,body,#root{margin:0;padding:0;height:100%;overflow:hidden;}
+  </style>
 </head>
 <body>
   <div id="root"></div>
