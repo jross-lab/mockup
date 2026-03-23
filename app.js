@@ -10,7 +10,7 @@
 const { useState, useRef, useCallback, useEffect } = React;
 const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
         Field, Input, UploadBox,
-        TopNav, TopNavHome, PhoneShell, BottomNav,
+        TopNav, TopNavHome, TopNavGroups, PhoneShell, BottomNav,
         ScreenRouter, GROUPS_TAB_SCREENS,
 } = window.MT;
 
@@ -82,7 +82,7 @@ function App() {
               <option value="takeover">Challenge Takeover</option>
             </optgroup>
             <optgroup label="Discovery">
-              <option value="groups-tab">Groups Tab / Challenges</option>
+              <option value="groups-tab">Challenge Gallery</option>
               <option value="milestone">Follower Callout: Milestone</option>
             </optgroup>
             <optgroup label="Home Feed">
@@ -153,6 +153,8 @@ function App() {
               ? null
               : screen === "milestone" || screen === "takeover"
               ? <TopNavHome/>
+              : screen === "groups-tab"
+              ? <TopNavGroups/>
               : screen === "segment"
               ? <TopNav title="Home" back=""/>
               : <TopNav title="Challenge" back="Groups"/>
