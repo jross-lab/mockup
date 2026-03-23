@@ -20,6 +20,8 @@ const TOUR_STEPS = [
   { title: "Customise details", body: "Set the challenge title, description, dates, and reward. Changes update the preview instantly.", pos: "right" },
   { title: "Live preview", body: "This is a pixel-perfect preview of how the screen will look on an iPhone. What you see is what gets exported.", pos: "left" },
   { title: "Switch screens", body: "Click any thumbnail to switch between screen types. Each one uses your content and images.", pos: "left" },
+  { title: "Choose a background", body: "Pick white, black, or Strava orange as the background colour behind the phone frame.", pos: "bottom" },
+  { title: "Download your mockups", body: "Export the current screen as a PNG, or download all screens at once as a ZIP file.", pos: "bottom" },
 ];
 
 function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
@@ -37,6 +39,9 @@ function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
       if (stepCfg.pos === "right") {
         left = r.right + 16;
         top = r.top + r.height / 2 - bh / 2;
+      } else if (stepCfg.pos === "bottom") {
+        left = r.left + r.width / 2 - bw / 2;
+        top = r.bottom + 12;
       } else {
         left = r.left - bw - 16;
         top = r.top + r.height / 2 - bh / 2;
@@ -55,6 +60,8 @@ function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
 
   const arrowStyle = pos.arrowSide === "right"
     ? { position: "absolute", left: -8, top: "50%", marginTop: -8, width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderRight: "8px solid #fff" }
+    : pos.arrowSide === "bottom"
+    ? { position: "absolute", top: -8, left: "50%", marginLeft: -8, width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderBottom: "8px solid #fff" }
     : { position: "absolute", right: -8, top: "50%", marginTop: -8, width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderLeft: "8px solid #fff" };
 
   return (
@@ -98,6 +105,7 @@ function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
 const SCREEN_GROUPS = [
   { group: "Detail", items: [
     { key: "not-joined", label: "Not Joined" },
+    { key: "reward", label: "Reward" },
     { key: "joined", label: "Joined" },
     { key: "completed", label: "Completed" },
     { key: "takeover", label: "Takeover" },
@@ -111,14 +119,14 @@ const SCREEN_GROUPS = [
 ];
 
 const ALL_SCREENS = [
-  "not-joined", "joined", "completed", "takeover",
+  "not-joined", "reward", "joined", "completed", "takeover",
   "groups-tab", "milestone", "follower-infeed", "custom-infeed",
 ];
 
 // Helper: renders the correct nav + screen content for a given screen key
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
-  const noTopNav = screenKey === "not-joined" || screenKey === "joined" || screenKey === "completed";
+  const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed";
   const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed";
   return (
     <>
@@ -142,7 +150,9 @@ function App() {
   const tourPanelRef = useRef();
   const tourPhoneRef = useRef();
   const tourGalleryRef = useRef();
-  const tourRefs = [tourImagesRef, tourPanelRef, tourPhoneRef, tourGalleryRef];
+  const tourBgRef = useRef();
+  const tourDownloadRef = useRef();
+  const tourRefs = [tourImagesRef, tourPanelRef, tourPhoneRef, tourGalleryRef, tourBgRef, tourDownloadRef];
   const [tourStep, setTourStep] = useState(-1);
   const startTour = () => setTourStep(0);
   const dismissTour = () => {
@@ -278,7 +288,7 @@ function App() {
         {/* Toolbar: background picker + download buttons */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 20px", background: "#fff", borderBottom: "1px solid #DFDFE8", flexShrink: 0 }}>
           {/* Background picker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div ref={tourBgRef} style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div>
               <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, color: T.textPri, lineHeight: "14px" }}>Background</div>
               <div style={{ fontSize: 10, fontFamily: T.font, color: T.textTer, lineHeight: "13px", marginTop: 1 }}>Preview colour</div>
@@ -293,7 +303,7 @@ function App() {
             </div>
           </div>
           {/* Download buttons */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div ref={tourDownloadRef} style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ textAlign: "right" }}>
               <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, color: T.textPri, lineHeight: "14px" }}>Download</div>
               <div style={{ fontSize: 10, fontFamily: T.font, color: T.textTer, lineHeight: "13px", marginTop: 1 }}>Export as PNG</div>
