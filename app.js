@@ -84,6 +84,7 @@ function App() {
             <optgroup label="Discovery">
               <option value="groups-tab">Challenge Gallery</option>
               <option value="milestone">Follower Callout: Milestone</option>
+              <option value="follower-infeed">Follower In-Feed Unit</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
@@ -151,7 +152,7 @@ function App() {
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined" || screen === "joined" || screen === "completed"
               ? null
-              : screen === "milestone" || screen === "takeover" || screen === "groups-tab"
+              : screen === "milestone" || screen === "takeover" || screen === "groups-tab" || screen === "follower-infeed"
               ? <TopNavHome/>
               : screen === "segment"
               ? <TopNav title="Home" back=""/>

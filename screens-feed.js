@@ -9,7 +9,7 @@
 
 const { T, FALLBACK_COLORS,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
-        ScreenNotJoined, ScreenJoined, ScreenTakeover, ScreenMilestone,
+        ScreenNotJoined, ScreenJoined, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed,
 } = window.MT;
 
 // --- Screen: Groups Tab / Challenges -----------------------------------------
@@ -279,6 +279,7 @@ function ScreenRouter({ screen, data }) {
     case "joined":         return <ScreenJoined data={data}/>;
     case "completed":      return <ScreenCompleted data={data}/>;
     case "milestone":      return <ScreenMilestone data={data}/>;
+    case "follower-infeed": return <ScreenFollowerInFeed data={data}/>;
     case "takeover":       return <ScreenTakeover data={data}/>;
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
     case "feed-follower":  return <ScreenHomeFeed data={data} variant="follower"/>;
