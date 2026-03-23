@@ -1,13 +1,13 @@
 /**
  * screens-feed.js
- * Discovery & Feed screens: Groups Tab, Home Feed, Segment Challenge.
+ * Discovery & Feed screens: Groups Tab, Custom In-Feed.
  * Also contains ScreenRouter.
  * ─────────────────────────────────────────────────────────────
- * EDIT THIS FILE when: modifying the Groups Tab, Home Feed cards,
- * Segment Challenge, or adding new discovery/feed screens.
+ * EDIT THIS FILE when: modifying the Groups Tab, Custom In-Feed,
+ * or adding new discovery/feed screens.
  */
 
-const { T, FALLBACK_COLORS,
+const { T, FALLBACK_COLORS, MILESTONE_MAP_IMG,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
         ScreenNotJoined, ScreenJoined, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed,
 } = window.MT;
@@ -126,140 +126,33 @@ function ScreenGroupsTab({ data }) {
   );
 }
 
-// --- Screen: Home Feed (Follower + In-Unit) ----------------------------------
-// Matches Figma node 2119:23122 — full-fidelity feed with gap:8 between modules
+// --- Screen: Custom In-Feed (Figma 2119:23147) -------------------------------
+// Home feed with a customisable in-feed ad unit sandwiched between activities.
 
-function FeedActivityEntry() {
-  /* Full activity entry matching Figma "Feed Entries / Activity" */
+function ScreenCustomInFeed({ data }) {
+  const { badgeImg, heroImg, title, description, brandName } = data;
   return (
-    <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
-      {/* Feed Owner Header */}
-      <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
-        <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#C8D8E8", flexShrink: 0 }}/>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Dante Young</div>
-          <div style={{ display: "flex", gap: 4, alignItems: "center", height: 16, marginTop: 4 }}>
-            <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><path d="M3.5 5.5L1 8.5L3 10.5L6 7.5M8 3L10.5 0.5L13 3L10.5 5.5M5 5L7.5 2.5L10 5L7.5 7.5L5 5Z" stroke={T.textSec} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", flex: 1 }}>Today at 9:31 AM · Los Angeles, California</div>
-          </div>
-        </div>
-        <div style={{ position: "absolute", right: 24, top: 24, display: "flex", gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: T.textPri }}/>)}</div>
-      </div>
-      {/* Title text */}
-      <div style={{ padding: "0 24px" }}>
-        <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>Probably the most beautiful ride I've ever been on</div>
-      </div>
-      {/* Vertical margin */}
-      <div style={{ height: 16 }}/>
-      {/* Stats row */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px" }}>
-        <div style={{ display: "flex", gap: 24 }}>
-          {[
-            { label: "Distance", value: "18.33 mi" },
-            { label: "Time", value: "2h 20m" },
-            { label: "Elevation", value: "2,033 ft" },
-          ].map(s => (
-            <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>{s.label}</div>
-              <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>{s.value}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Achievements</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <span style={{ fontSize: 14 }}>🏅</span><span style={{ fontSize: 14 }}>🏆</span><span style={{ fontSize: 14 }}>🎖</span>
-            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>3</div>
-          </div>
-        </div>
-      </div>
-      {/* Vertical margin */}
-      <div style={{ height: 12 }}/>
-      {/* Social summary */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", minHeight: 56 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Facepile/>
-          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span>
-        </div>
-        <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>1 comment</span>
-      </div>
-      {/* Social action strip */}
-      <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
-        {[
-          { label: "Kudo", icon: <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M1 9h3v12H1V9zm5-1.5C6 6.1 7.1 5 8.5 5H14l-1 4h5.5c.8 0 1.5.7 1.5 1.5v2c0 .2 0 .4-.1.6l-2.5 6c-.3.7-1 1.1-1.7 1.1H8.5C7.1 20.2 6 19.1 6 17.7V7.5z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-          { label: "Comment", icon: <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M21 1H3C1.9 1 1 1.9 1 3v13c0 1.1.9 2 2 2h4v3l4-3h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-          { label: "Share", icon: <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1v15M4 7l6-6 6 6M1 17v4h18v-4" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-        ].map(({ label, icon }) => (
-          <div key={label} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>{icon}</div>
-        ))}
-      </div>
-      {/* Vertical margin */}
-      <div style={{ height: 12 }}/>
-    </div>
-  );
-}
-
-function ScreenHomeFeed({ data, variant }) {
-  const { badgeImg, brandName, title, goal, startDate, endDate } = data;
-  const dateRange = startDate && endDate ? `${startDate} to ${endDate}` : "March 3 2025 to Dec 31 2025";
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, background: T.bgSunken }}>
-      {/* Module 1: Full activity entry */}
-      <FeedActivityEntry/>
-      {/* Module 2: Challenge Join card */}
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
+      {/* ── Module 1: Activity entry (partially visible at top) ── */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
-        {/* Entry context header */}
-        <div style={{ padding: "24px 24px", display: "flex", alignItems: "center" }}>
-          <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textPri }}>
-            {variant === "follower" ? "In progress" : "Featured Challenge"}
-          </div>
-        </div>
-        {/* Card content: badge + copy */}
-        <div style={{ padding: "0 24px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
-          <div style={{ width: 64, height: 64, flexShrink: 0, overflow: "hidden" }}>
-            {badgeImg
-              ? <img src={badgeImg} alt="" style={{ width: 64, height: 64, objectFit: "contain" }}/>
-              : <div style={{ width: 64, height: 64, background: "#E8E8E8", borderRadius: 2 }}/>}
-          </div>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri, width: 250 }}>{title || "Challenge Title"}</div>
-              <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec, overflow: "hidden", textOverflow: "ellipsis" }}>{goal || "Log 10 active days outside in June to unlock prizes!"}</div>
-              <div style={{ fontFamily: T.font, fontSize: 12, lineHeight: "20px", color: T.textSec }}>{dateRange}</div>
+        {/* Map carousel area */}
+        <div style={{ padding: "0 24px", overflow: "hidden" }}>
+          <div style={{ display: "flex", gap: 8, height: 170 }}>
+            <div style={{ width: 327, height: 170, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
+              <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+              <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
             </div>
-            <button style={{ alignSelf: "stretch", height: 44, borderRadius: 22, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
-          </div>
-        </div>
-      </div>
-      {/* Module 3: Club post (should be pushed mostly off-screen by content above) */}
-      <div style={{ background: T.bgSurface }}>
-        <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
-          <div style={{ position: "relative", flexShrink: 0 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 4, background: T.orange, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.25px 2.5px rgba(0,0,0,0.1)" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.8 0L0 19.2h6.4L10.8 11l4.4 8.2H21.6L10.8 0z" fill="white"/><path d="M15.2 11l2.8 5.2 2.8-5.2h-5.6z" fill="rgba(255,255,255,0.6)"/></svg>
-            </div>
-            <div style={{ position: "absolute", top: -2, left: -2, width: 12, height: 12, borderRadius: "50%", background: "#FC5200", border: "1.5px solid white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="7" height="6" viewBox="0 0 8 7" fill="none"><path d="M1 3.5L3 5.5L7 1.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <div style={{ width: 327, height: 170, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
+              <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span></div>
             </div>
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>The Strava Club</div>
-            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginTop: 4 }}>Today at 9:31 AM</div>
-          </div>
-          <div style={{ position: "absolute", right: 24, top: 24, display: "flex", gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: T.textPri }}/>)}</div>
         </div>
-        <div style={{ padding: "0 24px", marginBottom: 16 }}>
-          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 8 }}>Probably the most beautiful ride I've ever been on</div>
-          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 4 }}>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus</div>
-          <div style={{ fontFamily: T.fontMaison, fontSize: 12, color: T.textTer, lineHeight: "16px" }}>Read more...</div>
+        {/* Social summary */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", minHeight: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>12 gave kudos</span></div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>1 comment</span>
         </div>
-        <div style={{ width: "100%", height: 250, background: "linear-gradient(135deg, #6B9E78, #3D6B52)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, lineHeight: "13px" }}>Workout</span></div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span></div>
-          <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
-        </div>
+        {/* Social action strip */}
         <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
           {[
             { label: "Kudo", icon: <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M1 9h3v12H1V9zm5-1.5C6 6.1 7.1 5 8.5 5H14l-1 4h5.5c.8 0 1.5.7 1.5 1.5v2c0 .2 0 .4-.1.6l-2.5 6c-.3.7-1 1.1-1.7 1.1H8.5C7.1 20.2 6 19.1 6 17.7V7.5z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
@@ -271,108 +164,62 @@ function ScreenHomeFeed({ data, variant }) {
         </div>
         <div style={{ height: 12 }}/>
       </div>
-    </div>
-  );
-}
 
-// --- Screen: Segment Challenge -----------------------------------------------
-function FeedPost({ avatar, name, time, text }) {
-  return (
-    <div style={{ background: T.bgSurface, marginBottom: 8 }}>
-      <div style={{ padding: "16px 24px", display: "flex", gap: 12 }}>
-        <div style={{ width: 40, height: 40, borderRadius: "50%", background: avatar, flexShrink: 0 }}/>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: T.fontMaison, fontSize: 13, fontWeight: 600, marginBottom: 2 }}>{name}</div>
-          <div style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textTer }}>{time}</div>
-          {text && <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, marginTop: 6 }}>{text}</div>}
+      {/* ── Module 2: In-Feed Ad Unit (the editable part) ── */}
+      <div style={{ background: T.bgSurface, overflow: "hidden" }}>
+        {/* Hero artwork area */}
+        <div style={{ width: "100%", height: 125, background: "#C2C1BB", overflow: "hidden" }}>
+          {heroImg && <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}
         </div>
-      </div>
-      <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}`, padding: "0 24px" }}>
-        {["👍 Kudo","💬 Comment","↗ Share"].map(lbl => (
-          <div key={lbl} style={{ flex: 1, textAlign: "center", padding: "10px 0", fontFamily: T.fontMaison, fontSize: 13, color: T.textSec }}>{lbl}</div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ScreenSegmentChallenge({ data }) {
-  const { badgeImg, mapImg, brandName, title, goal, startDate, endDate } = data;
-  const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : "Jan 2 - Jan 31, 2026";
-  return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
-      <FeedPost avatar="#C8D8E8" name="Sarah Johnson" time="2h ago" text="Morning run in the park 🏃"/>
-      <div style={{ background: T.bgSunken, padding: "24px 24px" }}>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 6 }}>{title || "A Segment Challenge near you."}</div>
-          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px" }}>{goal || "Run the segment for a reward in the brand range."}</div>
-        </div>
-        <div style={{ background: T.bgSurface, borderRadius: 16, overflow: "hidden", boxShadow: "0px 2px 6px rgba(0,0,0,0.11)" }}>
-          <div style={{ width: "100%", height: 170, background: "#D8E4D0", overflow: "hidden", position: "relative", flexShrink: 0 }}>
-            {mapImg ? <img src={mapImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/> : (
-              <div style={{ width: "100%", height: "100%", background: "#D8E4D0", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 6 }}>
-                <svg width="80" height="60" viewBox="0 0 80 60" fill="none"><rect width="80" height="60" fill="#C8DCBC"/><rect x="0" y="22" width="80" height="16" fill="#E8F0E0"/><rect x="24" y="0" width="14" height="60" fill="#E8F0E0"/><path d="M20 30 Q32 18 45 26 Q56 34 65 20" stroke="#FC5200" strokeWidth="3" strokeLinecap="round" fill="none"/><circle cx="20" cy="30" r="4" fill="#3A8A3A" stroke="white" strokeWidth="1.5"/><circle cx="65" cy="20" r="4" fill="#FC5200" stroke="white" strokeWidth="1.5"/></svg>
-                <span style={{ fontFamily: T.font, fontSize: 11, color: "#7A9A6A", opacity: 0.8 }}>Segment Map</span>
+        {/* Ad content */}
+        <div style={{ padding: "0 24px 24px", display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: -8 }}>
+            {/* Strava echelon badge */}
+            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden", marginTop: -16, border: "2px solid white" }}>
+              {badgeImg
+                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
+                : <div style={{ width: "100%", height: "100%", background: "#E0E0DE", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.8 0L0 19.2h6.4L10.8 11l4.4 8.2H21.6L10.8 0z" fill="#FC5200"/><path d="M15.2 11l2.8 5.2 2.8-5.2h-5.6z" fill="rgba(252,82,0,0.5)"/></svg>
+                  </div>}
+            </div>
+            <div style={{ flex: 1, paddingTop: 16 }}>
+              <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 500, lineHeight: "24px", color: T.textPri, letterSpacing: "0.34px", marginBottom: 8 }}>
+                {title || "Lorem ipsum dolor sit amet"}
               </div>
-            )}
-          </div>
-          <div style={{ padding: "14px 16px 16px", display: "flex", gap: 12, alignItems: "center" }}>
-            <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              {badgeImg ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/> : <span style={{ fontFamily: T.font, fontSize: 8, color: "#999", textAlign: "center", padding: 4 }}>Badge</span>}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, lineHeight: "20px", color: T.textPri, marginBottom: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{brandName ? `${brandName} Segment Challenge` : "Segment challenge name"}</div>
-              <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px" }}>{dateRange}</div>
+              <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "17.5px", color: "#21211F", letterSpacing: "-0.08px" }}>
+                {description || "Body copy 90 characters max. Lorem ipsum dolor sit amet."}
+              </div>
             </div>
           </div>
-          <div style={{ padding: "0 16px 16px" }}>
-            <button style={{ width: "100%", height: 44, borderRadius: 22, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
-          </div>
+          {/* CTA button */}
+          <button style={{ width: 183, height: 28, borderRadius: 2, background: T.orange, border: "none", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11, color: "#fff", cursor: "default", marginTop: 16, marginLeft: 60, textAlign: "center", letterSpacing: "-0.07px", lineHeight: "15px" }}>
+            {brandName ? `Check it out` : "[Custom]"}
+          </button>
         </div>
       </div>
-      {/* Club post below */}
-      <div style={{ background: T.bgSurface, marginTop: 8 }}>
-        <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "16px 24px", position: "relative" }}>
-          <div style={{ position: "relative", flexShrink: 0 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 4, background: T.orange, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.25px 2.5px rgba(0,0,0,0.1)" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.8 0L0 19.2h6.4L10.8 11l4.4 8.2H21.6L10.8 0z" fill="white"/><path d="M15.2 11l2.8 5.2 2.8-5.2h-5.6z" fill="rgba(255,255,255,0.6)"/></svg>
-            </div>
-            <div style={{ position: "absolute", top: -2, left: -2, width: 12, height: 12, borderRadius: "50%", background: "#FC5200", border: "1.5px solid white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="7" height="6" viewBox="0 0 8 7" fill="none"><path d="M1 3.5L3 5.5L7 1.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </div>
+
+      {/* ── Module 3: Grouped Activity entry below ── */}
+      <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
+        {/* Grouped activity header */}
+        <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <div style={{ width: 48, height: 49, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="24" height="16" viewBox="0 0 24 16" fill="none"><path d="M2 3H6V4.25H5.43L5.86 5H9.83L9.41 3.84C9.34 3.65 9.37 3.43 9.49 3.27C9.6 3.1 9.8 3 10 3H13.5C14.33 3 15 3.67 15 4.5C15 5.33 14.33 6 13.5 6H13V4.75H13.5C13.64 4.75 13.75 4.64 13.75 4.5C13.75 4.36 13.64 4.25 13.5 4.25H10.89L11.91 7.05C12.1 7.02 12.3 7 12.5 7C14.43 7 16 8.57 16 10.5C16 12.43 14.43 14 12.5 14C10.57 14 9 12.43 9 10.5C9 9.21 9.7 8.08 10.74 7.48L10.41 6.58L7.99 10.69C7.88 10.88 7.67 11 7.45 11H6.96C6.72 12.7 5.26 14 3.5 14C1.57 14 0 12.43 0 10.5C0 8.57 1.57 7 3.5 7C3.88 7 4.24 7.06 4.58 7.17L5.09 6.17L3.99 4.25H2V3Z" fill="#43423F"/></svg>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>The Strava Club</div>
-            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginTop: 4 }}>Today at 9:31 AM</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Tyler Butterfield rode with Derek Y and Naz Hamid</div>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Today at 8:39 AM · San Francisco, California</div>
           </div>
-          <div style={{ position: "absolute", right: 24, top: 16, display: "flex", gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: T.textPri }}/>)}</div>
         </div>
-        <div style={{ padding: "0 24px", marginBottom: 16 }}>
-          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 8 }}>Probably the most beautiful ride I've ever been on</div>
-          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 4 }}>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus</div>
-          <div style={{ fontFamily: T.fontMaison, fontSize: 12, color: T.textTer, lineHeight: "16px" }}>Read more...</div>
+        {/* Map placeholder */}
+        <div style={{ width: "100%", height: 250, overflow: "hidden", position: "relative" }}>
+          <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
         </div>
-        <div style={{ width: "100%", height: 200, background: "linear-gradient(135deg, #6B9E78, #3D6B52)", position: "relative", overflow: "hidden", marginBottom: 0 }}>
-          <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, color: T.textPri, lineHeight: "13px" }}>Workout</span></div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span></div>
-          <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
-        </div>
-        <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
-          {[
-            { label: "Kudo", icon: <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M1 9h3v12H1V9zm5-1.5C6 6.1 7.1 5 8.5 5H14l-1 4h5.5c.8 0 1.5.7 1.5 1.5v2c0 .2 0 .4-.1.6l-2.5 6c-.3.7-1 1.1-1.7 1.1H8.5C7.1 20.2 6 19.1 6 17.7V7.5z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-            { label: "Comment", icon: <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M21 1H3C1.9 1 1 1.9 1 3v13c0 1.1.9 2 2 2h4v3l4-3h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-            { label: "Share", icon: <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1v15M4 7l6-6 6 6M1 17v4h18v-4" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-          ].map(({ label, icon }) => (
-            <div key={label} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0", gap: 0 }}>{icon}</div>
-          ))}
-        </div>
+        <div style={{ height: 200 }}/>
       </div>
-      <div style={{ height: 12 }}/>
     </div>
   );
 }
+
 
 // --- Screen Router -----------------------------------------------------------
 const GROUPS_TAB_SCREENS = new Set(["not-joined","joined","completed","takeover","groups-tab"]);
@@ -386,9 +233,7 @@ function ScreenRouter({ screen, data }) {
     case "follower-infeed": return <ScreenFollowerInFeed data={data}/>;
     case "takeover":       return <ScreenTakeover data={data}/>;
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
-    case "feed-follower":  return <ScreenHomeFeed data={data} variant="follower"/>;
-    case "feed-inunit":    return <ScreenHomeFeed data={data} variant="inunit"/>;
-    case "segment":        return <ScreenSegmentChallenge data={data}/>;
+    case "custom-infeed":  return <ScreenCustomInFeed data={data}/>;
     default:               return <ScreenNotJoined data={data}/>;
   }
 }
