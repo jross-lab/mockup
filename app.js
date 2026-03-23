@@ -246,7 +246,7 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
       {/* Left panel */}
-      <div style={{ width: 400, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
+      <div style={{ width: 400, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", display: "flex", flexDirection: "column", padding: 16 }}>
 
         {/* Image uploads — 3 across in a row */}
         <div ref={tourImagesRef}>
@@ -258,10 +258,10 @@ function App() {
           </div>
         </div>
 
-        <div style={{ height: 1, background: "#DFDFE8", margin: "0 0 13px" }}/>
+        <div style={{ height: 1, background: "#DFDFE8", margin: "0 0 13px", flexShrink: 0 }}/>
 
         {/* Text fields */}
-        <div ref={tourPanelRef}>
+        <div ref={tourPanelRef} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field></div>
             <div style={{ flex: 1 }}><Field label="Activity Types"><Input value={data.activityType} onChange={set("activityType")} placeholder="Run, Walk"/></Field></div>
@@ -275,9 +275,18 @@ function App() {
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={5}/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={5}/></Field></div>
+          {/* Reward + Description — flex to fill remaining panel height */}
+          <div style={{ display: "flex", gap: 8, flex: 1, minHeight: 80 }}>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Reward</div>
+              <textarea value={data.reward} onChange={e => set("reward")(e.target.value)} placeholder="e.g. Unlock 20% off..."
+                style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
+            </div>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Description</div>
+              <textarea value={data.description} onChange={e => set("description")(e.target.value)} placeholder="Full challenge description..."
+                style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
+            </div>
           </div>
         </div>
       </div>
