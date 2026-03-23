@@ -127,44 +127,149 @@ function ScreenGroupsTab({ data }) {
 }
 
 // --- Screen: Home Feed (Follower + In-Unit) ----------------------------------
+// Matches Figma node 2119:23122 — full-fidelity feed with gap:8 between modules
+
+function FeedActivityEntry() {
+  /* Full activity entry matching Figma "Feed Entries / Activity" */
+  return (
+    <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
+      {/* Feed Owner Header */}
+      <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+        <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#C8D8E8", flexShrink: 0 }}/>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Dante Young</div>
+          <div style={{ display: "flex", gap: 4, alignItems: "center", height: 16, marginTop: 4 }}>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><path d="M3.5 5.5L1 8.5L3 10.5L6 7.5M8 3L10.5 0.5L13 3L10.5 5.5M5 5L7.5 2.5L10 5L7.5 7.5L5 5Z" stroke={T.textSec} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", flex: 1 }}>Today at 9:31 AM · Los Angeles, California</div>
+          </div>
+        </div>
+        <div style={{ position: "absolute", right: 24, top: 24, display: "flex", gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: T.textPri }}/>)}</div>
+      </div>
+      {/* Title text */}
+      <div style={{ padding: "0 24px" }}>
+        <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>Probably the most beautiful ride I've ever been on</div>
+      </div>
+      {/* Vertical margin */}
+      <div style={{ height: 16 }}/>
+      {/* Stats row */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px" }}>
+        <div style={{ display: "flex", gap: 24 }}>
+          {[
+            { label: "Distance", value: "18.33 mi" },
+            { label: "Time", value: "2h 20m" },
+            { label: "Elevation", value: "2,033 ft" },
+          ].map(s => (
+            <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>{s.label}</div>
+              <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>{s.value}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>Achievements</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <span style={{ fontSize: 14 }}>🏅</span><span style={{ fontSize: 14 }}>🏆</span><span style={{ fontSize: 14 }}>🎖</span>
+            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>3</div>
+          </div>
+        </div>
+      </div>
+      {/* Vertical margin */}
+      <div style={{ height: 12 }}/>
+      {/* Social summary */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", minHeight: 56 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Facepile/>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span>
+        </div>
+        <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>1 comment</span>
+      </div>
+      {/* Social action strip */}
+      <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
+        {[
+          { label: "Kudo", icon: <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M1 9h3v12H1V9zm5-1.5C6 6.1 7.1 5 8.5 5H14l-1 4h5.5c.8 0 1.5.7 1.5 1.5v2c0 .2 0 .4-.1.6l-2.5 6c-.3.7-1 1.1-1.7 1.1H8.5C7.1 20.2 6 19.1 6 17.7V7.5z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+          { label: "Comment", icon: <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M21 1H3C1.9 1 1 1.9 1 3v13c0 1.1.9 2 2 2h4v3l4-3h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+          { label: "Share", icon: <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1v15M4 7l6-6 6 6M1 17v4h18v-4" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+        ].map(({ label, icon }) => (
+          <div key={label} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>{icon}</div>
+        ))}
+      </div>
+      {/* Vertical margin */}
+      <div style={{ height: 12 }}/>
+    </div>
+  );
+}
+
 function ScreenHomeFeed({ data, variant }) {
-  const { badgeImg, brandName, title, goal } = data;
+  const { badgeImg, brandName, title, goal, startDate, endDate } = data;
+  const dateRange = startDate && endDate ? `${startDate} to ${endDate}` : "March 3 2025 to Dec 31 2025";
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, background: T.bgSunken }}>
-      <div style={{ background: T.bgSurface }}>
-        <div style={{ padding: "16px 24px", display: "flex", gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C8D8E8", flexShrink: 0 }}/>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, marginBottom: 2 }}>Sarah Johnson</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer }}>Ran 8.2 km · 2h ago</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginTop: 8 }}>Morning run in the park 🏃</div>
+      {/* Module 1: Full activity entry */}
+      <FeedActivityEntry/>
+      {/* Module 2: Challenge Join card */}
+      <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
+        {/* Entry context header */}
+        <div style={{ padding: "24px 24px", display: "flex", alignItems: "center" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textPri }}>
+            {variant === "follower" ? "In progress" : "Featured Challenge"}
+          </div>
+        </div>
+        {/* Card content: badge + copy */}
+        <div style={{ padding: "0 24px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
+          <div style={{ width: 64, height: 64, flexShrink: 0, overflow: "hidden" }}>
+            {badgeImg
+              ? <img src={badgeImg} alt="" style={{ width: 64, height: 64, objectFit: "contain" }}/>
+              : <div style={{ width: 64, height: 64, background: "#E8E8E8", borderRadius: 2 }}/>}
+          </div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontFamily: T.font, fontSize: 22, fontWeight: 700, lineHeight: "28px", color: T.textPri, width: 250 }}>{title || "Challenge Title"}</div>
+              <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec, overflow: "hidden", textOverflow: "ellipsis" }}>{goal || "Log 10 active days outside in June to unlock prizes!"}</div>
+              <div style={{ fontFamily: T.font, fontSize: 12, lineHeight: "20px", color: T.textSec }}>{dateRange}</div>
+            </div>
+            <button style={{ alignSelf: "stretch", height: 44, borderRadius: 22, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
           </div>
         </div>
       </div>
+      {/* Module 3: Club post (should be pushed mostly off-screen by content above) */}
       <div style={{ background: T.bgSurface }}>
-        <div style={{ padding: "10px 24px 8px", borderBottom: `0.5px solid ${T.divider}` }}>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            {variant === "follower" ? "Your friends are joining" : "Featured Challenge"}
+        <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative" }}>
+          <div style={{ position: "relative", flexShrink: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 4, background: T.orange, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0px 1.25px 2.5px rgba(0,0,0,0.1)" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.8 0L0 19.2h6.4L10.8 11l4.4 8.2H21.6L10.8 0z" fill="white"/><path d="M15.2 11l2.8 5.2 2.8-5.2h-5.6z" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <div style={{ position: "absolute", top: -2, left: -2, width: 12, height: 12, borderRadius: "50%", background: "#FC5200", border: "1.5px solid white", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="7" height="6" viewBox="0 0 8 7" fill="none"><path d="M1 3.5L3 5.5L7 1.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
           </div>
-        </div>
-        <div style={{ padding: "12px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
-          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden" }}>{badgeImg && <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}</div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", marginBottom: 4 }}>{title || "Challenge Title"}</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginBottom: 4 }}>{goal || "Challenge goal"}</div>
-            <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 12 }}>{brandName || "Brand"}</div>
-            <button style={{ height: 34, borderRadius: 17, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default", padding: "0 24px" }}>Join Challenge</button>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>The Strava Club</div>
+            <div style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px", marginTop: 4 }}>Today at 9:31 AM</div>
           </div>
+          <div style={{ position: "absolute", right: 24, top: 24, display: "flex", gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: T.textPri }}/>)}</div>
         </div>
-      </div>
-      <div style={{ background: T.bgSurface }}>
-        <div style={{ padding: "16px 24px", display: "flex", gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#D8C8E8", flexShrink: 0 }}/>
-          <div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, marginBottom: 2 }}>Marcus Chen</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer }}>Cycled 42 km · 4h ago</div>
-          </div>
+        <div style={{ padding: "0 24px", marginBottom: 16 }}>
+          <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri, marginBottom: 8 }}>Probably the most beautiful ride I've ever been on</div>
+          <div style={{ fontFamily: T.font, fontSize: 15, color: T.textSec, lineHeight: "20px", marginBottom: 4 }}>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus</div>
+          <div style={{ fontFamily: T.fontMaison, fontSize: 12, color: T.textTer, lineHeight: "16px" }}>Read more...</div>
         </div>
+        <div style={{ width: "100%", height: 250, background: "linear-gradient(135deg, #6B9E78, #3D6B52)", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, lineHeight: "13px" }}>Workout</span></div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span></div>
+          <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
+        </div>
+        <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
+          {[
+            { label: "Kudo", icon: <svg width="22" height="23" viewBox="0 0 22 23" fill="none"><path d="M1 9h3v12H1V9zm5-1.5C6 6.1 7.1 5 8.5 5H14l-1 4h5.5c.8 0 1.5.7 1.5 1.5v2c0 .2 0 .4-.1.6l-2.5 6c-.3.7-1 1.1-1.7 1.1H8.5C7.1 20.2 6 19.1 6 17.7V7.5z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+            { label: "Comment", icon: <svg width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M21 1H3C1.9 1 1 1.9 1 3v13c0 1.1.9 2 2 2h4v3l4-3h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+            { label: "Share", icon: <svg width="20" height="23" viewBox="0 0 20 23" fill="none"><path d="M10 1v15M4 7l6-6 6 6M1 17v4h18v-4" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+          ].map(({ label, icon }) => (
+            <div key={label} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>{icon}</div>
+          ))}
+        </div>
+        <div style={{ height: 12 }}/>
       </div>
     </div>
   );
