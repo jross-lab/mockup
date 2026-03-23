@@ -804,18 +804,18 @@ function ScreenTakeover({ data }) {
       {/* ── Scrim overlay ── */}
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 20 }}/>
 
-      {/* ── Modal: Challenge Completion Redemption ── */}
-      <div style={{ position: "absolute", left: 16, right: 16, top: 221, zIndex: 30, background: T.bgSurface, borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 32 }}>
+      {/* ── Modal: Challenge Completion Redemption (Figma 2119:23001) ── */}
+      <div style={{ position: "absolute", left: 16, right: 16, top: 221, zIndex: 30, background: T.bgSurface, borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingTop: 32, gap: 20 }}>
 
-        {/* Close button (X) */}
-        <div style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "default" }}>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M1 1L11 11M11 1L1 11" stroke="#43423F" strokeWidth="1.5" strokeLinecap="round"/>
+        {/* Close button (X) — absolute top-right */}
+        <div style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "default", zIndex: 3 }}>
+          <svg width="11.768" height="11.768" viewBox="0 0 11.7684 11.7683" fill="none">
+            <path d="M0 0.883883L0.883883 0L5.88422 5.00033L10.8846 0L11.7684 0.883883L6.7681 5.88421L11.7683 10.8844L10.8844 11.7683L5.88422 6.7681L0.88406 11.7683L0.000176586 10.8844L5.00034 5.88421L0 0.883883Z" fill="black"/>
           </svg>
         </div>
 
-        {/* Challenge badge — 150×150, rotated 45° diamond */}
-        <div style={{ width: 150, height: 150, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        {/* Challenge badge — 150×150 */}
+        <div style={{ width: 150, height: 150, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", zIndex: 4 }}>
           {badgeImg
             ? <img src={badgeImg} alt="" style={{ width: 150, height: 150, objectFit: "contain" }}/>
             : <div style={{ width: 150, height: 150, background: "#E8E8E8", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -823,17 +823,21 @@ function ScreenTakeover({ data }) {
               </div>}
         </div>
 
-        {/* Congratulations text */}
-        <div style={{ padding: "8px 24px 8px", width: "100%" }}>
-          <p style={{ fontFamily: T.font, fontSize: 17, fontWeight: 400, color: T.textSec, lineHeight: "22px" }}>
-            Congratulations! You completed {title || "Jess's Biggest Challenge Yet so big it's on two lines"}
-          </p>
+        {/* Modal Content — gap-12, pt-8, pb-8, px-24 */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center", overflow: "hidden", paddingBottom: 8, paddingTop: 8, paddingLeft: 24, paddingRight: 24, width: "100%", flexShrink: 0, zIndex: 2 }}>
+          <div style={{ width: "100%" }}>
+            <p style={{ fontFamily: T.font, fontSize: 17, fontWeight: 400, color: T.textSec, lineHeight: "22px" }}>
+              Congratulations! You completed {title || "Jess's Biggest Challenge Yet so big it's on two lines"}
+            </p>
+          </div>
         </div>
 
-        {/* Buttons: Dismiss / Redeem */}
-        <div style={{ padding: "0 24px 24px", width: "100%", display: "flex", gap: 8 }}>
-          <button style={{ flex: 1, height: 50, borderRadius: 25, background: "transparent", border: `1.5px solid ${T.divider}`, fontFamily: T.font, fontSize: 17, fontWeight: 700, color: T.orange, cursor: "default" }}>Dismiss</button>
-          <button style={{ flex: 1, height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Redeem</button>
+        {/* Button footer — pb-24, px-24 */}
+        <div style={{ background: T.bgSurface, overflow: "hidden", paddingBottom: 24, paddingLeft: 24, paddingRight: 24, width: "100%", flexShrink: 0, zIndex: 1 }}>
+          <div style={{ display: "flex", gap: 8, width: "100%" }}>
+            <button style={{ flex: 1, height: 50, borderRadius: 25, background: "transparent", border: `1.5px solid ${T.divider}`, fontFamily: T.font, fontSize: 17, fontWeight: 700, color: T.orange, cursor: "default" }}>Dismiss</button>
+            <button style={{ flex: 1, height: 50, borderRadius: 25, background: T.orange, border: "none", fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#fff", cursor: "default" }}>Redeem</button>
+          </div>
         </div>
       </div>
     </div>
