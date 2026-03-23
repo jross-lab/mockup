@@ -7,12 +7,101 @@
  * export behaviour, or modifying the overall app layout.
  */
 
-const { useState, useRef, useCallback, useEffect } = React;
+const { useState, useRef, useCallback, useEffect, useMemo } = React;
 const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
         Field, Input, UploadBox,
         TopNav, TopNavHome, TopNavGroups, PhoneShell, BottomNav,
         ScreenRouter, GROUPS_TAB_SCREENS,
 } = window.MT;
+
+const SCREEN_GROUPS = [
+  { group: "Detail", items: [
+    { key: "not-joined", label: "Not Joined" },
+    { key: "joined", label: "Joined" },
+    { key: "completed", label: "Completed" },
+    { key: "takeover", label: "Takeover" },
+  ]},
+  { group: "Discovery", items: [
+    { key: "groups-tab", label: "Gallery" },
+    { key: "milestone", label: "Milestone" },
+    { key: "follower-infeed", label: "Follower" },
+    { key: "custom-infeed", label: "In-Feed" },
+  ]},
+];
+
+const ALL_SCREENS = [
+  "not-joined", "joined", "completed", "takeover",
+  "groups-tab", "milestone", "follower-infeed", "custom-infeed",
+];
+
+// Helper: renders the correct nav + screen content for a given screen key
+function ScreenPhoneContent({ screenKey, data }) {
+  const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
+  const noTopNav = screenKey === "not-joined" || screenKey === "joined" || screenKey === "completed";
+  const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed";
+  return (
+    <>
+      {noTopNav ? null : homeNav ? <TopNavHome/> : <TopNav title="Challenge" back="Groups"/>}
+      <ScreenRouter screen={screenKey} data={data}/>
+      <BottomNav activeTab={tab}/>
+    </>
+  );
+}
+
+// Renders an off-screen PhoneShell for a screen, captures it as a thumbnail
+function ScreenThumb({ screenKey, data, bgColor, active, onClick, label, h2cReady }) {
+  const thumbRef = useRef();
+  const [img, setImg] = useState(null);
+  const genIdRef = useRef(0);
+
+  useEffect(() => {
+    if (!h2cReady || !thumbRef.current) return;
+    const genId = ++genIdRef.current;
+    const timer = setTimeout(async () => {
+      try {
+        await document.fonts.ready;
+        const node = thumbRef.current;
+        if (!node || genId !== genIdRef.current) return;
+        const url = await window.domtoimage.toPng(node, {
+          width: node.scrollWidth * 0.5,
+          height: node.scrollHeight * 0.5,
+          style: { transform: "scale(0.5)", transformOrigin: "top left" },
+          quality: 0.6,
+        });
+        if (genId === genIdRef.current) setImg(url);
+      } catch(e) { /* silently skip failed thumbnails */ }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [h2cReady, data, bgColor, screenKey]);
+
+  return (
+    <>
+      {/* Off-screen renderer */}
+      <div style={{ position: "fixed", left: -9999, top: -9999, pointerEvents: "none", opacity: 0 }}>
+        <div ref={thumbRef} style={{ display: "inline-block" }}>
+          <div style={{ position: "relative", width: 391, borderRadius: 44, background: bgColor === "#FC5200" ? "#000" : T.orange, padding: 8, overflow: "hidden" }}>
+            <div style={{ borderRadius: 36, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 812 }}>
+              <div style={{ height: 812, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none" }}>
+                <ScreenPhoneContent screenKey={screenKey} data={data}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Visible thumbnail button */}
+      <button onClick={onClick} style={{
+        width: 72, borderRadius: 8, border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
+        background: active ? "#FFF4EE" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column",
+        alignItems: "center", gap: 4, padding: "6px 4px 5px", transition: "all 0.15s ease", overflow: "hidden",
+      }}>
+        <div style={{ width: 40, height: 86, borderRadius: 6, overflow: "hidden", background: "#F2F2F0", border: active ? "1px solid " + T.orange : "1px solid #E0E0DE", flexShrink: 0 }}>
+          {img ? <img src={img} alt={label} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}/> : null}
+        </div>
+        <span style={{ fontFamily: T.font, fontSize: 8, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "10px", whiteSpace: "nowrap" }}>{label}</span>
+      </button>
+    </>
+  );
+}
 
 function App() {
   useFonts();
@@ -56,11 +145,6 @@ function App() {
     finally { setBusy(false); }
   };
 
-  const ALL_SCREENS = [
-    "not-joined", "joined", "completed", "takeover",
-    "groups-tab", "milestone", "follower-infeed", "custom-infeed",
-  ];
-
   const dlAll = async () => {
     if (!h2cReady) { alert("Export library still loading -- try again in a moment."); return; }
     if (!screenRef.current) return;
@@ -70,7 +154,6 @@ function App() {
       const zip = new JSZip();
       for (const key of ALL_SCREENS) {
         setScreen(key);
-        // Wait for React to re-render + a small buffer for images
         await new Promise(r => setTimeout(r, 300));
         const dataUrl = await captureScreen(screenRef.current);
         const base64 = dataUrl.split(",")[1];
@@ -86,8 +169,6 @@ function App() {
     } catch(e) { alert("Export failed: " + e.message); }
     finally { setScreen(originalScreen); setBusy(false); }
   };
-
-  const activeTab = GROUPS_TAB_SCREENS.has(screen) ? "groups" : "home";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh", fontFamily: T.font, overflowX: "clip", overflowY: "hidden" }}>
@@ -166,50 +247,29 @@ function App() {
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32 }}>
         <div style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
-            {screen === "not-joined" || screen === "joined" || screen === "completed"
-              ? null
-              : screen === "milestone" || screen === "takeover" || screen === "groups-tab" || screen === "follower-infeed" || screen === "custom-infeed"
-              ? <TopNavHome/>
-              : <TopNav title="Challenge" back="Groups"/>
-            }
-            <ScreenRouter screen={screen} data={data}/>
-            <BottomNav activeTab={activeTab}/>
+            <ScreenPhoneContent screenKey={screen} data={data}/>
           </PhoneShell>
         </div>
 
-        {/* Screen picker gallery */}
-        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", maxHeight: "100%", padding: "16px 0" }}>
-          {[
-            { group: "Detail", items: [
-              { key: "not-joined", label: "Not Joined" },
-              { key: "joined", label: "Joined" },
-              { key: "completed", label: "Completed" },
-              { key: "takeover", label: "Takeover" },
-            ]},
-            { group: "Discovery", items: [
-              { key: "groups-tab", label: "Gallery" },
-              { key: "milestone", label: "Milestone" },
-              { key: "follower-infeed", label: "Follower" },
-              { key: "custom-infeed", label: "In-Feed" },
-            ]},
-          ].map(({ group, items }) => (
+        {/* Screen picker gallery with live thumbnails */}
+        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 16, overflowY: "auto", maxHeight: "100%", padding: "12px 0" }}>
+          <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
+          {SCREEN_GROUPS.map(({ group, items }) => (
             <div key={group}>
-              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 8 }}>{group}</div>
+              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 6 }}>{group}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {items.map(({ key, label }) => {
-                  const active = screen === key;
-                  return (
-                    <button key={key} onClick={() => setScreen(key)} style={{
-                      width: 88, height: 56, borderRadius: 8, border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
-                      background: active ? "#FFF4EE" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column",
-                      alignItems: "center", justifyContent: "center", gap: 2, padding: 0, transition: "all 0.15s ease",
-                    }}>
-                      {/* Mini phone silhouette */}
-                      <div style={{ width: 22, height: 30, borderRadius: 4, border: active ? "1.5px solid " + T.orange : "1.5px solid #C8C8C8", background: active ? "#fff" : "#F8F8F6" }}/>
-                      <span style={{ fontFamily: T.font, fontSize: 9, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "11px", whiteSpace: "nowrap" }}>{label}</span>
-                    </button>
-                  );
-                })}
+                {items.map(({ key, label }) => (
+                  <ScreenThumb
+                    key={key}
+                    screenKey={key}
+                    data={data}
+                    bgColor={bgColor}
+                    active={screen === key}
+                    onClick={() => setScreen(key)}
+                    label={label}
+                    h2cReady={h2cReady}
+                  />
+                ))}
               </div>
             </div>
           ))}
