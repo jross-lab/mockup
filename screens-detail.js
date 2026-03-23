@@ -801,11 +801,12 @@ function ScreenTakeover({ data }) {
         </div>
       </div>
 
-      {/* ── Scrim overlay ── */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 20 }}/>
+      {/* ── Scrim overlay — covers entire viewport including top nav ── */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: -102, bottom: -70, background: "rgba(0,0,0,0.6)", zIndex: 20 }}/>
 
       {/* ── Modal: Challenge Completion Redemption (Figma 2119:23001) ── */}
-      <div style={{ position: "absolute", left: 16, right: 16, top: 221, zIndex: 30, background: T.bgSurface, borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingTop: 32, gap: 20 }}>
+      {/* Figma: top 221px from viewport, minus 102px TopNavHome = 119px from content top */}
+      <div style={{ position: "absolute", left: 16, right: 16, top: 119, zIndex: 30, background: T.bgSurface, borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingTop: 32, gap: 20 }}>
 
         {/* Close button (X) — absolute top-right */}
         <div style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 48, display: "flex", alignItems: "center", justifyContent: "center", cursor: "default", zIndex: 3 }}>
