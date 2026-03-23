@@ -129,61 +129,6 @@ function ScreenPhoneContent({ screenKey, data }) {
   );
 }
 
-// Renders an off-screen PhoneShell for a screen, captures it as a thumbnail
-function ScreenThumb({ screenKey, data, bgColor, active, onClick, label, h2cReady }) {
-  const thumbRef = useRef();
-  const [img, setImg] = useState(null);
-  const genIdRef = useRef(0);
-
-  useEffect(() => {
-    if (!h2cReady || !thumbRef.current) return;
-    const genId = ++genIdRef.current;
-    const timer = setTimeout(async () => {
-      try {
-        await document.fonts.ready;
-        const node = thumbRef.current;
-        if (!node || genId !== genIdRef.current) return;
-        const url = await window.domtoimage.toPng(node, {
-          width: node.scrollWidth * 0.5,
-          height: node.scrollHeight * 0.5,
-          style: { transform: "scale(0.5)", transformOrigin: "top left" },
-          quality: 0.6,
-        });
-        if (genId === genIdRef.current) setImg(url);
-      } catch(e) { /* silently skip failed thumbnails */ }
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [h2cReady, data, bgColor, screenKey]);
-
-  return (
-    <>
-      {/* Off-screen renderer */}
-      <div style={{ position: "fixed", left: -9999, top: -9999, pointerEvents: "none", opacity: 0 }}>
-        <div ref={thumbRef} style={{ display: "inline-block" }}>
-          <div style={{ position: "relative", width: 391, borderRadius: 44, background: bgColor === "#FC5200" ? "#000" : T.orange, padding: 8, overflow: "hidden" }}>
-            <div style={{ borderRadius: 36, overflow: "hidden", background: T.bgSunken, position: "relative", width: 375, height: 812 }}>
-              <div style={{ height: 812, overflowY: "auto", display: "flex", flexDirection: "column", scrollbarWidth: "none" }}>
-                <ScreenPhoneContent screenKey={screenKey} data={data}/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Visible thumbnail button */}
-      <button onClick={onClick} style={{
-        width: 72, borderRadius: 8, border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
-        background: active ? "#FFF4EE" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column",
-        alignItems: "center", gap: 4, padding: "6px 4px 5px", transition: "all 0.15s ease", overflow: "hidden",
-      }}>
-        <div style={{ width: 40, height: 68, borderRadius: 5, overflow: "hidden", background: "#F2F2F0", border: active ? "1px solid " + T.orange : "1px solid #E0E0DE", flexShrink: 0 }}>
-          {img ? <img src={img} alt={label} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}/> : null}
-        </div>
-        <span style={{ fontFamily: T.font, fontSize: 8, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "10px", whiteSpace: "nowrap" }}>{label}</span>
-      </button>
-    </>
-  );
-}
-
 function App() {
   useFonts();
   const h2cReady = useHtml2Canvas();
@@ -354,21 +299,35 @@ function App() {
           </PhoneShell>
         </div>
 
-        {/* Screen picker gallery — 2-column grid, no scrolling */}
+        {/* Screen picker gallery — 2-column grid */}
         <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 10, padding: "12px 0", alignSelf: "center" }}>
           <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
-          <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer }}>Detail</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-            {SCREEN_GROUPS[0].items.map(({ key, label }) => (
-              <ScreenThumb key={key} screenKey={key} data={data} bgColor={bgColor} active={screen === key} onClick={() => setScreen(key)} label={label} h2cReady={h2cReady}/>
-            ))}
-          </div>
-          <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginTop: 4 }}>Discovery</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-            {SCREEN_GROUPS[1].items.map(({ key, label }) => (
-              <ScreenThumb key={key} screenKey={key} data={data} bgColor={bgColor} active={screen === key} onClick={() => setScreen(key)} label={label} h2cReady={h2cReady}/>
-            ))}
-          </div>
+          {SCREEN_GROUPS.map(({ group, items }) => (
+            <div key={group}>
+              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 6 }}>{group}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+                {items.map(({ key, label }) => {
+                  const active = screen === key;
+                  return (
+                    <button key={key} onClick={() => setScreen(key)} style={{
+                      width: 80, padding: "10px 6px", borderRadius: 8, cursor: "pointer", transition: "all 0.15s ease",
+                      border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
+                      background: active ? "#FFF4EE" : "#fff",
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+                    }}>
+                      {/* Mini phone silhouette */}
+                      <svg width="24" height="40" viewBox="0 0 24 40" fill="none">
+                        <rect x="0.5" y="0.5" width="23" height="39" rx="5.5" stroke={active ? T.orange : "#C8C8C8"} strokeWidth="1"/>
+                        <rect x="3" y="3" width="18" height="28" rx="1" fill={active ? "#FDDCC8" : "#F2F2F0"}/>
+                        <circle cx="12" cy="36" r="1.5" fill={active ? T.orange : "#D0D0CE"}/>
+                      </svg>
+                      <span style={{ fontFamily: T.font, fontSize: 9, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "11px", whiteSpace: "nowrap", textAlign: "center" }}>{label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       </div>
