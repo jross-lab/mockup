@@ -6,7 +6,7 @@
  * Joined view, Takeover modal, or Milestone feed card.
  */
 
-const { T, FALLBACK_COLORS, MILESTONE_AVATAR, MILESTONE_MAP_IMG,
+const { T, FALLBACK_COLORS, MILESTONE_AVATAR,
         IcoDate, IcoActivityType, IcoReward,
         IcoKudo, IcoComment, IcoShareAction,
         Facepile, HeroBadge, InfoRow, OrangeBtn, SponsorCard, InfoRows,
@@ -771,7 +771,7 @@ function ScreenTakeover({ data }) {
 function ScreenMilestone({ data }) {
   const { badgeImg, brandName, title } = data;
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSurface }}>
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSurface, flex: 1 }}>
       <div style={{ padding: "16px 24px", display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
         <div style={{ position: "relative", flexShrink: 0, width: 48, height: 48, overflow: "visible" }}>
           <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
@@ -830,8 +830,12 @@ function ScreenMilestone({ data }) {
       </div>
       <div style={{ padding: "0 0 0 24px", marginBottom: 0 }}>
         <div style={{ display: "flex", gap: 8, height: 220, overflow: "hidden" }}>
-          <div style={{ width: 280, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative" }}>
-            <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+          <div style={{ width: 280, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "#D8EACF" }}>
+            <svg width="280" height="220" viewBox="0 0 280 220" style={{ position: "absolute", inset: 0 }}>
+              <rect width="280" height="220" fill="#D8EACF"/><rect x="0" y="80" width="280" height="50" fill="#EAF0E6"/><rect x="90" y="0" width="50" height="220" fill="#EAF0E6"/>
+              <path d="M60 160 Q90 130 120 110 Q150 90 170 70 Q190 50 210 60 Q230 70 240 90" stroke="#FC5200" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+              <circle cx="60" cy="160" r="5" fill="#3A8A3A" stroke="white" strokeWidth="1.5"/><circle cx="240" cy="90" r="5" fill="#FC5200" stroke="white" strokeWidth="1.5"/>
+            </svg>
             <div style={{ position: "absolute", top: 10, left: 10, background: "white", borderRadius: 2, padding: "2px 6px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}><span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700 }}>Workout</span></div>
           </div>
           <div style={{ width: 220, height: 220, borderRadius: 8, flexShrink: 0, overflow: "hidden", position: "relative", background: "linear-gradient(160deg, #7BA888 0%, #4A7A5A 50%, #2D5C3E 100%)" }}>
@@ -853,7 +857,7 @@ function ScreenMilestone({ data }) {
           <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0" }}>{icon}</div>
         ))}
       </div>
-      <div style={{ height: 12 }}/>
+      <div style={{ flex: 1 }}/>
     </div>
   );
 }

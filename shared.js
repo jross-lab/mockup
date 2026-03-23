@@ -9,7 +9,7 @@
  */
 
 const { useState, useRef, useCallback, useEffect } = React;
-const { T, AVATAR_IMG, FACEPILE_IMG, NAV_ICONS, NAV_TABS, FALLBACK_COLORS,
+const { T, AVATAR_IMG, NAV_ICONS, NAV_TABS, FALLBACK_COLORS,
         IcoDate, IcoActivityType, IcoReward, IcoBackArrow,
         IcoViewfinder, IcoSearch, IcoMessaging, IcoNotifications,
         IcoBattery, IcoWifi, IcoCellular } = window.MT;
@@ -142,7 +142,13 @@ function BottomNav({ activeTab = "groups" }) {
 // --- Facepile ----------------------------------------------------------------
 function Facepile() {
   return (
-    <img src={FACEPILE_IMG} alt="" style={{ height: 24, width: "auto", display: "block", flexShrink: 0 }}/>
+    <div style={{ display: "flex" }}>
+      {[0,1,2].map(i => (
+        <div key={i} style={{ width: 24, height: 24, borderRadius: "50%", background: "#888", border: "1.5px solid white", marginLeft: i > 0 ? -6 : 0, zIndex: 3 - i, flexShrink: 0, overflow: "hidden" }}>
+          <img src={AVATAR_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}/>
+        </div>
+      ))}
+    </div>
   );
 }
 
