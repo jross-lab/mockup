@@ -236,7 +236,7 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0, background: bgColor }}>
 
       {/* Left panel */}
-      <div style={{ width: 240, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
+      <div style={{ width: 340, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
 
         <div style={{ marginBottom: 13 }}>
           <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Background</div>
@@ -254,30 +254,38 @@ function App() {
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
 
+        {/* Image uploads — 3 across in a row */}
         <div ref={tourImagesRef}>
-        <UploadBox label="Hero Image (2:1 ratio)" preview={data.heroImg} onUpload={set("heroImg")} aspect="2/1"/>
-        <UploadBox label="Challenge Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/>
-        <UploadBox label="Brand / Club Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/>
+          <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Images</div>
+          <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+            <div style={{ flex: 1 }}><UploadBox label="Hero" preview={data.heroImg} onUpload={set("heroImg")} aspect="1/1"/></div>
+            <div style={{ flex: 1 }}><UploadBox label="Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/></div>
+            <div style={{ flex: 1 }}><UploadBox label="Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/></div>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "#DFDFE8", margin: "0 0 13px" }}/>
+
+        {/* Text fields — using 2-col grid where it makes sense */}
+        <div ref={tourPanelRef}>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Activity Types"><Input value={data.activityType} onChange={set("activityType")} placeholder="Run, Walk"/></Field></div>
+          </div>
+          <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="e.g. Reach New Heights with The North Face"/></Field>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Run 30km in one month"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="e.g. 12,847"/></Field></div>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
+          </div>
+          <Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline/></Field>
+          <Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline/></Field>
         </div>
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
-
-        <div ref={tourPanelRef}>
-        <Field label="Brand / Sponsor Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field>
-        <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="e.g. Reach New Heights"/></Field>
-        <Field label="Goal / One-liner"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Run 30km in one month"/></Field>
-        <Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline/></Field>
-        <Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline/></Field>
-
-        <div style={{ display: "flex", gap: 8 }}>
-          <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
-          <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
-        </div>
-        <Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="e.g. 12,847"/></Field>
-        <Field label="Qualifying Activities"><Input value={data.activityType} onChange={set("activityType")} placeholder="Run, Virtual Run, Walk"/></Field>
-        </div>
-
-        <div style={{ height: 1, background: "#DFDFE8", margin: "8px 0 13px" }}/>
 
         <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Download</div>
 
