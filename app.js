@@ -107,27 +107,7 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0, background: bgColor }}>
 
       {/* Left panel */}
-      <div style={{ width: 280, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 18 }}>
-
-        <Field label="Challenge Screen">
-          <select value={screen} onChange={e => setScreen(e.target.value)}
-            style={{ width: "100%", fontFamily: T.font, fontSize: 13, background: "#fff", border: "1px solid #DFDFE8", borderRadius: 6, padding: "7px 10px", outline: "none", cursor: "pointer" }}>
-            <optgroup label="Challenge Detail">
-              <option value="not-joined">Not Joined</option>
-              <option value="joined">Joined</option>
-              <option value="completed">Completed</option>
-              <option value="takeover">Challenge Takeover</option>
-            </optgroup>
-            <optgroup label="Discovery">
-              <option value="groups-tab">Challenge Gallery</option>
-              <option value="milestone">Follower Callout: Milestone</option>
-              <option value="follower-infeed">Follower In-Feed Unit</option>
-              <option value="custom-infeed">Custom In-Feed</option>
-            </optgroup>
-          </select>
-        </Field>
-
-        <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
+      <div style={{ width: 240, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", overflowY: "auto", padding: 16 }}>
 
         <div style={{ marginBottom: 13 }}>
           <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Background</div>
@@ -182,8 +162,8 @@ function App() {
         </div>
       </div>
 
-      {/* Phone preview */}
-      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden" }}>
+      {/* Phone preview + screen gallery */}
+      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32 }}>
         <div style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined" || screen === "joined" || screen === "completed"
@@ -195,6 +175,44 @@ function App() {
             <ScreenRouter screen={screen} data={data}/>
             <BottomNav activeTab={activeTab}/>
           </PhoneShell>
+        </div>
+
+        {/* Screen picker gallery */}
+        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", maxHeight: "100%", padding: "16px 0" }}>
+          {[
+            { group: "Detail", items: [
+              { key: "not-joined", label: "Not Joined" },
+              { key: "joined", label: "Joined" },
+              { key: "completed", label: "Completed" },
+              { key: "takeover", label: "Takeover" },
+            ]},
+            { group: "Discovery", items: [
+              { key: "groups-tab", label: "Gallery" },
+              { key: "milestone", label: "Milestone" },
+              { key: "follower-infeed", label: "Follower" },
+              { key: "custom-infeed", label: "In-Feed" },
+            ]},
+          ].map(({ group, items }) => (
+            <div key={group}>
+              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 8 }}>{group}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {items.map(({ key, label }) => {
+                  const active = screen === key;
+                  return (
+                    <button key={key} onClick={() => setScreen(key)} style={{
+                      width: 88, height: 56, borderRadius: 8, border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
+                      background: active ? "#FFF4EE" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center", gap: 2, padding: 0, transition: "all 0.15s ease",
+                    }}>
+                      {/* Mini phone silhouette */}
+                      <div style={{ width: 22, height: 30, borderRadius: 4, border: active ? "1.5px solid " + T.orange : "1.5px solid #C8C8C8", background: active ? "#fff" : "#F8F8F6" }}/>
+                      <span style={{ fontFamily: T.font, fontSize: 9, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "11px", whiteSpace: "nowrap" }}>{label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       </div>
