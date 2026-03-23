@@ -32,25 +32,59 @@ function App() {
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
 
+  const captureScreen = async (node) => {
+    await document.fonts.ready;
+    return await window.domtoimage.toPng(node, {
+      width: node.scrollWidth * 1.75,
+      height: node.scrollHeight * 1.75,
+      style: { transform: "scale(1.75)", transformOrigin: "top left" },
+      quality: 1,
+    });
+  };
+
   const dl = async () => {
     if (!h2cReady) { alert("Export library still loading -- try again in a moment."); return; }
     if (!screenRef.current) return;
     setBusy(true);
     try {
-      await document.fonts.ready;
-      const node = screenRef.current;
-      const url = await window.domtoimage.toPng(node, {
-        width: node.scrollWidth * 1.75,
-        height: node.scrollHeight * 1.75,
-        style: { transform: "scale(1.75)", transformOrigin: "top left" },
-        quality: 1,
-      });
+      const url = await captureScreen(screenRef.current);
       const a = document.createElement("a");
       a.href = url;
       a.download = `strava-${screen}-mockup.png`;
       a.click();
     } catch(e) { alert("Export failed: " + e.message); }
     finally { setBusy(false); }
+  };
+
+  const ALL_SCREENS = [
+    "not-joined", "joined", "completed", "takeover",
+    "groups-tab", "milestone", "follower-infeed", "custom-infeed",
+  ];
+
+  const dlAll = async () => {
+    if (!h2cReady) { alert("Export library still loading -- try again in a moment."); return; }
+    if (!screenRef.current) return;
+    setBusy(true);
+    const originalScreen = screen;
+    try {
+      const zip = new JSZip();
+      for (const key of ALL_SCREENS) {
+        setScreen(key);
+        // Wait for React to re-render + a small buffer for images
+        await new Promise(r => setTimeout(r, 300));
+        const dataUrl = await captureScreen(screenRef.current);
+        const base64 = dataUrl.split(",")[1];
+        zip.file(`strava-${key}-mockup.png`, base64, { base64: true });
+      }
+      setScreen(originalScreen);
+      const blob = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "strava-mockups.zip";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch(e) { alert("Export failed: " + e.message); }
+    finally { setScreen(originalScreen); setBusy(false); }
   };
 
   const activeTab = GROUPS_TAB_SCREENS.has(screen) ? "groups" : "home";
@@ -136,10 +170,16 @@ function App() {
           <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 8, textAlign: "center" }}>Loading export library...</div>
         )}
 
-        <button onClick={dl} disabled={busy || !h2cReady}
-          style={{ width: "100%", height: 44, borderRadius: 22, background: (busy || !h2cReady) ? "#aaa" : T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-          <IcoDownload/>{busy ? "Exporting..." : "Download PNG"}
-        </button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={dl} disabled={busy || !h2cReady}
+            style={{ flex: 1, height: 44, borderRadius: 22, background: (busy || !h2cReady) ? "#aaa" : T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+            <IcoDownload/>{busy ? "..." : "PNG"}
+          </button>
+          <button onClick={dlAll} disabled={busy || !h2cReady}
+            style={{ flex: 1, height: 44, borderRadius: 22, background: (busy || !h2cReady) ? "#aaa" : T.textPri, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: (busy || !h2cReady) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+            <IcoDownload/>{busy ? "..." : "All (ZIP)"}
+          </button>
+        </div>
       </div>
 
       {/* Phone preview */}
