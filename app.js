@@ -143,12 +143,10 @@ function App() {
   const tourPhoneRef = useRef();
   const tourGalleryRef = useRef();
   const tourRefs = [tourImagesRef, tourPanelRef, tourPhoneRef, tourGalleryRef];
-  const [tourStep, setTourStep] = useState(() => {
-    try { return localStorage.getItem("sfb-mockup-tour-done") ? -1 : 0; } catch(e) { return 0; }
-  });
+  const [tourStep, setTourStep] = useState(-1);
+  const startTour = () => setTourStep(0);
   const dismissTour = () => {
     setTourStep(-1);
-    try { localStorage.setItem("sfb-mockup-tour-done", "1"); } catch(e) {}
   };
   const advanceTour = () => {
     if (tourStep >= TOUR_STEPS.length - 1) dismissTour();
@@ -226,6 +224,12 @@ function App() {
         <div style={{ height: 24, width: 1, background: "#DFDFE8", flexShrink: 0 }}/>
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Mockup Tool</span>
         <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Build branded Strava challenge screens — pick a template, drop in your assets, and download a pixel-perfect PNG.</span>
+        <div style={{ marginLeft: "auto", flexShrink: 0 }}>
+          <button onClick={startTour} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#64635E" strokeWidth="1.5"/><path d="M7.25 7H8.75V11.5H7.25V7Z" fill="#64635E"/><circle cx="8" cy="5" r="0.9" fill="#64635E"/></svg>
+            Take a tour
+          </button>
+        </div>
       </div>
 
       {/* Main layout */}
@@ -301,27 +305,27 @@ function App() {
 
         {/* Screen picker gallery — 2-column grid */}
         <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 10, padding: "12px 0", alignSelf: "center" }}>
-          <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
           {SCREEN_GROUPS.map(({ group, items }) => (
             <div key={group}>
-              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 6 }}>{group}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+              <div style={{ fontFamily: T.font, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 8 }}>{group}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {items.map(({ key, label }) => {
                   const active = screen === key;
                   return (
                     <button key={key} onClick={() => setScreen(key)} style={{
-                      width: 80, padding: "10px 6px", borderRadius: 8, cursor: "pointer", transition: "all 0.15s ease",
+                      width: 100, padding: "12px 8px", borderRadius: 10, cursor: "pointer", transition: "all 0.15s ease",
                       border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
                       background: active ? "#FFF4EE" : "#fff",
-                      display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
                     }}>
                       {/* Mini phone silhouette */}
-                      <svg width="24" height="40" viewBox="0 0 24 40" fill="none">
-                        <rect x="0.5" y="0.5" width="23" height="39" rx="5.5" stroke={active ? T.orange : "#C8C8C8"} strokeWidth="1"/>
-                        <rect x="3" y="3" width="18" height="28" rx="1" fill={active ? "#FDDCC8" : "#F2F2F0"}/>
-                        <circle cx="12" cy="36" r="1.5" fill={active ? T.orange : "#D0D0CE"}/>
+                      <svg width="28" height="46" viewBox="0 0 28 46" fill="none">
+                        <rect x="0.5" y="0.5" width="27" height="45" rx="6.5" stroke={active ? T.orange : "#C8C8C8"} strokeWidth="1"/>
+                        <rect x="3" y="3" width="22" height="33" rx="1.5" fill={active ? "#FDDCC8" : "#F2F2F0"}/>
+                        <circle cx="14" cy="42" r="1.5" fill={active ? T.orange : "#D0D0CE"}/>
                       </svg>
-                      <span style={{ fontFamily: T.font, fontSize: 9, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "11px", whiteSpace: "nowrap", textAlign: "center" }}>{label}</span>
+                      <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "13px", whiteSpace: "nowrap", textAlign: "center" }}>{label}</span>
                     </button>
                   );
                 })}
