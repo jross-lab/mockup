@@ -98,7 +98,6 @@ function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
 const SCREEN_GROUPS = [
   { group: "Detail", items: [
     { key: "not-joined", label: "Not Joined" },
-    { key: "challenge-details", label: "Details" },
     { key: "joined", label: "Joined" },
     { key: "completed", label: "Completed" },
     { key: "takeover", label: "Takeover" },
@@ -112,14 +111,14 @@ const SCREEN_GROUPS = [
 ];
 
 const ALL_SCREENS = [
-  "not-joined", "challenge-details", "joined", "completed", "takeover",
+  "not-joined", "joined", "completed", "takeover",
   "groups-tab", "milestone", "follower-infeed", "custom-infeed",
 ];
 
 // Helper: renders the correct nav + screen content for a given screen key
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
-  const noTopNav = screenKey === "not-joined" || screenKey === "challenge-details" || screenKey === "joined" || screenKey === "completed";
+  const noTopNav = screenKey === "not-joined" || screenKey === "joined" || screenKey === "completed";
   const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed";
   return (
     <>
@@ -267,8 +266,8 @@ function App() {
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={3}/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={3}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Reward"><Input value={data.reward} onChange={set("reward")} placeholder="e.g. Unlock 20% off..." multiline rows={5}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Description"><Input value={data.description} onChange={set("description")} placeholder="Full challenge description..." multiline rows={5}/></Field></div>
           </div>
         </div>
       </div>
