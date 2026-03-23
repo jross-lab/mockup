@@ -14,6 +14,87 @@ const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
         ScreenRouter, GROUPS_TAB_SCREENS,
 } = window.MT;
 
+// --- Walkthrough tooltip component -------------------------------------------
+const TOUR_STEPS = [
+  { title: "Upload your assets", body: "Drop in your hero image, challenge badge, and brand logo. These will appear across all screen types.", pos: "right" },
+  { title: "Customise details", body: "Set the challenge title, description, dates, and reward. Changes update the preview instantly.", pos: "right" },
+  { title: "Live preview", body: "This is a pixel-perfect preview of how the screen will look on an iPhone. What you see is what gets exported.", pos: "left" },
+  { title: "Switch screens", body: "Click any thumbnail to switch between screen types. Each one uses your content and images.", pos: "left" },
+];
+
+function Walkthrough({ step, total, onNext, onSkip, targetRef }) {
+  const [pos, setPos] = useState(null);
+  const bubbleRef = useRef();
+
+  useEffect(() => {
+    if (!targetRef?.current) return;
+    const update = () => {
+      const r = targetRef.current.getBoundingClientRect();
+      const stepCfg = TOUR_STEPS[step];
+      const bw = 280;
+      const bh = bubbleRef.current ? bubbleRef.current.offsetHeight : 140;
+      let top, left;
+      if (stepCfg.pos === "right") {
+        left = r.right + 16;
+        top = r.top + r.height / 2 - bh / 2;
+      } else {
+        left = r.left - bw - 16;
+        top = r.top + r.height / 2 - bh / 2;
+      }
+      // Clamp to viewport
+      top = Math.max(12, Math.min(top, window.innerHeight - bh - 12));
+      left = Math.max(12, Math.min(left, window.innerWidth - bw - 12));
+      setPos({ top, left, arrowSide: stepCfg.pos });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [step, targetRef]);
+
+  if (!pos) return null;
+
+  const arrowStyle = pos.arrowSide === "right"
+    ? { position: "absolute", left: -8, top: "50%", marginTop: -8, width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderRight: "8px solid #fff" }
+    : { position: "absolute", right: -8, top: "50%", marginTop: -8, width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderLeft: "8px solid #fff" };
+
+  return (
+    <>
+      {/* Scrim overlay */}
+      <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 9998 }} onClick={onSkip}/>
+      {/* Spotlight cutout on target */}
+      {targetRef?.current && (() => {
+        const r = targetRef.current.getBoundingClientRect();
+        return <div style={{ position: "fixed", left: r.left - 6, top: r.top - 6, width: r.width + 12, height: r.height + 12, borderRadius: 12, boxShadow: "0 0 0 9999px rgba(0,0,0,0.35)", zIndex: 9998, pointerEvents: "none" }}/>;
+      })()}
+      {/* Tooltip bubble */}
+      <div ref={bubbleRef} style={{
+        position: "fixed", top: pos.top, left: pos.left, width: 280, zIndex: 9999,
+        background: "#fff", borderRadius: 12, padding: "20px 20px 16px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1)",
+      }}>
+        <div style={arrowStyle}/>
+        <div style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>{TOUR_STEPS[step].title}</div>
+        <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 16 }}>{TOUR_STEPS[step].body}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>{step + 1} of {total}</span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={onSkip} style={{ background: "none", border: "none", fontFamily: T.font, fontSize: 13, color: T.textTer, cursor: "pointer", padding: "6px 10px" }}>Skip</button>
+            <button onClick={onNext} style={{ background: T.orange, border: "none", borderRadius: 16, fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", padding: "6px 16px" }}>
+              {step < total - 1 ? "Next" : "Got it"}
+            </button>
+          </div>
+        </div>
+        {/* Step dots */}
+        <div style={{ display: "flex", gap: 4, justifyContent: "center", marginTop: 12 }}>
+          {Array.from({ length: total }, (_, i) => (
+            <div key={i} style={{ width: 6, height: 6, borderRadius: 3, background: i === step ? T.orange : "#E0E0DE" }}/>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
 const SCREEN_GROUPS = [
   { group: "Detail", items: [
     { key: "not-joined", label: "Not Joined" },
@@ -110,6 +191,24 @@ function App() {
   const [screen, setScreen] = useState("not-joined");
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
+
+  // Tour state
+  const tourImagesRef = useRef();
+  const tourPanelRef = useRef();
+  const tourPhoneRef = useRef();
+  const tourGalleryRef = useRef();
+  const tourRefs = [tourImagesRef, tourPanelRef, tourPhoneRef, tourGalleryRef];
+  const [tourStep, setTourStep] = useState(() => {
+    try { return localStorage.getItem("sfb-mockup-tour-done") ? -1 : 0; } catch(e) { return 0; }
+  });
+  const dismissTour = () => {
+    setTourStep(-1);
+    try { localStorage.setItem("sfb-mockup-tour-done", "1"); } catch(e) {}
+  };
+  const advanceTour = () => {
+    if (tourStep >= TOUR_STEPS.length - 1) dismissTour();
+    else setTourStep(s => s + 1);
+  };
   const [data, setData] = useState({
     brandName: "The North Face", title: "Reach New Heights with The North Face",
     goal: "Run 30km in one month",
@@ -206,12 +305,15 @@ function App() {
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
 
+        <div ref={tourImagesRef}>
         <UploadBox label="Hero Image (2:1 ratio)" preview={data.heroImg} onUpload={set("heroImg")} aspect="2/1"/>
         <UploadBox label="Challenge Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/>
         <UploadBox label="Brand / Club Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/>
+        </div>
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
 
+        <div ref={tourPanelRef}>
         <Field label="Brand / Sponsor Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field>
         <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="e.g. Reach New Heights"/></Field>
         <Field label="Goal / One-liner"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Run 30km in one month"/></Field>
@@ -224,6 +326,7 @@ function App() {
         </div>
         <Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="e.g. 12,847"/></Field>
         <Field label="Qualifying Activities"><Input value={data.activityType} onChange={set("activityType")} placeholder="Run, Virtual Run, Walk"/></Field>
+        </div>
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "8px 0 13px" }}/>
 
@@ -245,14 +348,14 @@ function App() {
 
       {/* Phone preview + screen gallery */}
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32 }}>
-        <div style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
+        <div ref={tourPhoneRef} style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             <ScreenPhoneContent screenKey={screen} data={data}/>
           </PhoneShell>
         </div>
 
         {/* Screen picker gallery with live thumbnails */}
-        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 16, overflowY: "auto", maxHeight: "100%", padding: "12px 0" }}>
+        <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 16, overflowY: "auto", maxHeight: "100%", padding: "12px 0" }}>
           <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
           {SCREEN_GROUPS.map(({ group, items }) => (
             <div key={group}>
@@ -276,6 +379,17 @@ function App() {
         </div>
       </div>
       </div>
+
+      {/* Tooltip walkthrough */}
+      {tourStep >= 0 && tourStep < TOUR_STEPS.length && (
+        <Walkthrough
+          step={tourStep}
+          total={TOUR_STEPS.length}
+          onNext={advanceTour}
+          onSkip={dismissTour}
+          targetRef={tourRefs[tourStep]}
+        />
+      )}
     </div>
   );
 }
