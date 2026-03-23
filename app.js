@@ -175,7 +175,7 @@ function ScreenThumb({ screenKey, data, bgColor, active, onClick, label, h2cRead
         background: active ? "#FFF4EE" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column",
         alignItems: "center", gap: 4, padding: "6px 4px 5px", transition: "all 0.15s ease", overflow: "hidden",
       }}>
-        <div style={{ width: 40, height: 86, borderRadius: 6, overflow: "hidden", background: "#F2F2F0", border: active ? "1px solid " + T.orange : "1px solid #E0E0DE", flexShrink: 0 }}>
+        <div style={{ width: 40, height: 68, borderRadius: 5, overflow: "hidden", background: "#F2F2F0", border: active ? "1px solid " + T.orange : "1px solid #E0E0DE", flexShrink: 0 }}>
           {img ? <img src={img} alt={label} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}/> : null}
         </div>
         <span style={{ fontFamily: T.font, fontSize: 8, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "10px", whiteSpace: "nowrap" }}>{label}</span>
@@ -354,28 +354,21 @@ function App() {
           </PhoneShell>
         </div>
 
-        {/* Screen picker gallery with live thumbnails */}
-        <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 16, overflowY: "auto", maxHeight: "100%", padding: "12px 0" }}>
+        {/* Screen picker gallery — 2-column grid, no scrolling */}
+        <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 10, padding: "12px 0", alignSelf: "center" }}>
           <div style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
-          {SCREEN_GROUPS.map(({ group, items }) => (
-            <div key={group}>
-              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 6 }}>{group}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {items.map(({ key, label }) => (
-                  <ScreenThumb
-                    key={key}
-                    screenKey={key}
-                    data={data}
-                    bgColor={bgColor}
-                    active={screen === key}
-                    onClick={() => setScreen(key)}
-                    label={label}
-                    h2cReady={h2cReady}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+          <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer }}>Detail</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+            {SCREEN_GROUPS[0].items.map(({ key, label }) => (
+              <ScreenThumb key={key} screenKey={key} data={data} bgColor={bgColor} active={screen === key} onClick={() => setScreen(key)} label={label} h2cReady={h2cReady}/>
+            ))}
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginTop: 4 }}>Discovery</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+            {SCREEN_GROUPS[1].items.map(({ key, label }) => (
+              <ScreenThumb key={key} screenKey={key} data={data} bgColor={bgColor} active={screen === key} onClick={() => setScreen(key)} label={label} h2cReady={h2cReady}/>
+            ))}
+          </div>
         </div>
       </div>
       </div>
