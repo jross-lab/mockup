@@ -8,6 +8,7 @@
 
 const { T, FALLBACK_COLORS, MILESTONE_AVATAR,
         IcoDate, IcoActivityType, IcoReward,
+        IcoKudo, IcoComment, IcoShareAction,
         Facepile, HeroBadge, InfoRow, OrangeBtn, SponsorCard, InfoRows,
         StatsGrid, FeaturedAthletes, ProgressCard, Leaderboard, DescriptionSection,
 } = window.MT;
@@ -839,6 +840,16 @@ function ScreenMilestone({ data }) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Facepile/><span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec }}>12 gave kudos</span></div>
         <span style={{ fontFamily: T.fontMaison, fontSize: 11, color: T.textSec }}>1 comment</span>
+      </div>
+      {/* Action bar: Kudo · Comment · Share */}
+      <div style={{ display: "flex", borderTop: `0.5px solid ${T.divider}` }}>
+        {[
+          { icon: <IcoKudo/> },
+          { icon: <IcoComment/> },
+          { icon: <IcoShareAction/> },
+        ].map(({ icon }, i) => (
+          <div key={i} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0" }}>{icon}</div>
+        ))}
       </div>
       <div style={{ height: 12 }}/>
     </div>
