@@ -66,7 +66,7 @@ function App() {
         </svg>
         <div style={{ height: 24, width: 1, background: "#DFDFE8", flexShrink: 0 }}/>
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Mockup Tool</span>
-        <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Create pixel perfect mockups.</span>
+        <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Build branded Strava challenge screens — pick a template, drop in your assets, and download a pixel-perfect PNG.</span>
       </div>
 
       {/* Main layout */}
@@ -88,11 +88,7 @@ function App() {
               <option value="groups-tab">Challenge Gallery</option>
               <option value="milestone">Follower Callout: Milestone</option>
               <option value="follower-infeed">Follower In-Feed Unit</option>
-            </optgroup>
-            <optgroup label="Home Feed">
-              <option value="feed-follower">Home Feed / Follower Promotion</option>
-              <option value="feed-inunit">Home Feed / In-Feed Unit</option>
-              <option value="segment">Home Feed / Segment Challenge</option>
+              <option value="custom-infeed">Custom In-Feed</option>
             </optgroup>
           </select>
         </Field>
@@ -118,9 +114,6 @@ function App() {
         <UploadBox label="Hero Image (2:1 ratio)" preview={data.heroImg} onUpload={set("heroImg")} aspect="2/1"/>
         <UploadBox label="Challenge Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/>
         <UploadBox label="Brand / Club Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/>
-        {screen === "segment" && (
-          <UploadBox label="Segment Map Image" preview={data.mapImg} onUpload={set("mapImg")} aspect="329/170"/>
-        )}
 
         <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 13px" }}/>
 
@@ -155,10 +148,8 @@ function App() {
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined" || screen === "joined" || screen === "completed"
               ? null
-              : screen === "milestone" || screen === "takeover" || screen === "groups-tab" || screen === "follower-infeed"
+              : screen === "milestone" || screen === "takeover" || screen === "groups-tab" || screen === "follower-infeed" || screen === "custom-infeed"
               ? <TopNavHome/>
-              : screen === "segment"
-              ? <TopNav title="Home" back=""/>
               : <TopNav title="Challenge" back="Groups"/>
             }
             <ScreenRouter screen={screen} data={data}/>
