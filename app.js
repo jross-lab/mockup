@@ -10,7 +10,7 @@
 const { useState, useRef, useCallback, useEffect } = React;
 const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
         Field, Input, UploadBox,
-        TopNav, PhoneShell, BottomNav,
+        TopNav, TopNavHome, PhoneShell, BottomNav,
         ScreenRouter, GROUPS_TAB_SCREENS,
 } = window.MT;
 
@@ -79,11 +79,11 @@ function App() {
               <option value="not-joined">Not Joined</option>
               <option value="joined">Joined</option>
               <option value="completed">Completed</option>
-              <option value="milestone">Challenge Milestone</option>
               <option value="takeover">Challenge Takeover</option>
             </optgroup>
             <optgroup label="Discovery">
               <option value="groups-tab">Groups Tab / Challenges</option>
+              <option value="milestone">Follower Callout: Milestone</option>
             </optgroup>
             <optgroup label="Home Feed">
               <option value="feed-follower">Home Feed / Follower Promotion</option>
@@ -151,7 +151,9 @@ function App() {
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             {screen === "not-joined" || screen === "joined" || screen === "completed"
               ? null
-              : screen === "segment" || screen === "milestone"
+              : screen === "milestone"
+              ? <TopNavHome/>
+              : screen === "segment"
               ? <TopNav title="Home" back=""/>
               : screen === "takeover"
                 ? <TopNav title="Groups" back=""/>
