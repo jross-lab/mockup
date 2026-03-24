@@ -9,7 +9,7 @@
 
 const { T, FALLBACK_COLORS, MILESTONE_MAP_IMG,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
-        ScreenNotJoined, ScreenReward, ScreenJoined, ScreenCompleted, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed, ScreenSegment,
+        ScreenNotJoined, ScreenReward, ScreenJoined, ScreenCompleted, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed, ScreenSegment, ScreenOldDesign,
 } = window.MT;
 
 // --- Screen: Groups Tab / Challenges -----------------------------------------
@@ -222,7 +222,7 @@ function ScreenCustomInFeed({ data }) {
 
 
 // --- Screen Router -----------------------------------------------------------
-const GROUPS_TAB_SCREENS = new Set(["not-joined","reward","joined","completed","takeover","groups-tab","segment"]);
+const GROUPS_TAB_SCREENS = new Set(["not-joined","reward","joined","completed","takeover","groups-tab","segment","old-design"]);
 
 function ScreenRouter({ screen, data }) {
   switch(screen) {
@@ -235,6 +235,7 @@ function ScreenRouter({ screen, data }) {
     case "segment":        return <ScreenSegment data={data}/>;
     case "takeover":       return <ScreenTakeover data={data}/>;
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
+    case "old-design":     return <ScreenOldDesign data={data}/>;
     case "custom-infeed":  return <ScreenCustomInFeed data={data}/>;
     default:               return <ScreenNotJoined data={data}/>;
   }
