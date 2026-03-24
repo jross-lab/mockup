@@ -359,11 +359,13 @@ function App() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {items.map(({ key, label }) => {
                   const active = screen === key;
+                  const legacy = key === "old-design";
                   return (
                     <button key={key} onClick={() => setScreen(key)} style={{
                       width: 100, padding: "12px 8px", borderRadius: 10, cursor: "pointer", transition: "all 0.15s ease",
-                      border: active ? "2px solid " + T.orange : "1.5px solid #DFDFE8",
-                      background: active ? "#FFF4EE" : "#fff",
+                      border: active ? "2px solid " + T.orange : legacy ? "1.5px dashed #C8C8C8" : "1.5px solid #DFDFE8",
+                      background: active ? "#FFF4EE" : legacy ? "#F7F7F5" : "#fff",
+                      opacity: (!active && legacy) ? 0.7 : 1,
                       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
                     }}>
                       {/* Mini phone silhouette */}
