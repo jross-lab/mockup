@@ -1,13 +1,12 @@
 /**
  * screen-segment.js
  * Home Feed — Segment Challenge screen.
- * Shows a segment challenge discovery card in the home feed,
- * with the view "scrolled" so the discovery section is centred
- * in the phone viewport. The feed entry above is mostly off-screen
- * (only its social strip peeks at the top) and the entry below
- * barely peeks in (just the header row).
+ *
+ * The discovery section is the hero. Module 1 (brand feed entry) is
+ * rendered but shifted off-screen via negative margin-top so only
+ * its tail (social summary + action strip ~110px) is visible.
+ * Module 3 (The Strava Club) just peeks in at the bottom.
  */
-const { useState, useRef, useEffect } = React;
 const { T, Facepile, MILESTONE_MAP_IMG } = window.MT;
 
 // --- Reusable sub-components ------------------------------------------------
@@ -75,12 +74,6 @@ function SegmentMapPlaceholder() {
   );
 }
 
-function ChevronRight() {
-  return (
-    <svg width="8" height="14" viewBox="0 0 6.80202 12.768" fill="none"><path d="M0.884129 12.768L6.47252 7.17962C6.91186 6.74028 6.91186 6.02797 6.47252 5.58863L0.883883 0L0 0.883884L5.50024 6.38413L0.000245102 11.8841L0.884129 12.768Z" fill="#64635E"/></svg>
-  );
-}
-
 function IcoRun16() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8.68843 0C8.02519 0 7.37985 0.215115 6.84926 0.613058L3.52982 3.10263L0.683772 4.05132C0.27543 4.18743 0 4.56957 0 5C0 6.57896 0.196721 7.77215 0.566654 8.73398C0.942709 9.71172 1.4741 10.3883 2.04289 10.9571C2.34815 11.2624 2.64313 11.524 2.92865 11.7772C3.71439 12.4741 4.42845 13.1075 5.08755 14.4114C6.12048 16.9818 7.45819 19.1594 9.53364 20.6814C11.6286 22.2177 14.3564 23 18 23C20.1284 23 21.5871 22.4466 22.5488 21.589C23.5046 20.7365 23.8434 19.6954 23.9567 18.9614C24.1091 17.974 23.5681 17.1739 22.9903 16.7116L19.0976 13.5974C18.9434 13.4741 18.8292 13.3079 18.7693 13.1198L15.6746 3.39359C15.4106 2.56364 14.6397 2 13.7688 2H12.3333C11.9006 2 11.4795 2.14036 11.1333 2.4L10.5624 2.82823L10.0471 1.02486C9.8738 0.418234 9.31933 0 8.68843 0Z" fill="#43423F"/></svg>
@@ -95,35 +88,23 @@ function ScreenSegment({ data }) {
   const dateRange = startDate && endDate ? `${startDate} to ${endDate}` : "January 2 to January 31st, 2025";
   const challengeName = title || "Segment challenge name";
   const challengeGoal = goal || "Complete a 5 km (3.1 mi) run.";
-  const challengeDesc = description || "Run the XXX segment for XX% off in the\nAdidas range.";
+  const challengeDesc = description || "Run the XXX segment for XX% off in the Adidas range.";
   const brand = brandName || "Maev";
 
-  // Auto-scroll so the discovery section is centred in viewport.
-  // The scrollAnchorRef marks the top of Module 2 (the discovery section).
-  // We scroll the PhoneShell's scrollable container so this point sits
-  // just below the social strip tail of Module 1.
-  const scrollAnchorRef = useRef();
-  useEffect(() => {
-    if (!scrollAnchorRef.current) return;
-    const el = scrollAnchorRef.current;
-    // Walk up to the PhoneShell scroll container (the div with overflowY: auto)
-    let container = el.parentElement;
-    while (container && container.style.overflowY !== "auto") {
-      container = container.parentElement;
-    }
-    if (container) {
-      requestAnimationFrame(() => {
-        // Scroll so that ~108px of Module 1's tail (social summary + actions)
-        // is visible above the discovery section
-        container.scrollTop = el.offsetTop - 108;
-      });
-    }
-  }, []);
+  /*
+   * Layout strategy: use negative margin-top on the outer wrapper to
+   * simulate a "scrolled" feed. The PhoneShell clips overflow, so the
+   * top portion of Module 1 disappears above the viewport.
+   *
+   * Module 1 total height ≈ 500px. We shift up by ~400px so only
+   * the social summary + action strip (~100px) remain visible.
+   */
+  const SCROLL_OFFSET = -400;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
+    <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken, marginTop: SCROLL_OFFSET }}>
 
-      {/* ═══════════ MODULE 1: Brand feed entry (mostly scrolled off-screen) ═══════════ */}
+      {/* ═══════════ MODULE 1: Brand feed entry with embedded segment card ═══════════ */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
         {/* Feed Owner Header */}
         <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "center", position: "relative" }}>
@@ -146,63 +127,54 @@ function ScreenSegment({ data }) {
           <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 20, fontWeight: 600, lineHeight: "24px", color: T.textPri }}>
             Get running with {brand}'s new Presidio Drive Segment Challenge!
           </div>
-          <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec }}>
-            Run the Presidio Drive Segment for 50% discount on raw treats.
-          </div>
+          <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec }}>{challengeDesc}</div>
           <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 12, lineHeight: "16px", color: T.textTer }}>Read more...</div>
         </div>
         <div style={{ height: 24 }}/>
 
         {/* Embedded event card */}
         <div style={{ padding: "0 24px", position: "relative" }}>
-          <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0 0.5px 4px rgba(0,0,0,0.1), 0 6px 12px rgba(0,0,0,0.1)", display: "flex", gap: 16, alignItems: "center", width: 327 }}>
+          <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0 0.5px 4px rgba(0,0,0,0.1), 0 6px 12px rgba(0,0,0,0.1)", display: "flex", gap: 16, alignItems: "center" }}>
             <div style={{ width: 56, height: 64, flexShrink: 0, overflow: "hidden" }}>
               {badgeImg
                 ? <img src={badgeImg} alt="" style={{ width: 56, height: 64, objectFit: "contain" }}/>
                 : <div style={{ width: 56, height: 64, background: "#E8E8E8", borderRadius: 4 }}/>}
             </div>
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 17, fontWeight: 600, lineHeight: "22px", color: T.textPri }}>
+              <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 17, fontWeight: 600, lineHeight: "22px", color: T.textPri, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {brand} Presidio Drive Ch...
               </div>
               <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                <div style={{ width: 16, height: 16, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <IcoRun16/>
-                </div>
+                <div style={{ width: 16, height: 16, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}><IcoRun16/></div>
                 <span style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{challengeGoal}</span>
               </div>
-              <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>January 1 to January 31st, 2024</div>
+              <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 12, color: T.textSec, lineHeight: "16px" }}>{dateRange}</div>
             </div>
-          </div>
-          <div style={{ position: "absolute", right: 32, top: "50%", transform: "translateY(-50%)" }}>
-            <ChevronRight/>
           </div>
         </div>
 
-        {/* Social summary + actions — this is what peeks at top of viewport */}
+        {/* Social summary */}
         <SegSocialSummary/>
+        {/* Social actions */}
         <SegSocialActions/>
         <div style={{ height: 12 }}/>
       </div>
 
-      {/* ═══════════ MODULE 2: Segment Challenge Discovery Section (THE FOCUS) ═══════════ */}
-      <div ref={scrollAnchorRef} style={{ background: T.bgSunken, padding: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+      {/* ═══════════ MODULE 2: Segment Challenge Discovery Section ═══════════ */}
+      <div style={{ background: T.bgSunken, padding: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 24, alignItems: "center", width: "100%" }}>
           {/* Section header */}
           <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>A Segment Challenge near you.</div>
-            <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec, whiteSpace: "pre-wrap" }}>{challengeDesc}</div>
+            <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec }}>{challengeDesc}</div>
           </div>
 
           {/* Segment challenge card */}
-          <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 2px 6px rgba(0,0,0,0.11)", overflow: "hidden", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-            {/* Map area */}
-            <div style={{ width: "100%", height: 170, overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
+          <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 2px 6px rgba(0,0,0,0.11)", overflow: "hidden", width: 329, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ width: 329, height: 170, overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
               <SegmentMapPlaceholder/>
             </div>
-
-            {/* Badge + name + date */}
-            <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "18px 16px 0", width: "100%" }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "18px 16px 0", width: "100%", boxSizing: "border-box" }}>
               <div style={{ width: 50, height: 50, flexShrink: 0, overflow: "hidden" }}>
                 {badgeImg
                   ? <img src={badgeImg} alt="" style={{ width: 50, height: 50, objectFit: "contain" }}/>
@@ -213,18 +185,15 @@ function ScreenSegment({ data }) {
                 <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textSec }}>{dateRange}</div>
               </div>
             </div>
-
-            {/* Join Challenge CTA */}
-            <div style={{ padding: "18px 16px 20px", width: "100%" }}>
+            <div style={{ padding: "18px 16px 20px", width: "100%", boxSizing: "border-box" }}>
               <button style={{ width: "100%", height: 40, borderRadius: 20, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default" }}>Join Challenge</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ═══════════ MODULE 3: The Strava Club feed entry (only header peeks in) ═══════════ */}
+      {/* ═══════════ MODULE 3: The Strava Club feed entry ═══════════ */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
-        {/* Feed Owner Header */}
         <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "center", position: "relative" }}>
           <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40, borderRadius: 2.5, overflow: "hidden", boxShadow: "0 1.25px 2.5px rgba(0,0,0,0.1)" }}>
             <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="#fff"/><path d="M20 8L30 28H10L20 8Z" fill="#FC5200"/></svg>
@@ -240,26 +209,24 @@ function ScreenSegment({ data }) {
           <ThreeDots/>
         </div>
 
-        {/* Text — visible in Figma as the content just below the header */}
+        {/* Rest of Module 3 — text, photo, social — extends below viewport */}
         <div style={{ padding: "0 24px", display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, lineHeight: "24px", color: T.textPri }}>Probably the most beautiful ride I've ever been on</div>
           <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus</div>
           <div style={{ fontFamily: "'Maison Neue', " + T.font, fontSize: 12, lineHeight: "16px", color: T.textTer }}>Read more...</div>
         </div>
         <div style={{ height: 24 }}/>
-
-        {/* Photo / media area */}
         <div style={{ width: "100%", height: 250, overflow: "hidden", position: "relative" }}>
           <img src={MILESTONE_MAP_IMG} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
           <div style={{ position: "absolute", top: 12, left: 12, background: "white", borderRadius: 2, padding: "2px 4px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
             <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, lineHeight: "13px" }}>Workout</span>
           </div>
         </div>
-
         <SegSocialSummary/>
         <SegSocialActions/>
         <div style={{ height: 12 }}/>
       </div>
+
     </div>
   );
 }
