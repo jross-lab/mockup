@@ -56,7 +56,7 @@ function ScreenOldDesign({ data }) {
       </div>
 
       {/* ── Hero image (185px) + Badge (overlaps into content area) ── */}
-      <div style={{ width: "100%", height: 245, flexShrink: 0, position: "relative" }}>
+      <div style={{ width: "100%", height: 245, flexShrink: 0, position: "relative", background: T.bgSurface }}>
         {/* Hero image — clipped to 185px */}
         <div style={{ width: "100%", height: 185, overflow: "hidden", background: "#C8C8C8" }}>
           {heroImg
