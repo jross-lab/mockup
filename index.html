@@ -57,12 +57,19 @@
     1. tokens-icons.js    — design tokens, hooks, all SVG icon components
     2. shared.js          — reusable UI primitives (PhoneShell, BottomNav, InfoRow, etc.)
     3. screens-detail.js  — Challenge Detail screens (NotJoined, Joined, Takeover, Milestone)
-    4. screens-feed.js    — Discovery + Feed screens (GroupsTab, HomeFeed, Segment) + Router
-    5. app.js             — App component (control panel, state, export) + ReactDOM.render
+    4–10. screen-*.js      — Individual screen components (one per file)
+    11.  screens-feed.js   — Discovery + Feed screens (GroupsTab, CustomInFeed) + Router
+    12.  app.js            — App component (control panel, state, export) + ReactDOM.render
   -->
   <script type="text/babel" src="tokens-icons.js"></script>
   <script type="text/babel" src="shared.js"></script>
-  <script type="text/babel" src="screens-detail.js"></script>
+  <script type="text/babel" src="screen-not-joined.js"></script>
+  <script type="text/babel" src="screen-reward.js"></script>
+  <script type="text/babel" src="screen-joined.js"></script>
+  <script type="text/babel" src="screen-completed.js"></script>
+  <script type="text/babel" src="screen-takeover.js"></script>
+  <script type="text/babel" src="screen-milestone.js"></script>
+  <script type="text/babel" src="screen-follower-infeed.js"></script>
   <script type="text/babel" src="screens-feed.js"></script>
   <script type="text/babel" src="app.js"></script>
 </body>

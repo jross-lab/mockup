@@ -9,7 +9,7 @@
 
 const { T, FALLBACK_COLORS, MILESTONE_MAP_IMG,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
-        ScreenNotJoined, ScreenReward, ScreenJoined, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed,
+        ScreenNotJoined, ScreenReward, ScreenJoined, ScreenCompleted, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed,
 } = window.MT;
 
 // --- Screen: Groups Tab / Challenges -----------------------------------------
