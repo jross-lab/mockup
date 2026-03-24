@@ -18,7 +18,7 @@ const { T, FALLBACK_COLORS, Facepile,
 } = window.MT;
 
 function ScreenOldDesign({ data }) {
-  const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
+  const { heroImg, badgeImg, logoImg, brandName, title, goal, description,
           startDate, endDate, activityType, reward } = data;
 
   return (
@@ -55,16 +55,19 @@ function ScreenOldDesign({ data }) {
         </div>
       </div>
 
-      {/* ── Hero image (185px) + Badge overlay ── */}
-      <div style={{ position: "relative", width: "100%", flexShrink: 0 }}>
-        <div style={{ width: "100%", height: 185, overflow: "hidden", background: "#C8C8C8" }}>
-          {heroImg
-            ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
-            : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)" }}/>}
-        </div>
-        {/* Badge (120px, centered, overlapping hero bottom edge) */}
-        <div style={{ position: "absolute", bottom: -60, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
-          <div style={{ width: 120, height: 120, flexShrink: 0 }}>
+      {/* ── Hero image (185px) ── */}
+      <div style={{ width: "100%", height: 185, overflow: "hidden", flexShrink: 0, position: "relative", background: "#C8C8C8" }}>
+        {heroImg
+          ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+          : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)" }}/>}
+      </div>
+
+      {/* ── Content below hero ── */}
+      <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
+
+        {/* Badge overlay (120px circle, centered, overlaps hero by 60px) */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: -60 }}>
+          <div style={{ width: 120, height: 120, flexShrink: 0, overflow: "hidden" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: 120, height: 120, objectFit: "contain" }}/>
               : <div style={{ width: 120, height: 120, borderRadius: "50%", background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -72,13 +75,9 @@ function ScreenOldDesign({ data }) {
                 </div>}
           </div>
         </div>
-      </div>
 
-      {/* ── Content below hero ── */}
-      <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
-
-        {/* Spacer to account for badge overlap (60px badge hangs below hero + 11px gap) */}
-        <div style={{ height: 71 }}/>
+        {/* Vertical spacer (71px in Figma, minus 60px badge overlap = 11px extra) */}
+        <div style={{ height: 11 }}/>
 
         {/* Title + subtitle (center aligned) */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center", padding: "0 24px" }}>
@@ -107,14 +106,14 @@ function ScreenOldDesign({ data }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "16px 24px", minHeight: 56 }}>
           <Facepile/>
           <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "18px" }}>
-            {participants ? `${participants} Friends have joined` : "18 Friends have joined"}
+            18 Friends have joined
           </span>
         </div>
 
         {/* ── Info rows (classic stacked layout) ── */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Date row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoDate/>
             </div>
@@ -124,8 +123,8 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Activity/Goal row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64 }}>
-            <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+            <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 0 }}>
               <IcoActivityType/>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
@@ -139,7 +138,7 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Reward row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoReward/>
             </div>
@@ -183,7 +182,7 @@ function ScreenOldDesign({ data }) {
                 <svg width="32" height="21" viewBox="0 0 32 21" fill="none"><path d="M7.5 18C4.46 18 2 15.54 2 12.5C2 9.46 4.46 7 7.5 7C10.54 7 13 9.46 13 12.5C13 15.54 10.54 18 7.5 18ZM7.5 8.5C5.29 8.5 3.5 10.29 3.5 12.5C3.5 14.71 5.29 16.5 7.5 16.5C9.71 16.5 11.5 14.71 11.5 12.5C11.5 10.29 9.71 8.5 7.5 8.5ZM24.5 18C21.46 18 19 15.54 19 12.5C19 9.46 21.46 7 24.5 7C27.54 7 30 9.46 30 12.5C30 15.54 27.54 18 24.5 18ZM24.5 8.5C22.29 8.5 20.5 10.29 20.5 12.5C20.5 14.71 22.29 16.5 24.5 16.5C26.71 16.5 28.5 14.71 28.5 12.5C28.5 10.29 26.71 8.5 24.5 8.5ZM16 12.5L20.5 3H18L14.5 10L11.5 5H8V6.5H10.5L13.5 11.5L14.5 12.5H16ZM21 3L24.5 12.5H22L19 5H21Z" fill={T.textSec}/></svg>
               </div>
               <span style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textSec }}>
-                {participants ? `${participants} Athletes` : "5,678 Athletes"}
+                5,678 Athletes
               </span>
             </div>
           </div>
