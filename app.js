@@ -110,6 +110,7 @@ const SCREEN_GROUPS = [
     { key: "joined", label: "Joined" },
     { key: "completed", label: "Completed" },
     { key: "takeover", label: "Takeover" },
+    { key: "old-design", label: "Old Design" },
   ]},
   { group: "Discovery", items: [
     { key: "groups-tab", label: "Gallery" },
@@ -121,14 +122,14 @@ const SCREEN_GROUPS = [
 ];
 
 const ALL_SCREENS = [
-  "not-joined", "reward", "joined", "completed", "takeover",
+  "not-joined", "reward", "joined", "completed", "takeover", "old-design",
   "groups-tab", "milestone", "follower-infeed", "custom-infeed", "segment",
 ];
 
 // Helper: renders the correct nav + screen content for a given screen key
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
-  const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed";
+  const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed" || screenKey === "old-design";
   const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed" || screenKey === "segment";
   return (
     <>
