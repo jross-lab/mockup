@@ -36,7 +36,7 @@ function ScreenOldDesign({ data }) {
       </svg>
 
       {/* ── Top nav: "< Groups   Challenge   [icons]" ── */}
-      <div style={{ height: 48, background: T.bgSurface, display: "flex", alignItems: "center", position: "relative", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+      <div style={{ height: 48, background: T.bgSurface, display: "flex", alignItems: "center", position: "relative" }}>
         {/* Back button */}
         <div style={{ position: "absolute", left: 0, display: "flex", alignItems: "center", gap: 4, padding: "12px 8px 12px 12px" }}>
           <svg width="17" height="22" viewBox="0 0 17 22" fill="none"><path d="M11.5858 20.4142L3.58579 12.4142C2.80474 11.6332 2.80474 10.3668 3.58579 9.58579L11.5858 1.58579L13 3L5 11L13 19L11.5858 20.4142Z" fill="black"/></svg>
@@ -113,7 +113,7 @@ function ScreenOldDesign({ data }) {
         {/* ── Info rows (classic stacked layout) ── */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Date row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoDate/>
             </div>
@@ -123,7 +123,7 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Activity/Goal row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64 }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 0 }}>
               <IcoActivityType/>
             </div>
@@ -138,7 +138,7 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Reward row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoReward/>
             </div>
@@ -158,7 +158,7 @@ function ScreenOldDesign({ data }) {
       </div>
 
       {/* ── Sponsor card ── */}
-      <div style={{ background: T.bgSurface, marginTop: 8, padding: 24, display: "flex", gap: 16, alignItems: "flex-start" }}>
+      <div style={{ background: T.bgSurface, padding: 24, display: "flex", gap: 16, alignItems: "flex-start" }}>
         {/* Club logo (64×64, rounded) */}
         <div style={{ width: 64, height: 64, flexShrink: 0, overflow: "hidden" }}>
           {logoImg
@@ -194,7 +194,7 @@ function ScreenOldDesign({ data }) {
       </div>
 
       {/* ── Description section ── */}
-      <div style={{ background: T.bgSurface, marginTop: 8, padding: 24, overflow: "hidden" }}>
+      <div style={{ background: T.bgSurface, padding: 24, overflow: "hidden" }}>
         <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri, marginBottom: 8 }}>
           {title ? `The ${brandName || "Brand"} Challenge` : "About this Challenge"}
         </div>
