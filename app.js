@@ -18,6 +18,7 @@ const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
 const TOUR_STEPS = [
   { title: "Upload your assets", body: "Drop in your hero image, challenge badge, and brand logo. These will appear across all screen types.", pos: "right" },
   { title: "Customise details", body: "Set the challenge title, description, dates, and reward. Changes update the preview instantly.", pos: "right" },
+  { title: "Challenge progress", body: "Set the current distance, goal total, and unit to control the progress bar on the Joined and Completed screens.", pos: "right" },
   { title: "Live preview", body: "This is a pixel-perfect preview of how the screen will look on an iPhone. What you see is what gets exported.", pos: "left" },
   { title: "Switch screens", body: "Click any thumbnail to switch between screen types. Each one uses your content and images.", pos: "left" },
   { title: "Choose a background", body: "Pick white, black, or Strava orange as the background colour behind the phone frame.", pos: "bottom" },
@@ -148,11 +149,12 @@ function App() {
   // Tour state
   const tourImagesRef = useRef();
   const tourPanelRef = useRef();
+  const tourProgressRef = useRef();
   const tourPhoneRef = useRef();
   const tourGalleryRef = useRef();
   const tourBgRef = useRef();
   const tourDownloadRef = useRef();
-  const tourRefs = [tourImagesRef, tourPanelRef, tourPhoneRef, tourGalleryRef, tourBgRef, tourDownloadRef];
+  const tourRefs = [tourImagesRef, tourPanelRef, tourProgressRef, tourPhoneRef, tourGalleryRef, tourBgRef, tourDownloadRef];
   const [tourStep, setTourStep] = useState(-1);
   const startTour = () => setTourStep(0);
   const dismissTour = () => {
@@ -276,10 +278,13 @@ function App() {
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={set("progressDistance")} placeholder="17"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={set("progressTotal")} placeholder="80"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="km"/></Field></div>
+          <div ref={tourProgressRef}>
+            <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 4, marginTop: 8 }}>Challenge Progress</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={set("progressDistance")} placeholder="17"/></Field></div>
+              <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={set("progressTotal")} placeholder="80"/></Field></div>
+              <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="km"/></Field></div>
+            </div>
           </div>
           {/* Reward + Description — flex to fill remaining panel height */}
           <div style={{ display: "flex", gap: 8, flex: 1, minHeight: 80 }}>
