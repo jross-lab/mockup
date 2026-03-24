@@ -145,7 +145,6 @@ function App() {
   const [screen, setScreen] = useState("not-joined");
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
-  const [funLevel, setFunLevel] = useState(0);
 
   // Tour state
   const tourImagesRef = useRef();
@@ -176,55 +175,6 @@ function App() {
     progressDistance: "17", progressTotal: "80", progressUnit: "km",
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
-
-  // --- Emoji fun slider logic ---
-  const EMOJI_MAP = [
-    [/\brun\b/gi, "🏃"], [/\brunning\b/gi, "🏃"], [/\bwalk\b/gi, "🚶"], [/\bwalking\b/gi, "🚶"],
-    [/\bcycl(?:e|ing)\b/gi, "🚴"], [/\bbike\b/gi, "🚴"], [/\bride\b/gi, "🚴"], [/\bhike\b/gi, "🥾"], [/\bhiking\b/gi, "🥾"],
-    [/\bswim\b/gi, "🏊"], [/\bswimming\b/gi, "🏊"], [/\bkm\b/gi, "📏"], [/\bkilomet(?:er|re)s?\b/gi, "📏"],
-    [/\bmiles?\b/gi, "📏"], [/\bmi\b/gi, "📏"],
-    [/\bmountain\b/gi, "⛰️"], [/\bhills?\b/gi, "⛰️"], [/\bheights?\b/gi, "⛰️"], [/\bclimb\b/gi, "🧗"],
-    [/\belevation\b/gi, "⛰️"], [/\bsummit\b/gi, "🏔️"],
-    [/\breward\b/gi, "🎁"], [/\bunlock\b/gi, "🔓"], [/\beach\b/gi, "✨"], [/\bearn\b/gi, "🏆"],
-    [/\bchallenge\b/gi, "💪"], [/\bgoal\b/gi, "🎯"], [/\bcomplete\b/gi, "✅"], [/\bfinish\b/gi, "🏁"],
-    [/\bwin\b/gi, "🏆"], [/\btrophy\b/gi, "🏆"], [/\bbadge\b/gi, "🏅"], [/\bmedal\b/gi, "🏅"],
-    [/\bstart\b/gi, "🚀"], [/\bgo\b/gi, "🚀"], [/\bmoving\b/gi, "💨"], [/\blace\b/gi, "👟"],
-    [/\bfit\b/gi, "💪"], [/\bstrong\b/gi, "💪"], [/\bfast\b/gi, "⚡"], [/\bspeed\b/gi, "⚡"],
-    [/\btime\b/gi, "⏱️"], [/\bday\b/gi, "📅"], [/\bmonth\b/gi, "📅"], [/\bweek\b/gi, "📅"],
-    [/\bnew\b/gi, "✨"], [/\bfun\b/gi, "🎉"], [/\bfree\b/gi, "🆓"], [/\bexclusive\b/gi, "⭐"],
-    [/\boff\b/gi, "🏷️"], [/\bdiscount\b/gi, "🏷️"], [/\bapparel\b/gi, "👕"], [/\bgear\b/gi, "🎒"],
-    [/\bwater\b/gi, "💧"], [/\bocean\b/gi, "🌊"], [/\bbeach\b/gi, "🏖️"], [/\btrail\b/gi, "🌲"],
-    [/\bnature\b/gi, "🌿"], [/\bforest\b/gi, "🌲"], [/\bpark\b/gi, "🌳"], [/\bcity\b/gi, "🏙️"],
-    [/\bheart\b/gi, "❤️"], [/\blove\b/gi, "❤️"], [/\bfriend\b/gi, "🤝"], [/\bteam\b/gi, "👥"],
-    [/\bcelebrat\w*/gi, "🎉"], [/\bstrava\b/gi, "🧡"],
-  ];
-
-  function injectEmojis(text, level) {
-    if (!text || level === 0) return text;
-    const threshold = 1 - (level / 100); // level 100 = use all matches, level 50 = ~half
-    let result = text;
-    const used = new Set();
-    EMOJI_MAP.forEach(([regex, emoji]) => {
-      result = result.replace(regex, (match) => {
-        const key = match.toLowerCase() + emoji;
-        if (used.has(key) && level < 80) return match; // avoid repeats at lower levels
-        if (Math.random() < threshold) return match; // skip some based on level
-        used.add(key);
-        return match + " " + emoji;
-      });
-    });
-    return result;
-  }
-
-  // Stable seed: recompute only when data text or funLevel changes
-  const displayData = useMemo(() => {
-    if (funLevel === 0) return data;
-    return {
-      ...data,
-      title: injectEmojis(data.title, funLevel),
-      description: injectEmojis(data.description, funLevel),
-    };
-  }, [data.title, data.description, funLevel, data]);
 
   const captureScreen = async (node) => {
     await document.fonts.ready;
@@ -372,18 +322,6 @@ function App() {
               ))}
             </div>
           </div>
-          {/* Fun emoji slider */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 18, lineHeight: "1" }}>🤵</span>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-              <input type="range" min="0" max="100" value={funLevel} onChange={e => setFunLevel(Number(e.target.value))}
-                style={{ width: 100, accentColor: T.orange, cursor: "pointer" }}/>
-              <span style={{ fontFamily: T.font, fontSize: 10, color: T.textTer, lineHeight: "12px" }}>
-                {funLevel === 0 ? "Serious" : funLevel < 33 ? "A little fun" : funLevel < 66 ? "Fun!" : funLevel < 100 ? "Party mode" : "🎉 MAX FUN 🎉"}
-              </span>
-            </div>
-            <span style={{ fontSize: 18, lineHeight: "1" }}>🥳</span>
-          </div>
           {/* Download buttons */}
           <div ref={tourDownloadRef} style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ textAlign: "right" }}>
@@ -406,7 +344,7 @@ function App() {
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32, background: bgColor }}>
         <div ref={tourPhoneRef} style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
-            <ScreenPhoneContent screenKey={screen} data={displayData}/>
+            <ScreenPhoneContent screenKey={screen} data={data}/>
           </PhoneShell>
         </div>
 
