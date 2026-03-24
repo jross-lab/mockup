@@ -180,6 +180,34 @@ function App() {
 
   const captureScreen = async (node) => {
     await document.fonts.ready;
+    // Find the scrollable content container inside the phone shell
+    const scrollContainer = node.querySelector('[data-phone-scroll]');
+    let scrollTop = 0;
+    if (scrollContainer && scrollContainer.scrollTop > 0) {
+      scrollTop = scrollContainer.scrollTop;
+      // Save original styles
+      const origOverflowY = scrollContainer.style.overflowY;
+      const origOverflow = scrollContainer.style.overflow;
+      const origTransform = scrollContainer.style.transform;
+      // Lock overflow and shift content up to simulate scroll position
+      scrollContainer.style.overflowY = "hidden";
+      scrollContainer.style.overflow = "hidden";
+      scrollContainer.style.transform = `translateY(-${scrollTop}px)`;
+      try {
+        const result = await window.domtoimage.toPng(node, {
+          width: node.scrollWidth * 1.75,
+          height: node.scrollHeight * 1.75,
+          style: { transform: "scale(1.75)", transformOrigin: "top left" },
+          quality: 1,
+        });
+        return result;
+      } finally {
+        scrollContainer.style.overflowY = origOverflowY;
+        scrollContainer.style.overflow = origOverflow;
+        scrollContainer.style.transform = origTransform;
+        scrollContainer.scrollTop = scrollTop;
+      }
+    }
     return await window.domtoimage.toPng(node, {
       width: node.scrollWidth * 1.75,
       height: node.scrollHeight * 1.75,
