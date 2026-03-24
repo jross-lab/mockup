@@ -2,7 +2,7 @@
  * screen-milestone.js
  * Challenge Detail — Milestone screen.
  */
-const { T, Facepile, MILESTONE_AVATAR, MILESTONE_MAP_IMG } = window.MT;
+const { T, Facepile, SARAH_AVATAR, MILESTONE_MAP_IMG } = window.MT;
 
 function ScreenMilestone({ data }) {
   const { badgeImg, brandName, title } = data;
@@ -11,7 +11,7 @@ function ScreenMilestone({ data }) {
       {/* Feed Owner Header — p-24, gap-12 */}
       <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start", position: "relative", background: T.bgSurface }}>
         <div style={{ position: "relative", flexShrink: 0, width: 48, height: 48, overflow: "visible" }}>
-          <img src={MILESTONE_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
+          <img src={SARAH_AVATAR} alt="" style={{ width: 48, height: 48, display: "block" }}/>
           <div style={{ position: "absolute", top: -3, right: -3, width: 14, height: 14 }}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#FC5200"/><path d="M4 7L6 9L10 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
