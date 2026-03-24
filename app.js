@@ -116,19 +116,20 @@ const SCREEN_GROUPS = [
     { key: "milestone", label: "Milestone" },
     { key: "follower-infeed", label: "Follower" },
     { key: "custom-infeed", label: "In-Feed" },
+    { key: "segment", label: "Segment" },
   ]},
 ];
 
 const ALL_SCREENS = [
   "not-joined", "reward", "joined", "completed", "takeover",
-  "groups-tab", "milestone", "follower-infeed", "custom-infeed",
+  "groups-tab", "milestone", "follower-infeed", "custom-infeed", "segment",
 ];
 
 // Helper: renders the correct nav + screen content for a given screen key
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
   const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed";
-  const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed";
+  const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed" || screenKey === "segment";
   return (
     <>
       {noTopNav ? null : homeNav ? <TopNavHome/> : <TopNav title="Challenge" back="Groups"/>}
