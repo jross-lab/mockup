@@ -170,6 +170,7 @@ function App() {
     startDate: "Apr 1, 2026", endDate: "Apr 30, 2026",
     participants: "12,847", activityType: "Run, Virtual Run, Walk",
     heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
+    progressDistance: "17", progressTotal: "80", progressUnit: "km",
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
 
@@ -274,6 +275,11 @@ function App() {
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={set("progressDistance")} placeholder="17"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={set("progressTotal")} placeholder="80"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="km"/></Field></div>
           </div>
           {/* Reward + Description — flex to fill remaining panel height */}
           <div style={{ display: "flex", gap: 8, flex: 1, minHeight: 80 }}>
