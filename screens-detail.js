@@ -1128,7 +1128,7 @@ function ScreenMilestone({ data }) {
           </div>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Dante Young</div>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Sarah Li</div>
           <div style={{ height: 4 }}/>
           <div style={{ display: "flex", gap: 4, alignItems: "center", height: 16 }}>
             <div style={{ width: 16, height: 16, flexShrink: 0, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 2 }}>
