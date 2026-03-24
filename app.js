@@ -336,9 +336,9 @@ function App() {
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             <ScreenPhoneContent screenKey={screen} data={data}/>
           </PhoneShell>
-          {/* Brightness overlay — darkens the phone viewport */}
+          {/* Brightness overlay — excluded from export */}
           {brightness < 100 && (
-            <div style={{
+            <div data-brightness-overlay style={{
               position: "absolute", top: 8, left: 8, right: 8, bottom: 8,
               borderRadius: 36, background: `rgba(0,0,0,${(100 - brightness) / 100})`,
               pointerEvents: "none", zIndex: 10,
