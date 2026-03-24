@@ -183,7 +183,7 @@ function PhoneShell({ children, screenRef, bgColor }) {
 // --- Bottom Nav (pixel-perfect from Figma node 2048:13139) -------------------
 function BottomNav({ activeTab = "groups" }) {
   return (
-    <div style={{ background: "#fff", boxShadow: "0px -0.5px 0px 0px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", alignItems: "center", gap: 22, paddingTop: 7, paddingBottom: 1, paddingLeft: 11, paddingRight: 11, flexShrink: 0, position: "sticky", bottom: 0, zIndex: 10, marginTop: "auto" }}>
+    <div style={{ background: "#fff", boxShadow: "0px -0.5px 0px 0px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", alignItems: "center", gap: 22, paddingTop: 7, paddingBottom: 4, paddingLeft: 11, paddingRight: 11, flexShrink: 0, position: "sticky", bottom: 0, zIndex: 10, marginTop: "auto" }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", width: "100%", minWidth: 323 }}>
         {NAV_TABS.map(({ key, label }) => {
           const active = key === activeTab;
