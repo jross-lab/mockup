@@ -56,7 +56,7 @@ function ScreenOldDesign({ data }) {
       </div>
 
       {/* ── Hero image (185px) ── */}
-      <div style={{ width: "100%", height: 185, overflow: "hidden", flexShrink: 0, position: "relative", background: "#C8C8C8" }}>
+      <div style={{ width: "100%", height: 185, overflow: "hidden", flexShrink: 0, background: "#C8C8C8" }}>
         {heroImg
           ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
           : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)" }}/>}
@@ -65,9 +65,9 @@ function ScreenOldDesign({ data }) {
       {/* ── Content below hero ── */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
 
-        {/* Badge overlay (120px circle, centered, overlaps hero by 60px) */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: -60 }}>
-          <div style={{ width: 120, height: 120, flexShrink: 0, overflow: "hidden" }}>
+        {/* Badge overlay (120px, centered, overlaps hero by 60px) */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: -60, position: "relative", zIndex: 2 }}>
+          <div style={{ width: 120, height: 120, flexShrink: 0 }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: 120, height: 120, objectFit: "contain" }}/>
               : <div style={{ width: 120, height: 120, borderRadius: "50%", background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
