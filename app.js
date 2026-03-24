@@ -180,40 +180,38 @@ function App() {
 
   const captureScreen = async (node) => {
     await document.fonts.ready;
-    // Find the scrollable content container inside the phone shell
-    const scrollContainer = node.querySelector('[data-phone-scroll]');
-    let scrollTop = 0;
-    if (scrollContainer && scrollContainer.scrollTop > 0) {
-      scrollTop = scrollContainer.scrollTop;
-      // Save original styles
-      const origOverflowY = scrollContainer.style.overflowY;
-      const origOverflow = scrollContainer.style.overflow;
-      const origTransform = scrollContainer.style.transform;
-      // Lock overflow and shift content up to simulate scroll position
-      scrollContainer.style.overflowY = "hidden";
-      scrollContainer.style.overflow = "hidden";
-      scrollContainer.style.transform = `translateY(-${scrollTop}px)`;
-      try {
-        const result = await window.domtoimage.toPng(node, {
-          width: node.scrollWidth * 1.75,
-          height: node.scrollHeight * 1.75,
-          style: { transform: "scale(1.75)", transformOrigin: "top left" },
-          quality: 1,
-        });
-        return result;
-      } finally {
-        scrollContainer.style.overflowY = origOverflowY;
-        scrollContainer.style.overflow = origOverflow;
-        scrollContainer.style.transform = origTransform;
-        scrollContainer.scrollTop = scrollTop;
+    // dom-to-image-more doesn't preserve scrollTop, so we fake it:
+    // expand the scroll container to full content height, apply negative
+    // margin-top equal to scrollTop, and let the parent viewport's
+    // overflow:hidden clip it to show exactly the scrolled view.
+    const sc = node.querySelector('[data-phone-scroll]');
+    const scrollTop = sc ? sc.scrollTop : 0;
+    const needsShift = sc && scrollTop > 0;
+    let origHeight, origOverflow, origMarginTop;
+    if (needsShift) {
+      origHeight = sc.style.height;
+      origOverflow = sc.style.overflowY;
+      origMarginTop = sc.style.marginTop;
+      sc.style.height = "auto";
+      sc.style.overflowY = "visible";
+      sc.style.marginTop = `-${scrollTop}px`;
+      sc.scrollTop = 0;
+    }
+    try {
+      return await window.domtoimage.toPng(node, {
+        width: node.scrollWidth * 1.75,
+        height: node.scrollHeight * 1.75,
+        style: { transform: "scale(1.75)", transformOrigin: "top left" },
+        quality: 1,
+      });
+    } finally {
+      if (needsShift) {
+        sc.style.height = origHeight;
+        sc.style.overflowY = origOverflow;
+        sc.style.marginTop = origMarginTop;
+        sc.scrollTop = scrollTop;
       }
     }
-    return await window.domtoimage.toPng(node, {
-      width: node.scrollWidth * 1.75,
-      height: node.scrollHeight * 1.75,
-      style: { transform: "scale(1.75)", transformOrigin: "top left" },
-      quality: 1,
-    });
   };
 
   const dl = async () => {
