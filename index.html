@@ -10,7 +10,7 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.4.5/dist/dom-to-image-more.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <!-- Fonts loaded from separate file (~280KB base64) for dom-to-image-more export compatibility -->
+  <!-- Fonts loaded from separate file for html2canvas/dom-to-image compatibility -->
   <link rel="stylesheet" href="fonts.css"/>
   <style>
     html,body,#root{margin:0;padding:0;height:100%;overflow:hidden;}
@@ -20,11 +20,12 @@
   <div id="root"></div>
   <!--
     Module load order matters — each file registers onto window.MT (MockupTool).
-    1. tokens-icons.js     — design tokens, hooks, all SVG icon components
-    2. shared.js           — reusable UI primitives (PhoneShell, BottomNav, InfoRow, etc.)
-    3–9. screen-*.js       — individual screen components (one per file)
-    10.  screens-feed.js   — discovery + feed screens (GroupsTab, CustomInFeed) + ScreenRouter
-    11.  app.js            — App component (control panel, state, export) + ReactDOM.render
+    1. tokens-icons.js    — design tokens, hooks, all SVG icon components
+    2. shared.js          — reusable UI primitives (PhoneShell, BottomNav, InfoRow, etc.)
+    3. screens-detail.js  — Challenge Detail screens (NotJoined, Joined, Takeover, Milestone)
+    4–10. screen-*.js      — Individual screen components (one per file)
+    11.  screens-feed.js   — Discovery + Feed screens (GroupsTab, CustomInFeed) + Router
+    12.  app.js            — App component (control panel, state, export) + ReactDOM.render
   -->
   <script type="text/babel" src="tokens-icons.js"></script>
   <script type="text/babel" src="shared.js"></script>
