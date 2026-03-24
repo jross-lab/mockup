@@ -144,6 +144,7 @@ function App() {
   const [screen, setScreen] = useState("not-joined");
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
+  const [brightness, setBrightness] = useState(100);
 
   // Tour state
   const tourImagesRef = useRef();
@@ -331,10 +332,30 @@ function App() {
 
       {/* Phone preview + screen gallery */}
       <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 8, overflow: "hidden", gap: 32, background: bgColor }}>
-        <div ref={tourPhoneRef} style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center" }}>
+        <div ref={tourPhoneRef} style={{ flexShrink: 0, transform: "scale(0.85)", transformOrigin: "center center", position: "relative" }}>
           <PhoneShell screenRef={screenRef} bgColor={bgColor}>
             <ScreenPhoneContent screenKey={screen} data={data}/>
           </PhoneShell>
+          {/* Brightness overlay — darkens the phone viewport */}
+          {brightness < 100 && (
+            <div style={{
+              position: "absolute", top: 8, left: 8, right: 8, bottom: 8,
+              borderRadius: 36, background: `rgba(0,0,0,${(100 - brightness) / 100})`,
+              pointerEvents: "none", zIndex: 10,
+            }}/>
+          )}
+          {/* Floating brightness slider */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 8,
+            position: "absolute", bottom: -36, left: "50%", transform: "translateX(-50%)",
+            background: "#fff", borderRadius: 20, padding: "6px 14px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.12)", whiteSpace: "nowrap", zIndex: 11,
+          }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3.5" stroke="#43423F" strokeWidth="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="#43423F" strokeWidth="1.2" strokeLinecap="round"/></svg>
+            <input type="range" min="0" max="100" value={brightness} onChange={e => setBrightness(Number(e.target.value))}
+              style={{ width: 100, accentColor: T.orange, cursor: "pointer" }}/>
+            <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 600, color: T.textSec, minWidth: 30, textAlign: "right" }}>{brightness}%</span>
+          </div>
         </div>
 
         {/* Screen picker gallery — 2-column grid */}
