@@ -550,7 +550,10 @@ function ScreenReward({ data }) {
 // Progress card matches Figma node 2150:20028
 function ScreenJoined({ data }) {
   const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
-          startDate, endDate, activityType, reward } = data;
+          startDate, endDate, activityType, reward, progressDistance, progressTotal, progressUnit } = data;
+  const pDist = parseFloat(progressDistance) || 0;
+  const pTotal = parseFloat(progressTotal) || 1;
+  const pPct = Math.min(100, (pDist / pTotal) * 100);
   return (
     <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
 
@@ -617,13 +620,13 @@ function ScreenJoined({ data }) {
             <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 0.5px 4px rgba(0,0,0,0.1), 0px 6px 12px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column", gap: 17 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px" }}>
-                  <span style={{ color: T.textPri }}>17 km</span>{" "}
-                  <span style={{ color: T.textTer }}>/ 80 km</span>
+                  <span style={{ color: T.textPri }}>{progressDistance || "17"} {progressUnit || "km"}</span>{" "}
+                  <span style={{ color: T.textTer }}>/ {progressTotal || "80"} {progressUnit || "km"}</span>
                 </span>
                 <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textTer, textAlign: "right" }}>3 days left</span>
               </div>
               <div style={{ background: "#e0e0de", height: 4, borderRadius: 6, overflow: "hidden" }}>
-                <div style={{ width: "52.26%", height: "100%", background: "#88cf25", borderRadius: 6 }}/>
+                <div style={{ width: `${pPct}%`, height: "100%", background: "#88cf25", borderRadius: 6 }}/>
               </div>
             </div>
           </div>
@@ -810,7 +813,7 @@ function ScreenJoined({ data }) {
 // Matches Figma node 2179:29633
 function ScreenCompleted({ data }) {
   const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
-          startDate, endDate, activityType, reward } = data;
+          startDate, endDate, activityType, reward, progressTotal, progressUnit } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
 
@@ -875,8 +878,8 @@ function ScreenCompleted({ data }) {
             <div style={{ background: "#fff", borderRadius: 16, padding: 16, boxShadow: "0px 0.5px 4px rgba(0,0,0,0.1), 0px 6px 12px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column", gap: 17, alignItems: "center", justifyContent: "center" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: 297 }}>
                 <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px" }}>
-                  <span style={{ color: T.textPri }}>80 km</span>{" "}
-                  <span style={{ color: T.textTer }}>/ 80 km</span>
+                  <span style={{ color: T.textPri }}>{progressTotal || "80"} {progressUnit || "km"}</span>{" "}
+                  <span style={{ color: T.textTer }}>/ {progressTotal || "80"} {progressUnit || "km"}</span>
                 </span>
                 <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textTer, textAlign: "right" }}>Completed</span>
               </div>
