@@ -165,14 +165,14 @@ function App() {
     else setTourStep(s => s + 1);
   };
   const [data, setData] = useState({
-    brandName: "The North Face", title: "Reach New Heights with The North Face",
-    goal: "Run 30km in one month",
-    description: "Challenge yourself to run 30 kilometers in a single month and earn an exclusive reward from The North Face. Every kilometer counts -- lace up and get moving.",
-    reward: "Complete the challenge to unlock 20% off The North Face's latest apparel.",
-    startDate: "Apr 1, 2026", endDate: "Apr 30, 2026",
-    participants: "12,847", activityType: "Run, Virtual Run, Walk",
+    brandName: "[Brand name] goes here", title: "[Challenge title] goes here",
+    goal: "[Goal] goes here",
+    description: "[Description] goes here",
+    reward: "[Reward] goes here",
+    startDate: "[Start date] goes here", endDate: "[End date] goes here",
+    participants: "[Participants] goes here", activityType: "[Activity types] goes here",
     heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
-    progressDistance: "17", progressTotal: "80", progressUnit: "km",
+    progressDistance: "[Progress] goes here", progressTotal: "[Total] goes here", progressUnit: "[Unit] goes here",
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
 
@@ -266,36 +266,36 @@ function App() {
         {/* Text fields */}
         <div ref={tourPanelRef} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
           <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. The North Face"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Activity Types"><Input value={data.activityType} onChange={set("activityType")} placeholder="Run, Walk"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="[Brand name] goes here"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Activity Types"><Input value={data.activityType} onChange={set("activityType")} placeholder="[Activity types] goes here"/></Field></div>
           </div>
-          <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="e.g. Reach New Heights with The North Face"/></Field>
+          <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="[Challenge title] goes here"/></Field>
           <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Run 30km in one month"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="e.g. 12,847"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="[Goal] goes here"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="[Participants] goes here"/></Field></div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="Apr 1, 2026"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="Apr 30, 2026"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="[Start date] goes here"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="[End date] goes here"/></Field></div>
           </div>
           <div ref={tourProgressRef}>
             <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 4, marginTop: 8 }}>Challenge Progress</div>
             <div style={{ display: "flex", gap: 8 }}>
-              <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={set("progressDistance")} placeholder="17"/></Field></div>
-              <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={set("progressTotal")} placeholder="80"/></Field></div>
-              <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="km"/></Field></div>
+              <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={set("progressDistance")} placeholder="[Progress] goes here"/></Field></div>
+              <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={set("progressTotal")} placeholder="[Goal total] goes here"/></Field></div>
+              <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="[Unit] goes here"/></Field></div>
             </div>
           </div>
           {/* Reward + Description — flex to fill remaining panel height */}
           <div style={{ display: "flex", gap: 8, flex: 1, minHeight: 80 }}>
             <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Reward</div>
-              <textarea value={data.reward} onChange={e => set("reward")(e.target.value)} placeholder="e.g. Unlock 20% off..."
+              <textarea value={data.reward} onChange={e => set("reward")(e.target.value)} placeholder="[Reward] goes here"
                 style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
             </div>
             <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Description</div>
-              <textarea value={data.description} onChange={e => set("description")(e.target.value)} placeholder="Full challenge description..."
+              <textarea value={data.description} onChange={e => set("description")(e.target.value)} placeholder="[Description] goes here"
                 style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
             </div>
           </div>
