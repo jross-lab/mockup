@@ -56,7 +56,7 @@ function ScreenOldDesign({ data }) {
       </div>
 
       {/* ── Hero image (185px) ── */}
-      <div style={{ width: "100%", height: 185, overflow: "hidden", flexShrink: 0, background: "#C8C8C8" }}>
+      <div style={{ width: "100%", height: 185, overflow: "hidden", flexShrink: 0, position: "relative", background: "#C8C8C8" }}>
         {heroImg
           ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
           : <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#d0d0d0,#a8a8a8)" }}/>}
@@ -65,9 +65,9 @@ function ScreenOldDesign({ data }) {
       {/* ── Content below hero ── */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
 
-        {/* Badge overlay (120px, centered, overlaps hero by 60px) */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: -60, position: "relative", zIndex: 2 }}>
-          <div style={{ width: 120, height: 120, flexShrink: 0 }}>
+        {/* Badge overlay (120px circle, centered, overlaps hero by 60px) */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: -60 }}>
+          <div style={{ width: 120, height: 120, flexShrink: 0, overflow: "hidden" }}>
             {badgeImg
               ? <img src={badgeImg} alt="" style={{ width: 120, height: 120, objectFit: "contain" }}/>
               : <div style={{ width: 120, height: 120, borderRadius: "50%", background: "#E8E8E8", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -113,7 +113,7 @@ function ScreenOldDesign({ data }) {
         {/* ── Info rows (classic stacked layout) ── */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Date row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoDate/>
             </div>
@@ -123,8 +123,8 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Activity/Goal row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
-            <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", marginTop: 0 }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 24px", minHeight: 64 }}>
+            <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoActivityType/>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
@@ -138,7 +138,7 @@ function ScreenOldDesign({ data }) {
           </div>
 
           {/* Reward row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64, borderBottom: `0.5px solid ${T.divider}` }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 24px", minHeight: 64 }}>
             <div style={{ width: 24, height: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IcoReward/>
             </div>
