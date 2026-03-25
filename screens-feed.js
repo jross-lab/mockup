@@ -54,10 +54,11 @@ function ScreenGroupsTab({ data }) {
       {/* Chip bar */}
       <div style={{ background: T.bgSurface, display: "flex", gap: 8, padding: "16px 24px", overflowX: "auto", boxShadow: "0px 2px 6px rgba(0,0,0,0.11)" }}>
         {[
-          { label: "Label", selected: true },
-          { label: "Label", selected: false },
-          { label: "Label", selected: false },
-          { label: "Label", selected: false },
+          { label: "Run", selected: true },
+          { label: "Ride", selected: false },
+          { label: "Swim", selected: false },
+          { label: "Walk", selected: false },
+          { label: "Hike", selected: false },
         ].map((chip, i) => (
           <div key={i} style={{ height: 32, borderRadius: 8, border: `1px solid ${chip.selected ? T.orange : "#C2C1BB"}`, padding: "0 12px", display: "flex", alignItems: "center", gap: 8, background: "#fff", flexShrink: 0 }}>
             <svg width="16" height="15" viewBox="0 0 16 15" fill="none"><path d="M8 0C3.58 0 0 3.36 0 7.5S3.58 15 8 15s8-3.36 8-7.5S12.42 0 8 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" fill={chip.selected ? T.orange : "black"}/></svg>
