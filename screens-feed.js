@@ -171,30 +171,30 @@ function ScreenCustomInFeed({ data }) {
         <div style={{ width: "100%", height: 125, background: "#C2C1BB", overflow: "hidden" }}>
           {heroImg && <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>}
         </div>
-        {/* Ad content */}
-        <div style={{ padding: "0 24px 24px", display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: -8 }}>
-            {/* Challenge badge */}
-            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, overflow: "hidden", marginTop: -16, border: "2px solid white" }}>
-              {badgeImg
-                ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
-                : <div style={{ width: "100%", height: "100%", background: "#E0E0DE", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontFamily: T.font, fontSize: 7, color: "#999", textAlign: "center" }}>Badge</span>
-                  </div>}
-            </div>
-            <div style={{ flex: 1, paddingTop: 16 }}>
-              <div style={{ fontFamily: T.font, fontSize: 20, fontWeight: 500, lineHeight: "24px", color: T.textPri, letterSpacing: "0.34px", marginBottom: 8 }}>
-                {title || "Lorem ipsum dolor sit amet"}
-              </div>
-              <div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "22px", color: T.textSec }}>
-                {description || "Body copy 90 characters max. Lorem ipsum dolor sit amet."}
-              </div>
-            </div>
+        {/* Ad content: badge top-aligned with title */}
+        <div style={{ display: "flex", gap: 13, alignItems: "flex-start", padding: "17px 16px 24px" }}>
+          {/* Challenge badge */}
+          <div style={{ width: 45, height: 45, flexShrink: 0, overflow: "hidden" }}>
+            {badgeImg
+              ? <img src={badgeImg} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
+              : <div style={{ width: "100%", height: "100%", background: "#E0E0DE", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontFamily: T.font, fontSize: 7, color: "#999", textAlign: "center" }}>Badge</span>
+                </div>}
           </div>
-          {/* CTA button */}
-          <button style={{ width: 183, height: 34, borderRadius: 17, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: "#fff", cursor: "default", marginTop: 16, marginLeft: 60, textAlign: "center" }}>
-            {brandName ? `Check it out` : "[Custom]"}
-          </button>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "24px", color: T.textPri, letterSpacing: "0.34px" }}>
+                {title || "Claim your Camelbak reward"}
+              </div>
+              <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: "#21211F" }}>
+                {description || "You've unlocked a 20% discount code and the chance to win a Zephyr Pro vest!"}
+              </div>
+            </div>
+            {/* CTA button */}
+            <button style={{ alignSelf: "flex-start", height: 36, paddingLeft: 20, paddingRight: 20, borderRadius: 18, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default" }}>
+              {brandName ? "Check it out" : "Check it out"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -202,8 +202,8 @@ function ScreenCustomInFeed({ data }) {
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
         {/* Grouped activity header */}
         <div style={{ padding: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <div style={{ width: 48, height: 49, borderRadius: "50%", background: "#E8E8E8", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="24" height="16" viewBox="0 0 24 16" fill="none"><path d="M2 3H6V4.25H5.43L5.86 5H9.83L9.41 3.84C9.34 3.65 9.37 3.43 9.49 3.27C9.6 3.1 9.8 3 10 3H13.5C14.33 3 15 3.67 15 4.5C15 5.33 14.33 6 13.5 6H13V4.75H13.5C13.64 4.75 13.75 4.64 13.75 4.5C13.75 4.36 13.64 4.25 13.5 4.25H10.89L11.91 7.05C12.1 7.02 12.3 7 12.5 7C14.43 7 16 8.57 16 10.5C16 12.43 14.43 14 12.5 14C10.57 14 9 12.43 9 10.5C9 9.21 9.7 8.08 10.74 7.48L10.41 6.58L7.99 10.69C7.88 10.88 7.67 11 7.45 11H6.96C6.72 12.7 5.26 14 3.5 14C1.57 14 0 12.43 0 10.5C0 8.57 1.57 7 3.5 7C3.88 7 4.24 7.06 4.58 7.17L5.09 6.17L3.99 4.25H2V3Z" fill="#43423F"/></svg>
+          <div style={{ width: 48, height: 49, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24.5" r="23.5" stroke="#E0E0DE"/><g opacity="0.9"><path d="M16 16V18H17.7053L19.1329 20.4982L18.297 22.1699C17.8834 22.0591 17.4486 22 17 22C14.2386 22 12 24.2386 12 27C12 29.7614 14.2386 32 17 32C19.419 32 21.4367 30.2822 21.9 28H23C23.3589 28 23.6902 27.8077 23.8682 27.4961L27.4755 21.1834L28.114 22.9165C26.835 23.8221 26 25.3135 26 27C26 29.7614 28.2386 32 31 32C33.7614 32 36 29.7614 36 27C36 24.2386 33.7614 22 31 22C30.6393 22 30.2876 22.0382 29.9486 22.1107L28.4341 18H31.5C31.7761 18 32 18.2239 32 18.5C32 18.7761 31.7761 19 31.5 19H31V21H31.5C32.8807 21 34 19.8807 34 18.5C34 17.1193 32.8807 16 31.5 16H27C26.673 16 26.3667 16.1598 26.1797 16.428C25.9927 16.6962 25.9486 17.0389 26.0617 17.3457L26.6711 19H20.5803L20.0088 18H21V16H16ZM20.3254 22.5852L22.2768 26H18.618L20.3254 22.5852ZM23.5 24.1095L21.7231 21H25.2768L23.5 24.1095ZM17 24C17.1255 24 17.2492 24.0077 17.3706 24.0227L16.1056 26.5528C15.9506 26.8628 15.9671 27.2309 16.1493 27.5257C16.3316 27.8205 16.6534 28 17 28H19.8293C19.4175 29.1652 18.3062 30 17 30C15.3431 30 14 28.6569 14 27C14 25.3431 15.3431 24 17 24ZM28.8483 24.9095L29.9074 27.784L31.784 27.0926L30.652 24.02C30.7662 24.0068 30.8823 24 31 24C32.6569 24 34 25.3431 34 27C34 28.6569 32.6569 30 31 30C29.3431 30 28 28.6569 28 27C28 26.1871 28.3233 25.4498 28.8483 24.9095Z" fill="black"/></g></svg>
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, lineHeight: "18px", color: T.textPri }}>Tyler Butterfield rode with Derek Y and Naz Hamid</div>
