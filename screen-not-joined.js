@@ -3,7 +3,7 @@
  * Challenge Detail — Not Joined screen.
  */
 const { T, FALLBACK_COLORS, Leaderboard,
-        IcoDate, IcoActivityType, IcoReward, ActivityIconsRow,
+        IcoDate, IcoActivityType, IcoReward,
 } = window.MT;
 
 function ScreenNotJoined({ data }) {
@@ -152,8 +152,6 @@ function ScreenNotJoined({ data }) {
             </div>
           </div>
 
-          {/* ── Activity type icons ── */}
-          <ActivityIconsRow data={data}/>
 
           {/* ── Challenge stats ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
