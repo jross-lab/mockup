@@ -264,14 +264,37 @@ function SponsorCard({ brandName, badgeImg, logoImg }) {
   );
 }
 function InfoRows({ data }) {
-  const { goal, startDate, endDate, activityType, reward } = data;
+  const { goal, startDate, endDate, activityType, activityTypes, reward } = data;
+  const qualifyingText = activityTypes && activityTypes.length > 0
+    ? activityTypes.join(", ")
+    : (activityType || "Run, Virtual Run, Walk");
   return (
     <>
       <InfoRow icon={<IcoDate/>} primary={startDate && endDate ? `${startDate} - ${endDate}` : "Start date - End date"}/>
-      <InfoRow icon={<IcoActivityType/>} primary={goal || "Complete the challenge activity"} secondary={`Qualifying Activities: ${activityType || "Run, Virtual Run, Walk"}`}/>
+      <InfoRow icon={<IcoActivityType/>} primary={goal || "Complete the challenge activity"} secondary={`Qualifying Activities: ${qualifyingText}`}/>
       <InfoRow icon={<IcoReward/>} primary={reward || "Earn a digital finisher's badge for your Trophy Case."}/>
       <InfoRow icon={null} primary="Details and Eligibility" accent/>
     </>
+  );
+}
+
+// --- Activity Icons Row ------------------------------------------------------
+function ActivityIconsRow({ data }) {
+  const { ACTIVITY_TYPES } = window.MT;
+  const selected = data.activityTypes || [];
+  if (selected.length === 0) return null;
+  const items = ACTIVITY_TYPES.filter(a => selected.includes(a.key));
+  return (
+    <div style={{ background: T.bgSurface, padding: "16px 24px", display: "flex", gap: 16, alignItems: "center" }}>
+      {items.map(({ key, label, Icon }) => (
+        <div key={key} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+          <div style={{ width: 40, height: 40, borderRadius: "50%", background: T.bgSunken, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Icon size={22} color={T.textPri}/>
+          </div>
+          <span style={{ fontFamily: T.font, fontSize: 11, color: T.textSec, lineHeight: "13px" }}>{label}</span>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -380,4 +403,5 @@ Object.assign(window.MT, {
   TopNav, TopNavHome, TopNavGroups, PhoneShell, BottomNav,
   Facepile, HeroBadge, InfoRow, OrangeBtn, SponsorCard, InfoRows,
   StatsGrid, FeaturedAthletes, ProgressCard, Leaderboard, DescriptionSection,
+  ActivityIconsRow,
 });
