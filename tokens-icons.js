@@ -206,6 +206,45 @@ const IcoShareAction = () => (
   </svg>
 );
 
+// --- Activity Type Icons & Config --------------------------------------------
+const IcoRun = ({ size = 24, color = "#43423F" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="14" cy="4" r="2" fill={color}/>
+    <path d="M7.2 10.8L9.6 8.4L9.4 8.2C8.6 7.4 7.5 7 6.4 7H4V9H6.4C6.7 9 7 9.1 7.2 9.3L7.2 10.8ZM9.6 13.2L8 18.8L10 19.4L12 13L14 15V21H16V13.5L14 11.5L14.8 8.2C16 9.6 17.8 10.5 19.8 10.5V8.5C18 8.5 16.5 7.5 15.7 6.1L14.7 4.5C14.3 3.9 13.7 3.5 13 3.5C12.7 3.5 12.5 3.6 12.2 3.7L7 6V10H9L9.6 8.4L12 7.3L10.6 13.2H9.6Z" fill={color}/>
+  </svg>
+);
+const IcoRide = ({ size = 24, color = "#43423F" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12C2.8 12 1 13.8 1 16C1 18.2 2.8 20 5 20C7.2 20 9 18.2 9 16C9 13.8 7.2 12 5 12ZM5 18.5C3.6 18.5 2.5 17.4 2.5 16C2.5 14.6 3.6 13.5 5 13.5C6.4 13.5 7.5 14.6 7.5 16C7.5 17.4 6.4 18.5 5 18.5ZM10.5 9.5L13 7L14 8C15.1 9.1 16.5 9.7 18 10V8C17 7.8 16.1 7.3 15.5 6.5L13.5 4C13.1 3.6 12.6 3.5 12 3.5C11.8 3.5 11.5 3.5 11.3 3.6L7 5.5V10H9V6.8L10.5 6.2V9.5ZM19 12C16.8 12 15 13.8 15 16C15 18.2 16.8 20 19 20C21.2 20 23 18.2 23 16C23 13.8 21.2 12 19 12ZM19 18.5C17.6 18.5 16.5 17.4 16.5 16C16.5 14.6 17.6 13.5 19 13.5C20.4 13.5 21.5 14.6 21.5 16C21.5 17.4 20.4 18.5 19 18.5Z" fill={color}/>
+  </svg>
+);
+const IcoSwim = ({ size = 24, color = "#43423F" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22 21C20.8 21 19.8 20.5 18.9 20C18.1 19.5 17.3 19 16.2 19C15.1 19 14.3 19.5 13.5 20C12.6 20.5 11.6 21 10.4 21C9.2 21 8.2 20.5 7.4 20C6.5 19.5 5.7 19 4.6 19C3.5 19 2.7 19.5 1.9 20L1 20.6V18.4L1.3 18.2C2.3 17.6 3.4 17 4.6 17C5.8 17 6.8 17.5 7.7 18C8.5 18.5 9.3 19 10.4 19C11.5 19 12.3 18.5 13.1 18C14 17.5 15 17 16.2 17C17.4 17 18.4 17.5 19.2 18C20.1 18.5 20.9 19 22 19V21ZM22 17C20.8 17 19.8 16.5 18.9 16C18.1 15.5 17.3 15 16.2 15C15.1 15 14.3 15.5 13.5 16C12.6 16.5 11.6 17 10.4 17C9.2 17 8.2 16.5 7.4 16C6.5 15.5 5.7 15 4.6 15C3.5 15 2.7 15.5 1.9 16L1 16.6V14.4L1.3 14.2C2.3 13.6 3.4 13 4.6 13C5.8 13 6.8 13.5 7.7 14C8.5 14.5 9.3 15 10.4 15C11.5 15 12.3 14.5 13.1 14C14 13.5 15 13 16.2 13C17.4 13 18.4 13.5 19.2 14C20.1 14.5 20.9 15 22 15V17ZM18.5 5.5C19.9 5.5 21 4.4 21 3C21 1.6 19.9 0.5 18.5 0.5C17.1 0.5 16 1.6 16 3C16 4.4 17.1 5.5 18.5 5.5ZM8 11.5L10.5 8.8L11 9.5C12 11 13.6 12 15.4 12V10C14.2 10 13.2 9.3 12.6 8.3L11.1 6C10.7 5.4 10.1 5 9.3 5C9 5 8.7 5.1 8.4 5.2L3 7.8V12H5V9.2L7 8.3L4.5 15H8V11.5Z" fill={color}/>
+  </svg>
+);
+const IcoWalk = ({ size = 24, color = "#43423F" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12.5" cy="4" r="2" fill={color}/>
+    <path d="M7 22L9.5 14.5L12 16V22H14V14.5L11.5 12.5L12.5 8.5C13.8 10 15.8 11 18 11V9C16 9 14.4 7.8 13.6 6.2L12.6 4.5C12.2 3.9 11.6 3.5 10.9 3.5C10.6 3.5 10.4 3.6 10.1 3.7L5 6V11H7V7.5L8.8 6.8L6.3 17L4 16.5L3.5 18.4L7 22Z" fill={color}/>
+  </svg>
+);
+const IcoHike = ({ size = 24, color = "#43423F" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="13.5" cy="5.5" r="2.5" fill={color}/>
+    <path d="M5 20H19L14 12L11.5 16L9.5 13L5 20ZM12 6.5C12 6.5 10 10 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10 12 6.5 12 6.5Z" fill={color} opacity="0"/>
+    <path d="M14 14.5L12.5 12L11 8.5C10.7 7.8 10 7.5 9.3 7.5C8.6 7.5 8 8 7.7 8.6L4 20H6.5L8.2 14.5L10 17V22H12V15L10.2 12L11.5 8.5L13 11V14.5H14ZM18 22H20L16 10.5L14.5 12L18 22Z" fill={color}/>
+  </svg>
+);
+
+const ACTIVITY_TYPES = [
+  { key: "Run",  label: "Run",  Icon: IcoRun },
+  { key: "Ride", label: "Ride", Icon: IcoRide },
+  { key: "Swim", label: "Swim", Icon: IcoSwim },
+  { key: "Walk", label: "Walk", Icon: IcoWalk },
+  { key: "Hike", label: "Hike", Icon: IcoHike },
+];
+
 // --- Register onto shared namespace ------------------------------------------
 Object.assign(window.MT, {
   T, useFonts, useHtml2Canvas, FALLBACK_COLORS, MILESTONE_AVATAR,
@@ -216,4 +255,5 @@ Object.assign(window.MT, {
   IcoDownload, IcoBattery, IcoWifi, IcoCellular,
   IcoViewfinder, IcoSearch, IcoMessaging, IcoNotifications,
   IcoKudo, IcoComment, IcoShareAction,
+  IcoRun, IcoRide, IcoSwim, IcoWalk, IcoHike, ACTIVITY_TYPES,
 });
