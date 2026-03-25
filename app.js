@@ -172,7 +172,7 @@ function App() {
     description: "[Description] goes here",
     reward: "[Reward] goes here",
     startDate: "[Start date] goes here", endDate: "[End date] goes here",
-    participants: "[Participants] goes here", activityTypes: ["Run", "Ride"],
+    participants: "[Club members] goes here", activityTypes: ["Run", "Ride"],
     heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
     progressDistance: "[Progress] goes here", progressTotal: "[Total] goes here", progressUnit: "[Unit] goes here",
     ctaText: "",
@@ -327,7 +327,7 @@ function App() {
           <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="[Challenge title] goes here"/></Field>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="[Goal] goes here"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="[Participants] goes here"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Club members"><Input value={data.participants} onChange={set("participants")} placeholder="[Club members] goes here"/></Field></div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="[Start date] goes here"/></Field></div>
