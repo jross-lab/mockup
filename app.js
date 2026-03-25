@@ -11,7 +11,7 @@ const { useState, useRef, useCallback, useEffect, useMemo } = React;
 const { T, useFonts, useHtml2Canvas, IcoStrava, IcoDownload,
         Field, Input, UploadBox,
         TopNav, TopNavHome, TopNavGroups, PhoneShell, BottomNav,
-        ScreenRouter, GROUPS_TAB_SCREENS,
+        ScreenRouter, GROUPS_TAB_SCREENS, ACTIVITY_TYPES,
 } = window.MT;
 
 // --- Walkthrough tooltip component -------------------------------------------
@@ -172,7 +172,7 @@ function App() {
     description: "[Description] goes here",
     reward: "[Reward] goes here",
     startDate: "[Start date] goes here", endDate: "[End date] goes here",
-    participants: "[Participants] goes here", activityType: "[Activity types] goes here",
+    participants: "[Participants] goes here", activityTypes: ["Run", "Ride"],
     heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
     progressDistance: "[Progress] goes here", progressTotal: "[Total] goes here", progressUnit: "[Unit] goes here",
     ctaText: "",
@@ -296,7 +296,33 @@ function App() {
         <div ref={tourPanelRef} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="[Brand name] goes here"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Activity Types"><Input value={data.activityType} onChange={set("activityType")} placeholder="[Activity types] goes here"/></Field></div>
+          </div>
+          {/* Activity Type pill toggles */}
+          <div style={{ marginBottom: 6 }}>
+            <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Activity Types</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {ACTIVITY_TYPES.map(({ key, label, Icon }) => {
+                const active = (data.activityTypes || []).includes(key);
+                return (
+                  <button key={key} onClick={() => {
+                    const current = data.activityTypes || [];
+                    const next = active ? current.filter(k => k !== key) : [...current, key];
+                    set("activityTypes")(next);
+                  }} style={{
+                    display: "flex", alignItems: "center", gap: 5,
+                    padding: "5px 12px", borderRadius: 16,
+                    background: active ? T.orange : "#F5F5F3",
+                    color: active ? "#fff" : T.textPri,
+                    border: active ? "none" : "1px solid #E0E0DE",
+                    fontFamily: T.font, fontSize: 12, fontWeight: 600,
+                    cursor: "pointer", transition: "all 0.15s ease",
+                  }}>
+                    <Icon size={14} color={active ? "#fff" : T.textSec}/>
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
           <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="[Challenge title] goes here"/></Field>
           <div style={{ display: "flex", gap: 8 }}>
