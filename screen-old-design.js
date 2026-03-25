@@ -13,7 +13,7 @@
  * - Sponsor card + description section at bottom
  */
 const { T, FALLBACK_COLORS, Facepile,
-        IcoDate, IcoActivityType, IcoReward, ActivityIconsRow,
+        IcoDate, IcoActivityType, IcoReward,
         DescriptionSection,
 } = window.MT;
 
@@ -157,8 +157,6 @@ function ScreenOldDesign({ data }) {
         </div>
       </div>
 
-      {/* ── Activity type icons ── */}
-      <ActivityIconsRow data={data}/>
 
       {/* ── Sponsor card ── */}
       <div style={{ background: T.bgSurface, padding: 24, display: "flex", gap: 16, alignItems: "flex-start" }}>
