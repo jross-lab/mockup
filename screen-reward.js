@@ -3,12 +3,12 @@
  * Challenge Detail — Reward screen.
  */
 const { T, FALLBACK_COLORS, Leaderboard,
-        IcoDate, IcoActivityType, IcoReward,
+        IcoDate, IcoActivityType, IcoReward, ActivityIconsRow,
 } = window.MT;
 
 function ScreenReward({ data }) {
   const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
-          startDate, endDate, activityType, reward } = data;
+          startDate, endDate, activityType, activityTypes, reward } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
 
@@ -143,7 +143,7 @@ function ScreenReward({ data }) {
                     {goal || "Complete the challenge activity"}
                   </div>
                   <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textTer }}>
-                    Qualifying Activities: {activityType || "Run, Virtual Run, Walk"}
+                    Qualifying Activities: {activityTypes && activityTypes.length > 0 ? activityTypes.join(", ") : (activityType || "Run, Virtual Run, Walk")}
                   </div>
                 </div>
               </div>
@@ -155,6 +155,9 @@ function ScreenReward({ data }) {
               </div>
             </div>
           </div>
+
+          {/* ── Activity type icons ── */}
+          <ActivityIconsRow data={data}/>
 
           {/* ── Challenge stats ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
