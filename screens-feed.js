@@ -130,7 +130,7 @@ function ScreenGroupsTab({ data }) {
 // Home feed with a customisable in-feed ad unit sandwiched between activities.
 
 function ScreenCustomInFeed({ data }) {
-  const { badgeImg, heroImg, title, description, brandName } = data;
+  const { badgeImg, heroImg, title, description, brandName, ctaText } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: T.bgSunken }}>
       {/* ── Module 1: Tail of activity entry (partially visible at top) ── */}
@@ -192,11 +192,14 @@ function ScreenCustomInFeed({ data }) {
             </div>
             {/* CTA button */}
             <button style={{ alignSelf: "flex-start", height: 36, paddingLeft: 20, paddingRight: 20, borderRadius: 18, background: T.orange, border: "none", fontFamily: T.font, fontSize: 15, fontWeight: 700, color: "#fff", cursor: "default" }}>
-              {brandName ? "Check it out" : "Check it out"}
+              {ctaText || "Check it out"}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Grey separator between ad unit and next module */}
+      <div style={{ height: 8, background: T.bgSunken }} />
 
       {/* ── Module 3: Head of grouped activity entry (partially visible at bottom) ── */}
       <div style={{ background: T.bgSurface, display: "flex", flexDirection: "column" }}>
