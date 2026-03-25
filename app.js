@@ -175,6 +175,7 @@ function App() {
     participants: "[Participants] goes here", activityType: "[Activity types] goes here",
     heroImg: null, badgeImg: null, logoImg: null, mapImg: null,
     progressDistance: "[Progress] goes here", progressTotal: "[Total] goes here", progressUnit: "[Unit] goes here",
+    ctaText: "Check it out",
   });
   const set = k => v => setData(d => ({ ...d, [k]: v }));
 
