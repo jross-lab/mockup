@@ -3,12 +3,12 @@
  * Challenge Detail — Completed screen.
  */
 const { T, FALLBACK_COLORS, Leaderboard,
-        IcoDate, IcoActivityType, IcoReward,
+        IcoDate, IcoActivityType, IcoReward, ActivityIconsRow,
 } = window.MT;
 
 function ScreenCompleted({ data }) {
   const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
-          startDate, endDate, activityType, reward, progressTotal, progressUnit } = data;
+          startDate, endDate, activityType, activityTypes, reward, progressTotal, progressUnit } = data;
   return (
     <div style={{ display: "flex", flexDirection: "column", background: "#000", position: "relative" }}>
 
@@ -113,10 +113,13 @@ function ScreenCompleted({ data }) {
             <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, lineHeight: "22px", color: T.textPri }}>Challenge details</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}><div style={{ padding: 10, flexShrink: 0 }}><IcoDate/></div><div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{startDate && endDate ? `${startDate} to ${endDate}` : "Start date to End date"}</div></div>
-              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}><div style={{ padding: 10, flexShrink: 0 }}><IcoActivityType/></div><div style={{ display: "flex", flexDirection: "column", gap: 2 }}><div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>{goal || "Complete the challenge activity"}</div><div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textTer }}>Qualifying Activities: {activityType || "Run, Virtual Run, Walk"}</div></div></div>
+              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}><div style={{ padding: 10, flexShrink: 0 }}><IcoActivityType/></div><div style={{ display: "flex", flexDirection: "column", gap: 2 }}><div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>{goal || "Complete the challenge activity"}</div><div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textTer }}>Qualifying Activities: {activityTypes && activityTypes.length > 0 ? activityTypes.join(", ") : (activityType || "Run, Virtual Run, Walk")}</div></div></div>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}><div style={{ padding: 10, flexShrink: 0 }}><IcoReward/></div><div style={{ fontFamily: T.font, fontSize: 15, lineHeight: "20px", color: T.textPri }}>{reward || "Earn a digital finisher's badge for your Trophy Case."}</div></div>
             </div>
           </div>
+
+          {/* ── Activity type icons ── */}
+          <ActivityIconsRow data={data}/>
 
           {/* ── Challenge stats ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
