@@ -3,12 +3,12 @@
  * Challenge Detail — Joined screen.
  */
 const { T, FALLBACK_COLORS, Leaderboard,
-        IcoDate, IcoActivityType, IcoReward,
+        IcoDate, IcoActivityType, IcoReward, ActivityIconsRow,
 } = window.MT;
 
 function ScreenJoined({ data }) {
   const { heroImg, badgeImg, logoImg, brandName, title, goal, description, participants,
-          startDate, endDate, activityType, reward, progressDistance, progressTotal, progressUnit } = data;
+          startDate, endDate, activityType, activityTypes, reward, progressDistance, progressTotal, progressUnit } = data;
   const pDist = parseFloat(progressDistance) || 0;
   const pTotal = parseFloat(progressTotal) || 1;
   const pPct = Math.min(100, (pDist / pTotal) * 100);
@@ -140,7 +140,7 @@ function ScreenJoined({ data }) {
                     {goal || "Complete the challenge activity"}
                   </div>
                   <div style={{ fontFamily: T.font, fontSize: 13, lineHeight: "18px", color: T.textTer }}>
-                    Qualifying Activities: {activityType || "Run, Virtual Run, Walk"}
+                    Qualifying Activities: {activityTypes && activityTypes.length > 0 ? activityTypes.join(", ") : (activityType || "Run, Virtual Run, Walk")}
                   </div>
                 </div>
               </div>
@@ -152,6 +152,9 @@ function ScreenJoined({ data }) {
               </div>
             </div>
           </div>
+
+          {/* ── Activity type icons ── */}
+          <ActivityIconsRow data={data}/>
 
           {/* ── Challenge stats ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
