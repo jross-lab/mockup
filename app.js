@@ -116,7 +116,7 @@ const SCREEN_GROUPS = [
     { key: "groups-tab", label: "Gallery" },
     { key: "milestone", label: "Milestone" },
     { key: "follower-infeed", label: "Follower" },
-    { key: "custom-infeed", label: "In-Feed" },
+    { key: "custom-infeed", label: "Custom in-feed" },
     { key: "segment", label: "Segment" },
   ]},
 ];
