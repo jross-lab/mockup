@@ -278,7 +278,7 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
       {/* Left panel */}
-      <div style={{ width: 400, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", display: "flex", flexDirection: "column", padding: 16 }}>
+      <div style={{ width: 460, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", display: "flex", flexDirection: "column", padding: 16 }}>
 
         {/* Image uploads — 3 across in a row */}
         <div ref={tourImagesRef}>
@@ -302,11 +302,11 @@ function App() {
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="[Goal] goes here"/></Field></div>
             <div style={{ flex: 1 }}><Field label="Participants"><Input value={data.participants} onChange={set("participants")} placeholder="[Participants] goes here"/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Custom In-feed button"><Input value={data.ctaText} onChange={set("ctaText")} placeholder="Check it out"/></Field></div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={set("startDate")} placeholder="[Start date] goes here"/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={set("endDate")} placeholder="[End date] goes here"/></Field></div>
+            <div style={{ flex: 1 }}><Field label="In-feed CTA"><Input value={data.ctaText} onChange={set("ctaText")} placeholder="Check it out"/></Field></div>
           </div>
           <div ref={tourProgressRef}>
             <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 4, marginTop: 8 }}>Challenge Progress</div>
