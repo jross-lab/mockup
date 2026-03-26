@@ -168,26 +168,35 @@ function App() {
   };
   // --- Formatting helpers ---
   const formatDate = (raw) => {
-    // Accept: "Jan 12, 2026", "2026-01-12", "01/12/2026", "12/01/2026", partial strings
-    if (!raw) return raw;
+    if (!raw || !raw.trim()) return raw;
+    const input = raw.trim();
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    // Already formatted? Pass through if it matches "Mon DD, YYYY"
-    if (/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/.test(raw.trim())) return raw.trim();
-    // Try ISO
-    let d = null;
-    if (/^\d{4}-\d{2}-\d{2}$/.test(raw.trim())) {
-      const [y, m, day] = raw.trim().split("-").map(Number);
-      d = { y, m, day };
+    const monthNames = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+    const monthAbbr  = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+    // Already correct: 'Jan 12, 2026'
+    if (/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/.test(input)) return input;
+    let day, month, year, m;
+    // ISO: 2026-01-12
+    m = input.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) { year = +m[1]; month = +m[2]; day = +m[3]; }
+    // MM/DD/YYYY
+    if (!year) { m = input.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (m) { month = +m[1]; day = +m[2]; year = +m[3]; } }
+    // DD.MM.YYYY
+    if (!year) { m = input.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/); if (m) { day = +m[1]; month = +m[2]; year = +m[3]; } }
+    // 'May 1 2026' or 'May 1, 2026' (month name first)
+    if (!year) {
+      m = input.match(/^([A-Za-z]+)[\s,]+(\d{1,2})[,\s]+(\d{4})$/);
+      if (m) { const idx = monthNames.indexOf(m[1].toLowerCase()) + 1 || monthAbbr.indexOf(m[1].toLowerCase()) + 1; if (idx) { month = idx; day = +m[2]; year = +m[3]; } }
     }
-    // Try MM/DD/YYYY or DD/MM/YYYY (assume MM/DD if month ≤ 12)
-    if (!d && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(raw.trim())) {
-      const parts = raw.trim().split("/").map(Number);
-      d = { m: parts[0], day: parts[1], y: parts[2] };
+    // '1 May 2026' (day first)
+    if (!year) {
+      m = input.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+      if (m) { const idx = monthNames.indexOf(m[2].toLowerCase()) + 1 || monthAbbr.indexOf(m[2].toLowerCase()) + 1; if (idx) { day = +m[1]; month = idx; year = +m[3]; } }
     }
-    if (d && d.m >= 1 && d.m <= 12 && d.day >= 1 && d.day <= 31) {
-      return `${months[d.m - 1]} ${d.day}, ${d.y}`;
+    if (year && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+      return months[month - 1] + " " + day + ", " + year;
     }
-    return raw; // Return as-is if we can't parse
+    return input;
   };
 
   const formatNumber = (raw) => {
