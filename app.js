@@ -147,6 +147,16 @@ const WHATS_NEW_ENTRIES = [
     date: "26 March 2026",
     items: [
       {
+        type: "new",
+        title: "Feedback button — report bugs or request improvements",
+        detail: "A dark \"Feedback\" pill button now sits in the bottom-right corner of the tool. Click it to open a form where you can log a bug report, improvement idea, or feature request. Submitting pre-fills a Slack DM to Jonny so it can be picked up and actioned.",
+      },
+      {
+        type: "new",
+        title: "What's New panel",
+        detail: "A \"What's new\" button in the header opens a slide-in panel showing a plain-English changelog of every update made to the tool, tagged as New, Improvement, or Fix. An orange dot on the button flags updates you haven't seen yet.",
+      },
+      {
         type: "improvement",
         title: "Control panel reorganised into clear sections",
         detail: "The input panel is now split into five named sections — Brand Assets, Brand & Challenge, Engagement & Discovery, Challenge Progress, and Content — each with a short description explaining where that information appears in the mockup.",
@@ -231,191 +241,13 @@ const WHATS_NEW_ENTRIES = [
 ];
 
 const WHATS_NEW_SEEN_KEY = "mockup_whats_new_seen_v1";
-const LATEST_ENTRY_ID = "2026-03-26"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-03-26b"; // bump this when new entries are added
 
 const TYPE_META = {
   new:         { label: "New",         bg: "#EDFCE8", color: "#2B7A1E", dot: "#2B7A1E" },
   improvement: { label: "Improvement", bg: "#EAF4FF", color: "#1A6FBF", dot: "#1A6FBF" },
   fix:         { label: "Fix",         bg: "#FFF3E0", color: "#B85C00", dot: "#B85C00" },
 };
-
-// ─── Feedback modal ──────────────────────────────────────────────────────────
-const FEEDBACK_TYPES = [
-  { key: "bug",         label: "🐛  Bug report",       hint: "Something isn't working as expected" },
-  { key: "improvement", label: "✨  Improvement idea",  hint: "A tweak or refinement to something existing" },
-  { key: "feature",     label: "💡  Feature request",   hint: "Something new you'd like to see" },
-];
-
-// Jonny Ross — U03P4E9MWKB
-const FEEDBACK_SLACK_USER = "U03P4E9MWKB";
-
-function FeedbackModal({ open, onClose }) {
-  const [visible, setVisible] = useState(false);
-  const [rendered, setRendered] = useState(false);
-  const [type, setType] = useState("bug");
-  const [message, setMessage] = useState("");
-  const [sent, setSent] = useState(false);
-  const textareaRef = useRef();
-
-  useEffect(() => {
-    if (open) {
-      setRendered(true);
-      setSent(false);
-      setMessage("");
-      setType("bug");
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        setVisible(true);
-        setTimeout(() => textareaRef.current && textareaRef.current.focus(), 320);
-      }));
-    } else {
-      setVisible(false);
-      const t = setTimeout(() => setRendered(false), 300);
-      return () => clearTimeout(t);
-    }
-  }, [open]);
-
-  if (!rendered) return null;
-
-  const selectedType = FEEDBACK_TYPES.find(f => f.key === type);
-  const canSend = message.trim().length > 0;
-
-  const handleSend = () => {
-    if (!canSend) return;
-    const typeLabel = selectedType.label.replace(/^\S+\s+/, ""); // strip emoji
-    const fullMessage = `*[Mockup Tool ${typeLabel}]*\n\n${message.trim()}\n\n_Sent from the SfB Mockup Tool_`;
-    const encoded = encodeURIComponent(fullMessage);
-    // Opens Slack to a DM with Jonny, with the message pre-filled in the compose box
-    window.open(`https://app.slack.com/client/T02R4UZQH/${FEEDBACK_SLACK_USER}?message=${encoded}`, "_blank");
-    setSent(true);
-  };
-
-  return (
-    <>
-      {/* Scrim */}
-      <div onClick={onClose} style={{
-        position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 1000,
-        opacity: visible ? 1 : 0, transition: "opacity 0.2s ease",
-      }}/>
-
-      {/* Modal */}
-      <div style={{
-        position: "fixed", top: "50%", left: "50%", zIndex: 1001,
-        width: 440, background: "#fff", borderRadius: 16,
-        boxShadow: "0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)",
-        transform: visible
-          ? "translate(-50%, -50%) scale(1)"
-          : "translate(-50%, -48%) scale(0.97)",
-        opacity: visible ? 1 : 0,
-        transition: "transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
-        overflow: "hidden",
-      }}>
-
-        {/* Header */}
-        <div style={{ padding: "20px 20px 0" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 4 }}>
-            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, color: T.textPri }}>Share feedback</div>
-            <button onClick={onClose} style={{ background: "#F2F2F0", border: "none", borderRadius: 8, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: 8 }}>
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
-            </button>
-          </div>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>
-            This will open a Slack DM to Jonny with your message ready to send.
-          </div>
-        </div>
-
-        {!sent ? (
-          <div style={{ padding: "0 20px 20px" }}>
-            {/* Type selector */}
-            <div style={{ marginBottom: 14 }}>
-              <div style={{ fontFamily: T.font, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 8 }}>Type</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {FEEDBACK_TYPES.map(ft => {
-                  const active = type === ft.key;
-                  return (
-                    <button key={ft.key} onClick={() => setType(ft.key)} style={{
-                      display: "flex", alignItems: "center", gap: 10,
-                      padding: "9px 12px", borderRadius: 10, cursor: "pointer", textAlign: "left",
-                      background: active ? "#FFF4EE" : "#FAFAFA",
-                      border: active ? `1.5px solid ${T.orange}` : "1.5px solid #E8E8E5",
-                      transition: "all 0.12s ease",
-                    }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textPri, lineHeight: "17px" }}>{ft.label}</div>
-                        <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginTop: 1 }}>{ft.hint}</div>
-                      </div>
-                      <div style={{ width: 16, height: 16, borderRadius: "50%", border: `1.5px solid ${active ? T.orange : "#D0D0CE"}`, background: active ? T.orange : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        {active && <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }}/>}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Message */}
-            <div style={{ marginBottom: 16 }}>
-              <div style={{ fontFamily: T.font, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 6 }}>Message</div>
-              <textarea
-                ref={textareaRef}
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                maxLength={500}
-                rows={4}
-                placeholder={
-                  type === "bug" ? "Describe what happened and what you expected to happen…"
-                  : type === "improvement" ? "What would make this better, and why?"
-                  : "What would you like to be able to do?"
-                }
-                style={{
-                  width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428",
-                  background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8,
-                  padding: "10px 12px", outline: "none", resize: "none", lineHeight: "19px",
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={e => e.target.style.borderColor = T.orange}
-                onBlur={e => e.target.style.borderColor = "#E8E8E5"}
-              />
-              <div style={{ fontFamily: T.font, fontSize: 10, color: message.length >= 450 ? "#E05000" : T.textTer, textAlign: "right", marginTop: 3 }}>{message.length}/500</div>
-            </div>
-
-            {/* Actions */}
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={onClose} style={{ flex: 1, height: 40, borderRadius: 20, background: "#F2F2F0", border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 600, color: T.textSec, cursor: "pointer" }}>
-                Cancel
-              </button>
-              <button onClick={handleSend} disabled={!canSend} style={{
-                flex: 2, height: 40, borderRadius: 20, border: "none",
-                background: canSend ? T.orange : "#E0E0DE",
-                fontFamily: T.font, fontSize: 13, fontWeight: 700,
-                color: canSend ? "#fff" : "#A0A09C",
-                cursor: canSend ? "pointer" : "not-allowed",
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-                transition: "background 0.15s",
-              }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.59 12l-8.29-8.3a1 1 0 0 0-1.42 1.42L17.17 11H4a1 1 0 0 0 0 2h13.17l-6.3 6.3a1 1 0 0 0 1.43 1.4L20.6 12z" fill="currentColor"/><path d="M3 5.5L1 12l2 6.5" stroke="currentColor" strokeWidth="0" fill="none"/></svg>
-                Open in Slack
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* Sent confirmation */
-          <div style={{ padding: "8px 20px 28px", textAlign: "center" }}>
-            <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#EDFCE8", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2B7A1E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Slack is ready</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>
-              Your message has been pre-filled in a Slack DM to Jonny.<br/>Just hit send when you're ready.
-            </div>
-            <button onClick={onClose} style={{ height: 38, borderRadius: 19, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", padding: "0 24px" }}>
-              Done
-            </button>
-          </div>
-        )}
-      </div>
-    </>
-  );
-}
 
 function WhatsNewPanel({ open, onClose }) {
   const [visible, setVisible] = useState(false);
@@ -553,7 +385,6 @@ function App() {
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [whatsNewSeen, setWhatsNewSeen] = useState(() => {
     try { return localStorage.getItem(WHATS_NEW_SEEN_KEY) === LATEST_ENTRY_ID; } catch { return false; }
   });
@@ -957,26 +788,6 @@ function App() {
 
       {/* What's New drawer */}
       <WhatsNewPanel open={whatsNewOpen} onClose={() => setWhatsNewOpen(false)}/>
-
-      {/* Feedback modal */}
-      <FeedbackModal open={feedbackOpen} onClose={() => setFeedbackOpen(false)}/>
-
-      {/* Floating feedback button */}
-      <button onClick={() => setFeedbackOpen(true)} style={{
-        position: "fixed", bottom: 20, right: 20, zIndex: 900,
-        height: 38, borderRadius: 19, background: "#1A1A1A",
-        border: "none", display: "flex", alignItems: "center", gap: 7,
-        padding: "0 16px 0 13px", cursor: "pointer",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.22), 0 1px 3px rgba(0,0,0,0.12)",
-        fontFamily: T.font, fontSize: 12, fontWeight: 600, color: "#fff",
-        transition: "transform 0.15s ease, box-shadow 0.15s ease",
-      }}
-        onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 4px 18px rgba(0,0,0,0.28)"; }}
-        onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.22)"; }}
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        Feedback
-      </button>
 
       {/* Tooltip walkthrough */}
       {tourStep >= 0 && tourStep < TOUR_STEPS.length && (
