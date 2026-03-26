@@ -9,6 +9,7 @@
 
 const { T, FALLBACK_COLORS, MILESTONE_MAP_IMG,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
+        IcoRun, IcoRide, IcoSwim, IcoWalk, IcoHike,
         ScreenNotJoined, ScreenReward, ScreenJoined, ScreenCompleted, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed, ScreenSegment, ScreenOldDesign,
 } = window.MT;
 
@@ -54,14 +55,14 @@ function ScreenGroupsTab({ data }) {
       {/* Chip bar */}
       <div style={{ background: T.bgSurface, display: "flex", gap: 8, padding: "16px 24px", overflowX: "auto", boxShadow: "0px 2px 6px rgba(0,0,0,0.11)" }}>
         {[
-          { label: "Run", selected: true },
-          { label: "Ride", selected: false },
-          { label: "Swim", selected: false },
-          { label: "Walk", selected: false },
-          { label: "Hike", selected: false },
+          { label: "Run",  Icon: IcoRun,  selected: true },
+          { label: "Ride", Icon: IcoRide, selected: false },
+          { label: "Swim", Icon: IcoSwim, selected: false },
+          { label: "Walk", Icon: IcoWalk, selected: false },
+          { label: "Hike", Icon: IcoHike, selected: false },
         ].map((chip, i) => (
           <div key={i} style={{ height: 32, borderRadius: 8, border: `1px solid ${chip.selected ? T.orange : "#C2C1BB"}`, padding: "0 12px", display: "flex", alignItems: "center", gap: 8, background: "#fff", flexShrink: 0 }}>
-            <svg width="16" height="15" viewBox="0 0 16 15" fill="none"><path d="M8 0C3.58 0 0 3.36 0 7.5S3.58 15 8 15s8-3.36 8-7.5S12.42 0 8 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" fill={chip.selected ? T.orange : "black"}/></svg>
+            <chip.Icon size={16} color={chip.selected ? T.orange : T.textPri}/>
             <span style={{ fontFamily: T.font, fontSize: 12, lineHeight: "16px", color: chip.selected ? T.orange : T.textPri, whiteSpace: "nowrap" }}>{chip.label}</span>
           </div>
         ))}
