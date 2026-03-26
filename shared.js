@@ -23,7 +23,7 @@ function Field({ label, children }) {
     </div>
   );
 }
-function Input({ value, onChange, placeholder, multiline, rows }) {
+function Input({ value, onChange, placeholder, multiline, rows, onBlur: onBlurProp, maxLength }) {
   const [focused, setFocused] = useState(false);
   const s = {
     width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA",
@@ -33,9 +33,10 @@ function Input({ value, onChange, placeholder, multiline, rows }) {
     transition: "border-color 0.15s ease, box-shadow 0.15s ease",
     boxShadow: focused ? "0 0 0 3px rgba(252,82,0,0.08)" : "none",
   };
+  const handleBlur = () => { setFocused(false); if (onBlurProp) onBlurProp(); };
   return multiline
-    ? <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows || 3} style={s} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>
-    : <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={s} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>;
+    ? <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows || 3} style={s} onFocus={() => setFocused(true)} onBlur={handleBlur} maxLength={maxLength}/>
+    : <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={s} onFocus={() => setFocused(true)} onBlur={handleBlur} maxLength={maxLength}/>;
 }
 function useFileUpload(onLoad) {
   const ref = useRef();
