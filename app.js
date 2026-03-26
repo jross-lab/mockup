@@ -141,6 +141,211 @@ function ScreenPhoneContent({ screenKey, data }) {
 }
 
 
+// ─── What's New data ────────────────────────────────────────────────────────
+const WHATS_NEW_ENTRIES = [
+  {
+    date: "26 March 2026",
+    items: [
+      {
+        type: "improvement",
+        title: "Control panel reorganised into clear sections",
+        detail: "The input panel is now split into five named sections — Brand Assets, Brand & Challenge, Engagement & Discovery, Challenge Progress, and Content — each with a short description explaining where that information appears in the mockup.",
+      },
+      {
+        type: "new",
+        title: "Character counters on text fields",
+        detail: "Longer fields (Challenge Title, Goal, In-Feed CTA, Reward, Description) now show a live character count. The counter turns orange when you're approaching the limit.",
+      },
+      {
+        type: "improvement",
+        title: "Field hints show where each input appears on screen",
+        detail: "Fields like Goal and Description now carry a small grey note explaining exactly where that text shows up in the mockup — no more guessing.",
+      },
+      {
+        type: "improvement",
+        title: "Image upload labels now explain where each image is used",
+        detail: "The three image slots are labelled Hero Image, Challenge Badge, and Brand Logo, with a caption under each (e.g. \"Banner behind badge\", \"Sponsor card\").",
+      },
+      {
+        type: "fix",
+        title: "Activity filter chips now show correct sport icons",
+        detail: "The Run / Ride / Swim / Walk / Hike chips on the Gallery screen were showing a plain circle. They now show the correct Strava sport icons. The same fix was applied to the Takeover screen's background chip bar, which was also showing placeholder \"Label\" text.",
+      },
+    ],
+  },
+  {
+    date: "25 March 2026",
+    items: [
+      {
+        type: "improvement",
+        title: "Dates and numbers auto-format as you type",
+        detail: "Date fields accept almost any format you type (e.g. \"2026-05-01\" or \"1 May 2026\") and tidy it to \"May 1, 2026\" when you leave the field. Participant numbers auto-add commas (12480 → 12,480).",
+      },
+      {
+        type: "improvement",
+        title: "Activity type selector added to the control panel",
+        detail: "Toggle which sports apply to a challenge using clickable pill buttons. The selected types update the qualifying activities line across all detail screens instantly.",
+      },
+      {
+        type: "improvement",
+        title: "Activity icons updated to official Strava Brand Asset Library SVGs",
+        detail: "The sport icons throughout the tool (Run, Ride, Swim, Walk, Hike) were replaced with the official Strava brand icons, so mockups match the real app.",
+      },
+      {
+        type: "new",
+        title: "Custom in-feed CTA button text is now editable",
+        detail: "The call-to-action button on the Custom In-Feed screen (e.g. \"Join the challenge\") can now be customised from the control panel. Previously it was fixed text.",
+      },
+      {
+        type: "fix",
+        title: "Custom in-feed layout corrected to match Figma",
+        detail: "The badge is now correctly top-aligned with the challenge title, the bike icon was corrected, and a grey separator was added below the ad unit.",
+      },
+    ],
+  },
+  {
+    date: "24 March 2026",
+    items: [
+      {
+        type: "new",
+        title: "Old Design screen added to the gallery",
+        detail: "A legacy version of the challenge detail screen is now available in the screen picker, marked with a dashed border. Useful for before/after comparisons with clients.",
+      },
+      {
+        type: "fix",
+        title: "PNG export now captures scrolled content correctly",
+        detail: "When downloading a screen you'd scrolled inside, the export was capturing the top rather than what was visible. It now exports exactly what you can see.",
+      },
+      {
+        type: "fix",
+        title: "Challenge badge clipping fixed",
+        detail: "The circular badge overlapping the bottom of the hero image was being cut off on some screens. It now sits correctly on top of the hero as designed.",
+      },
+      {
+        type: "fix",
+        title: "Stray divider lines removed from info rows",
+        detail: "Thin grey lines were incorrectly appearing between the challenge info rows on several screens. These have been removed to match the Figma designs.",
+      },
+    ],
+  },
+];
+
+const WHATS_NEW_SEEN_KEY = "mockup_whats_new_seen_v1";
+const LATEST_ENTRY_ID = "2026-03-26"; // bump this when new entries are added
+
+const TYPE_META = {
+  new:         { label: "New",         bg: "#EDFCE8", color: "#2B7A1E", dot: "#2B7A1E" },
+  improvement: { label: "Improvement", bg: "#EAF4FF", color: "#1A6FBF", dot: "#1A6FBF" },
+  fix:         { label: "Fix",         bg: "#FFF3E0", color: "#B85C00", dot: "#B85C00" },
+};
+
+function WhatsNewPanel({ open, onClose }) {
+  const [visible, setVisible] = useState(false);
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setRendered(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+    } else {
+      setVisible(false);
+      const t = setTimeout(() => setRendered(false), 300);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
+
+  if (!rendered) return null;
+
+  return (
+    <>
+      {/* Scrim */}
+      <div onClick={onClose} style={{
+        position: "fixed", inset: 0, background: "rgba(0,0,0,0.25)", zIndex: 1000,
+        opacity: visible ? 1 : 0, transition: "opacity 0.25s ease",
+      }}/>
+
+      {/* Drawer */}
+      <div style={{
+        position: "fixed", top: 0, right: 0, bottom: 0, width: 440,
+        background: "#fff", zIndex: 1001, display: "flex", flexDirection: "column",
+        boxShadow: "-4px 0 32px rgba(0,0,0,0.12)",
+        transform: visible ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      }}>
+
+        {/* Drawer header */}
+        <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid #DFDFE8", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ fontFamily: T.font, fontSize: 18, fontWeight: 700, color: T.textPri, lineHeight: "24px" }}>What's new</div>
+              <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginTop: 3 }}>Latest updates to the Mockup Tool</div>
+            </div>
+            <button onClick={onClose} style={{
+              background: "#F2F2F0", border: "none", borderRadius: 8, width: 32, height: 32,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", flexShrink: 0, marginLeft: 12,
+            }}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
+          {/* Legend */}
+          <div style={{ display: "flex", gap: 12, marginTop: 14, flexWrap: "wrap" }}>
+            {Object.entries(TYPE_META).map(([key, m]) => (
+              <div key={key} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 2, background: m.dot }}/>
+                <span style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>{m.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scrollable content */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "4px 0 32px" }}>
+          {WHATS_NEW_ENTRIES.map((group, gi) => (
+            <div key={gi} style={{ padding: "20px 24px 0" }}>
+              {/* Date heading */}
+              <div style={{
+                fontFamily: T.font, fontSize: 11, fontWeight: 700,
+                letterSpacing: "0.09em", textTransform: "uppercase",
+                color: T.textTer, marginBottom: 10,
+              }}>{group.date}</div>
+
+              {/* Items */}
+              {group.items.map((item, ii) => {
+                const meta = TYPE_META[item.type];
+                return (
+                  <div key={ii} style={{
+                    borderLeft: `2.5px solid ${meta.dot}`,
+                    paddingLeft: 14, marginBottom: 18,
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
+                      <span style={{
+                        display: "inline-block", fontFamily: T.font, fontSize: 10, fontWeight: 700,
+                        letterSpacing: "0.06em", textTransform: "uppercase",
+                        background: meta.bg, color: meta.color,
+                        borderRadius: 4, padding: "2px 7px",
+                      }}>{meta.label}</span>
+                    </div>
+                    <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, lineHeight: "18px", marginBottom: 4 }}>{item.title}</div>
+                    <div style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, lineHeight: "17px" }}>{item.detail}</div>
+                  </div>
+                );
+              })}
+
+              {/* Divider between date groups */}
+              {gi < WHATS_NEW_ENTRIES.length - 1 && (
+                <div style={{ height: 1, background: "#DFDFE8", margin: "4px 0 0" }}/>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
 // Character counter wrapper for Field — shows "used / max" below the input
 function FieldWithCounter({ label, hint, value, maxLength, children }) {
   const used = (value || "").length;
@@ -169,6 +374,15 @@ function App() {
   const [screen, setScreen] = useState("not-joined");
   const [busy, setBusy] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
+  const [whatsNewOpen, setWhatsNewOpen] = useState(false);
+  const [whatsNewSeen, setWhatsNewSeen] = useState(() => {
+    try { return localStorage.getItem(WHATS_NEW_SEEN_KEY) === LATEST_ENTRY_ID; } catch { return false; }
+  });
+  const openWhatsNew = () => {
+    setWhatsNewOpen(true);
+    setWhatsNewSeen(true);
+    try { localStorage.setItem(WHATS_NEW_SEEN_KEY, LATEST_ENTRY_ID); } catch {}
+  };
 
   // Tour state
   const tourImagesRef = useRef();
@@ -336,7 +550,16 @@ function App() {
         <div style={{ height: 24, width: 1, background: "#DFDFE8", flexShrink: 0 }}/>
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Interactive Mockup Tool</span>
         <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Build branded Strava challenge screens — pick a template, drop in your assets, and download a pixel-perfect PNG.</span>
-        <div style={{ marginLeft: "auto", flexShrink: 0 }}>
+        <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", gap: 8 }}>
+          {/* What's new button */}
+          <button onClick={openWhatsNew} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5 4.3 12.6l.7-4.1-3-2.9 4.2-.6L8 1z" stroke="#64635E" strokeWidth="1.4" strokeLinejoin="round"/></svg>
+            What's new
+            {!whatsNewSeen && (
+              <span style={{ position: "absolute", top: 4, right: 4, width: 7, height: 7, borderRadius: "50%", background: T.orange, border: "1.5px solid #fff" }}/>
+            )}
+          </button>
+          {/* Tour button */}
           <button onClick={startTour} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 5 }}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#64635E" strokeWidth="1.5"/><path d="M7.25 7H8.75V11.5H7.25V7Z" fill="#64635E"/><circle cx="8" cy="5" r="0.9" fill="#64635E"/></svg>
             Take a tour
@@ -552,6 +775,9 @@ function App() {
       </div>
       </div>
       </div>
+
+      {/* What's New drawer */}
+      <WhatsNewPanel open={whatsNewOpen} onClose={() => setWhatsNewOpen(false)}/>
 
       {/* Tooltip walkthrough */}
       {tourStep >= 0 && tourStep < TOUR_STEPS.length && (
