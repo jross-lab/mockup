@@ -140,6 +140,28 @@ function ScreenPhoneContent({ screenKey, data }) {
   );
 }
 
+
+// Character counter wrapper for Field — shows "used / max" below the input
+function FieldWithCounter({ label, hint, value, maxLength, children }) {
+  const used = (value || "").length;
+  const nearLimit = maxLength && used >= maxLength * 0.85;
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 5 }}>
+        <div>
+          <span style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78" }}>{label}</span>
+          {hint && <span style={{ fontSize: 10, fontFamily: T.font, color: T.textTer, marginLeft: 6 }}>{hint}</span>}
+        </div>
+        {maxLength && (
+          <span style={{ fontSize: 10, fontFamily: T.font, color: nearLimit ? "#E05000" : T.textTer, fontVariantNumeric: "tabular-nums" }}>
+            {used}/{maxLength}
+          </span>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+}
 function App() {
   useFonts();
   const h2cReady = useHtml2Canvas();
@@ -326,28 +348,48 @@ function App() {
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
       {/* Left panel */}
-      <div style={{ width: 460, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", display: "flex", flexDirection: "column", padding: 16 }}>
+      <div style={{ width: 460, flexShrink: 0, background: "#fff", borderRight: "1px solid #DFDFE8", display: "flex", flexDirection: "column", overflowY: "auto", overflowX: "hidden" }}>
 
-        {/* Image uploads — 3 across in a row */}
-        <div ref={tourImagesRef}>
-          <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 8 }}>Images</div>
-          <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
-            <div style={{ flex: 1 }}><UploadBox label="Hero" preview={data.heroImg} onUpload={set("heroImg")} aspect="1/1"/></div>
-            <div style={{ flex: 1 }}><UploadBox label="Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/></div>
-            <div style={{ flex: 1 }}><UploadBox label="Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/></div>
+        {/* ── Section: Brand Assets ─────────────────────────────── */}
+        <div ref={tourImagesRef} style={{ padding: "14px 16px 12px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, marginBottom: 2 }}>Brand Assets</div>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 10 }}>Upload images used across all screens</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}>
+              <UploadBox label="Hero Image" preview={data.heroImg} onUpload={set("heroImg")} aspect="1/1"/>
+              <div style={{ fontFamily: T.font, fontSize: 10, color: T.textTer, marginTop: 3, textAlign: "center" }}>Banner behind badge</div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <UploadBox label="Challenge Badge" preview={data.badgeImg} onUpload={set("badgeImg")} aspect="1/1"/>
+              <div style={{ fontFamily: T.font, fontSize: 10, color: T.textTer, marginTop: 3, textAlign: "center" }}>Award icon</div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <UploadBox label="Brand Logo" preview={data.logoImg} onUpload={set("logoImg")} aspect="1/1"/>
+              <div style={{ fontFamily: T.font, fontSize: 10, color: T.textTer, marginTop: 3, textAlign: "center" }}>Sponsor card</div>
+            </div>
           </div>
         </div>
 
-        <div style={{ height: 1, background: "#DFDFE8", margin: "0 0 13px", flexShrink: 0 }}/>
+        <div style={{ height: 1, background: "#DFDFE8", flexShrink: 0 }}/>
 
-        {/* Text fields */}
-        <div ref={tourPanelRef} style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-          <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. PowerBar" maxLength={40}/></Field></div>
-          </div>
+        {/* ── Section: Brand & Challenge ────────────────────────── */}
+        <div ref={tourPanelRef} style={{ padding: "14px 16px 4px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, marginBottom: 2 }}>Brand & Challenge</div>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 10 }}>Core details shown on the challenge detail screens</div>
+
+          <Field label="Brand Name"><Input value={data.brandName} onChange={set("brandName")} placeholder="e.g. PowerBar" maxLength={40}/></Field>
+
+          <FieldWithCounter label="Challenge Title" value={data.title} maxLength={60}>
+            <Input value={data.title} onChange={set("title")} placeholder="e.g. PowerBar Gran Fondo Challenge" maxLength={60}/>
+          </FieldWithCounter>
+
+          <FieldWithCounter label="Goal" hint="Shown in the challenge info rows" value={data.goal} maxLength={50}>
+            <Input value={data.goal} onChange={set("goal")} placeholder="e.g. Ride 250km" maxLength={50}/>
+          </FieldWithCounter>
+
           {/* Activity Type pill toggles */}
-          <div style={{ marginBottom: 6 }}>
-            <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Activity Types</div>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Qualifying Activity Types</div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
               {ACTIVITY_TYPES.map(({ key, label, Icon }) => {
                 const active = (data.activityTypes || []).includes(key);
@@ -372,38 +414,61 @@ function App() {
               })}
             </div>
           </div>
-          <Field label="Challenge Title"><Input value={data.title} onChange={set("title")} placeholder="e.g. PowerBar Gran Fondo Challenge" maxLength={60}/></Field>
-          <div style={{ display: "flex", gap: 8 }}>
-            <div style={{ flex: 1 }}><Field label="Goal"><Input value={data.goal} onChange={set("goal")} placeholder="e.g. Ride 250km" maxLength={50}/></Field></div>
-            <div style={{ flex: 1 }}><Field label="Club members"><Input value={data.participants} onChange={v => setData(d => ({ ...d, participants: v }))} onBlur={() => setData(d => ({ ...d, participants: formatNumber(d.participants) }))} placeholder="e.g. 12,480" maxLength={12}/></Field></div>
-          </div>
+
+          {/* Dates side by side */}
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 1 }}><Field label="Start Date"><Input value={data.startDate} onChange={v => setData(d => ({ ...d, startDate: v }))} onBlur={() => setData(d => ({ ...d, startDate: formatDate(d.startDate) }))} placeholder="e.g. May 1, 2026" maxLength={20}/></Field></div>
             <div style={{ flex: 1 }}><Field label="End Date"><Input value={data.endDate} onChange={v => setData(d => ({ ...d, endDate: v }))} onBlur={() => setData(d => ({ ...d, endDate: formatDate(d.endDate) }))} placeholder="e.g. May 31, 2026" maxLength={20}/></Field></div>
-            <div style={{ flex: 1 }}><Field label="In-feed CTA"><Input value={data.ctaText} onChange={set("ctaText")} placeholder="e.g. Join the challenge" maxLength={30}/></Field></div>
           </div>
-          <div ref={tourProgressRef}>
-            <div style={{ fontSize: 12, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: "#4A4A4A", marginBottom: 4, marginTop: 8 }}>Challenge Progress</div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <div style={{ flex: 1 }}><Field label="Progress"><Input value={data.progressDistance} onChange={v => setData(d => ({ ...d, progressDistance: v }))} onBlur={() => setData(d => ({ ...d, progressDistance: formatNumber(d.progressDistance) }))} placeholder="e.g. 187" maxLength={10}/></Field></div>
-              <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={v => setData(d => ({ ...d, progressTotal: v }))} onBlur={() => setData(d => ({ ...d, progressTotal: formatNumber(d.progressTotal) }))} placeholder="e.g. 250" maxLength={10}/></Field></div>
-              <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="e.g. km" maxLength={10}/></Field></div>
+        </div>
+
+        <div style={{ height: 1, background: "#DFDFE8", flexShrink: 0 }}/>
+
+        {/* ── Section: Engagement ───────────────────────────────── */}
+        <div style={{ padding: "14px 16px 4px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, marginBottom: 2 }}>Engagement & Discovery</div>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 10 }}>Used on feed cards and the not-joined screen</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}>
+              <Field label="Club Members"><Input value={data.participants} onChange={v => setData(d => ({ ...d, participants: v }))} onBlur={() => setData(d => ({ ...d, participants: formatNumber(d.participants) }))} placeholder="e.g. 12,480" maxLength={12}/></Field>
             </div>
-          </div>
-          {/* Reward + Description — flex to fill remaining panel height */}
-          <div style={{ display: "flex", gap: 8, flex: 1, minHeight: 80 }}>
-            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-              <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Reward</div>
-              <textarea value={data.reward} onChange={e => set("reward")(e.target.value)} placeholder="e.g. Earn the exclusive PowerBar Gran Fondo badge" maxLength={120}
-                style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
-            </div>
-            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-              <div style={{ fontSize: 10, fontFamily: T.font, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6D6D78", marginBottom: 5 }}>Description</div>
-              <textarea value={data.description} onChange={e => set("description")(e.target.value)} placeholder="e.g. Hit the road with PowerBar and conquer 250km over 30 days. Every qualifying ride counts — whether it's your morning commute or a weekend epic." maxLength={300}
-                style={{ flex: 1, width: "100%", fontFamily: T.font, fontSize: 13, color: "#242428", background: "#FAFAFA", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "10px 12px", outline: "none", resize: "none", lineHeight: "18px" }}/>
+            <div style={{ flex: 1 }}>
+              <FieldWithCounter label="In-Feed CTA Button" value={data.ctaText} maxLength={30}>
+                <Input value={data.ctaText} onChange={set("ctaText")} placeholder="e.g. Join the challenge" maxLength={30}/>
+              </FieldWithCounter>
             </div>
           </div>
         </div>
+
+        <div style={{ height: 1, background: "#DFDFE8", flexShrink: 0 }}/>
+
+        {/* ── Section: Challenge Progress ───────────────────────── */}
+        <div ref={tourProgressRef} style={{ padding: "14px 16px 4px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, marginBottom: 2 }}>Challenge Progress</div>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 10 }}>Controls the progress bar on the Joined and Completed screens</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}><Field label="Current Distance"><Input value={data.progressDistance} onChange={v => setData(d => ({ ...d, progressDistance: v }))} onBlur={() => setData(d => ({ ...d, progressDistance: formatNumber(d.progressDistance) }))} placeholder="e.g. 187" maxLength={10}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Goal Total"><Input value={data.progressTotal} onChange={v => setData(d => ({ ...d, progressTotal: v }))} onBlur={() => setData(d => ({ ...d, progressTotal: formatNumber(d.progressTotal) }))} placeholder="e.g. 250" maxLength={10}/></Field></div>
+            <div style={{ flex: 1 }}><Field label="Unit"><Input value={data.progressUnit} onChange={set("progressUnit")} placeholder="e.g. km" maxLength={10}/></Field></div>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "#DFDFE8", flexShrink: 0 }}/>
+
+        {/* ── Section: Content ──────────────────────────────────── */}
+        <div style={{ padding: "14px 16px 16px" }}>
+          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, marginBottom: 2 }}>Content</div>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, marginBottom: 10 }}>Shown in the About section and reward info row</div>
+
+          <FieldWithCounter label="Reward" hint="Shown in the challenge info rows" value={data.reward} maxLength={120}>
+            <Input value={data.reward} onChange={set("reward")} placeholder="e.g. Earn the exclusive PowerBar Gran Fondo badge" multiline rows={2} maxLength={120}/>
+          </FieldWithCounter>
+
+          <FieldWithCounter label="Description" hint="Shown in the About this Challenge section" value={data.description} maxLength={300}>
+            <Input value={data.description} onChange={set("description")} placeholder="e.g. Hit the road with PowerBar and conquer 250km over 30 days. Every qualifying ride counts — whether it's your morning commute or a weekend epic." multiline rows={4} maxLength={300}/>
+          </FieldWithCounter>
+        </div>
+
       </div>
 
       {/* Right side: toolbar + phone + gallery */}
