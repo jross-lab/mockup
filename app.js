@@ -660,7 +660,7 @@ function UsageDashboard({ open, onClose }) {
 
   if (!rendered) return null;
 
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/1A7y_v8VRxzr3RJKL94ys4cg9e1wzXLANxycnXKweZ84/edit";
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/16oQXkM4eCTH7SF9P-m7_-dhg4g5P8meIF84COieLEcw/edit";
 
   return (
     <>
@@ -1232,3 +1232,4 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
