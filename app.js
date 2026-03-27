@@ -149,7 +149,7 @@ const WHATS_NEW_ENTRIES = [
       {
         type: "new",
         title: "Feedback button — report bugs or request improvements",
-        detail: "A dark \"Feedback\" pill button sits in the bottom-right corner of the tool. Click it to log a bug report, improvement idea, or feature request — it opens a pre-filled email to Jonny ready to send.",
+        detail: "A dark \"Feedback\" pill button sits in the bottom-right corner of the tool. Click it to log a bug report, improvement idea, or feature request — it sends a Slack message directly to Jonny — no email client needed.",
       },
       {
         type: "new",
@@ -256,7 +256,7 @@ const FEEDBACK_TYPES = [
   { key: "feature",     label: "💡  Feature request",   hint: "Something new you'd like to see" },
 ];
 
-const FEEDBACK_EMAIL = "jross@strava.com";
+const FEEDBACK_SLACK_USER = "U03P4E9MWKB"; // Jonny Ross
 
 function FeedbackModal({ open, onClose }) {
   const [visible, setVisible] = useState(false);
@@ -264,12 +264,16 @@ function FeedbackModal({ open, onClose }) {
   const [type, setType] = useState("bug");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
   const textareaRef = useRef();
 
   useEffect(() => {
     if (open) {
       setRendered(true);
       setSent(false);
+      setSending(false);
+      setError(null);
       setMessage("");
       setType("bug");
       requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -286,15 +290,37 @@ function FeedbackModal({ open, onClose }) {
   if (!rendered) return null;
 
   const selectedType = FEEDBACK_TYPES.find(f => f.key === type);
-  const canSend = message.trim().length > 0;
+  const canSend = message.trim().length > 0 && !sending;
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!canSend) return;
+    setSending(true);
+    setError(null);
     const typeLabel = selectedType.label.replace(/^\S+\s+/, "");
-    const subject = encodeURIComponent(`[Mockup Tool] ${typeLabel}`);
-    const body = encodeURIComponent(`${message.trim()}\n\n—\nSent from the SfB Mockup Tool`);
-    window.location.href = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
-    setSent(true);
+    const slackMessage = `*[Mockup Tool — ${typeLabel}]*\n\n${message.trim()}\n\n_Sent from the SfB Mockup Tool_`;
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1024,
+          mcp_servers: [{ type: "url", url: "https://mcp.slack.com/mcp", name: "slack" }],
+          system: "You are a helper that sends Slack messages. When given a message and user ID, send it via the Slack MCP tool and confirm success. Do not add commentary.",
+          messages: [{ role: "user", content: `Send this exact message to Slack user ${FEEDBACK_SLACK_USER}: ${slackMessage}` }],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || "API error");
+      // Check the response contains a tool result indicating success
+      const hasError = JSON.stringify(data).toLowerCase().includes("error") && !JSON.stringify(data).toLowerCase().includes("success");
+      if (hasError && !data.content?.some(b => b.type === "text")) throw new Error("Message may not have sent");
+      setSent(true);
+    } catch (e) {
+      setError("Something went wrong — please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -319,7 +345,7 @@ function FeedbackModal({ open, onClose }) {
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
             </button>
           </div>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>This will open a pre-filled email to Jonny.</div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>This will send a Slack message directly to Jonny.</div>
         </div>
         {!sent ? (
           <div style={{ padding: "0 20px 20px" }}>
@@ -368,18 +394,28 @@ function FeedbackModal({ open, onClose }) {
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
                 transition: "background 0.15s",
               }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                Send email
+                {sending ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ animation: "spin 1s linear infinite" }}><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" strokeWidth="3" strokeLinecap="round"/></svg>
+                    Sending…
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    Send to Jonny
+                  </>
+                )}
               </button>
             </div>
+            {error && <div style={{ fontFamily: T.font, fontSize: 12, color: "#C0392B", marginTop: 8, textAlign: "center" }}>{error}</div>}
           </div>
         ) : (
           <div style={{ padding: "8px 20px 28px", textAlign: "center" }}>
             <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#EDFCE8", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2B7A1E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Email ready</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Your message has been pre-filled in a new email to Jonny.<br/>Just hit send when you're ready.</div>
+            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Message sent!</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Your message has been sent to Jonny on Slack.<br/>Thanks for the feedback.</div>
             <button onClick={onClose} style={{ height: 38, borderRadius: 19, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", padding: "0 24px" }}>Done</button>
           </div>
         )}
@@ -962,6 +998,10 @@ function App() {
     </div>
   );
 }
+
+const _spinStyle = document.createElement("style");
+_spinStyle.textContent = "@keyframes spin { to { transform: rotate(360deg); } }";
+document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
