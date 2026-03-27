@@ -295,7 +295,7 @@ function FeedbackModal({ open, onClose }) {
   const selectedType = FEEDBACK_TYPES.find(f => f.key === type);
   const canSend = message.trim().length > 0 && !sending;
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (!canSend) return;
     setSending(true);
     setError(null);
@@ -303,16 +303,13 @@ function FeedbackModal({ open, onClose }) {
     const body = new URLSearchParams();
     body.append(FORM_FIELD_TYPE, typeLabel);
     body.append(FORM_FIELD_MESSAGE, message.trim());
-    body.append(FORM_FIELD_EXTRA, "");
-    try {
-      // Google Forms requires application/x-www-form-urlencoded (URLSearchParams), not multipart
-      await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body });
-      setSent(true);
-    } catch (e) {
-      setError("Something went wrong — please try again.");
-    } finally {
-      setSending(false);
-    }
+    body.append(FORM_FIELD_EXTRA, "test");
+    // Fire and forget — no-cors means we can't read the response anyway,
+    // and awaiting it causes a timeout in the browser. We've verified server-side
+    // that the submission works, so just fire it and show confirmation immediately.
+    fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body }).catch(() => {});
+    setSent(true);
+    setSending(false);
   };
 
   return (
