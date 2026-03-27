@@ -293,7 +293,7 @@ function FeedbackModal({ open, onClose }) {
     const typeLabel = selectedType.label.replace(/^\S+\s+/, "");
     const subject = encodeURIComponent(`[Mockup Tool] ${typeLabel}`);
     const body = encodeURIComponent(`${message.trim()}\n\n—\nSent from the SfB Mockup Tool`);
-    window.open(`mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`, "_self");
+    window.location.href = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
     setSent(true);
   };
 
