@@ -256,8 +256,8 @@ const FEEDBACK_TYPES = [
   { key: "feature",     label: "💡  Feature request",   hint: "Something new you'd like to see" },
 ];
 
-// Google Form submission endpoint + field IDs
-const FORM_PREFILL_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/viewform";
+// Google Form — opens pre-filled in a new tab
+const FORM_URL           = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/viewform?usp=header";
 const FORM_FIELD_TYPE    = "entry.813967061";
 const FORM_FIELD_MESSAGE = "entry.1983614390";
 const FORM_FIELD_EXTRA   = "entry.1278679304";
@@ -295,10 +295,10 @@ function FeedbackModal({ open, onClose }) {
   const handleSend = () => {
     if (!canSend) return;
     const typeLabel = selectedType.label.replace(/^\S+\s+/, ""); // strip emoji
-    const url = `${FORM_PREFILL_BASE}?usp=pp_url`
-      + `&${FORM_FIELD_TYPE}=${encodeURIComponent(typeLabel)}`
-      + `&${FORM_FIELD_MESSAGE}=${encodeURIComponent(message.trim())}`
-      + `&${FORM_FIELD_EXTRA}=`;
+    const url = FORM_URL
+      + "&" + FORM_FIELD_TYPE    + "=" + encodeURIComponent(typeLabel)
+      + "&" + FORM_FIELD_MESSAGE + "=" + encodeURIComponent(message.trim())
+      + "&" + FORM_FIELD_EXTRA   + "=";
     window.open(url, "_blank");
     setSent(true);
   };
@@ -325,7 +325,7 @@ function FeedbackModal({ open, onClose }) {
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
             </button>
           </div>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>Opens a pre-filled Google Form in a new tab — just hit submit.</div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>Opens a pre-filled Google Form in a new tab — just hit Submit.</div>
         </div>
         {!sent ? (
           <div style={{ padding: "0 20px 20px" }}>
@@ -374,20 +374,10 @@ function FeedbackModal({ open, onClose }) {
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
                 transition: "background 0.15s",
               }}>
-                {sending ? (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ animation: "spin 1s linear infinite" }}><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" strokeWidth="3" strokeLinecap="round"/></svg>
-                    Sending…
-                  </>
-                ) : (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    Open form
-                  </>
-                )}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Open form
               </button>
             </div>
-            {error && <div style={{ fontFamily: T.font, fontSize: 12, color: "#C0392B", marginTop: 8, textAlign: "center" }}>{error}</div>}
           </div>
         ) : (
           <div style={{ padding: "8px 20px 28px", textAlign: "center" }}>
