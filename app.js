@@ -149,7 +149,7 @@ const WHATS_NEW_ENTRIES = [
       {
         type: "new",
         title: "Feedback button — report bugs or request improvements",
-        detail: "A dark \"Feedback\" pill button now sits in the bottom-right corner of the tool. Click it to open a form where you can log a bug report, improvement idea, or feature request. Submitting pre-fills a Slack DM to Jonny so it can be picked up and actioned.",
+        detail: "A dark \"Feedback\" pill button sits in the bottom-right corner of the tool. Click it to log a bug report, improvement idea, or feature request — it opens a pre-filled email to Jonny ready to send.",
       },
       {
         type: "new",
@@ -256,7 +256,7 @@ const FEEDBACK_TYPES = [
   { key: "feature",     label: "💡  Feature request",   hint: "Something new you'd like to see" },
 ];
 
-const FEEDBACK_SLACK_USER = "U03P4E9MWKB"; // Jonny Ross
+const FEEDBACK_EMAIL = "jross@strava.com";
 
 function FeedbackModal({ open, onClose }) {
   const [visible, setVisible] = useState(false);
@@ -291,9 +291,9 @@ function FeedbackModal({ open, onClose }) {
   const handleSend = () => {
     if (!canSend) return;
     const typeLabel = selectedType.label.replace(/^\S+\s+/, "");
-    const fullMessage = `*[Mockup Tool ${typeLabel}]*\n\n${message.trim()}\n\n_Sent from the SfB Mockup Tool_`;
-    const encoded = encodeURIComponent(fullMessage);
-    window.open(`https://app.slack.com/client/T02R4UZQH/${FEEDBACK_SLACK_USER}?message=${encoded}`, "_blank");
+    const subject = encodeURIComponent(`[Mockup Tool] ${typeLabel}`);
+    const body = encodeURIComponent(`${message.trim()}\n\n—\nSent from the SfB Mockup Tool`);
+    window.open(`mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`, "_self");
     setSent(true);
   };
 
@@ -319,7 +319,7 @@ function FeedbackModal({ open, onClose }) {
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
             </button>
           </div>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>This will open a Slack DM to Jonny with your message ready to send.</div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>This will open a pre-filled email to Jonny.</div>
         </div>
         {!sent ? (
           <div style={{ padding: "0 20px 20px" }}>
@@ -369,7 +369,7 @@ function FeedbackModal({ open, onClose }) {
                 transition: "background 0.15s",
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                Open in Slack
+                Send email
               </button>
             </div>
           </div>
@@ -378,8 +378,8 @@ function FeedbackModal({ open, onClose }) {
             <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#EDFCE8", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2B7A1E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Slack is ready</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Your message has been pre-filled in a Slack DM to Jonny.<br/>Just hit send when you're ready.</div>
+            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Email ready</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Your message has been pre-filled in a new email to Jonny.<br/>Just hit send when you're ready.</div>
             <button onClick={onClose} style={{ height: 38, borderRadius: 19, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", padding: "0 24px" }}>Done</button>
           </div>
         )}
