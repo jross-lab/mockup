@@ -257,10 +257,9 @@ const FEEDBACK_TYPES = [
 ];
 
 // Google Form submission endpoint + field IDs
-const FORM_ACTION        = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/formResponse";
-const FORM_FIELD_TYPE    = "entry.813967061";   // Type (multiple choice)
-const FORM_FIELD_MESSAGE = "entry.1983614390";  // Message (paragraph)
-const FORM_FIELD_EXTRA   = "entry.1278679304";  // Third field (submitted blank)
+const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/formResponse";
+const FORM_FIELD_TYPE    = "entry.813967061";
+const FORM_FIELD_MESSAGE = "entry.1983614390";
 
 function FeedbackModal({ open, onClose }) {
   const [visible, setVisible] = useState(false);
@@ -301,13 +300,12 @@ function FeedbackModal({ open, onClose }) {
     setSending(true);
     setError(null);
     const typeLabel = selectedType.label.replace(/^\S+\s+/, ""); // strip emoji
-    const body = new FormData();
+    const body = new URLSearchParams();
     body.append(FORM_FIELD_TYPE, typeLabel);
     body.append(FORM_FIELD_MESSAGE, message.trim());
     body.append(FORM_FIELD_EXTRA, "");
     try {
-      // Google Forms doesn't support CORS so we use no-cors — response is opaque
-      // but the submission still goes through successfully
+      // Google Forms requires application/x-www-form-urlencoded (URLSearchParams), not multipart
       await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body });
       setSent(true);
     } catch (e) {
