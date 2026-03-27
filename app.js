@@ -142,7 +142,19 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
+const LATEST_ENTRY_ID = "2026-03-27"; // bump this when new entries are added
+
 const WHATS_NEW_ENTRIES = [
+  {
+    date: "27 March 2026",
+    items: [
+      {
+        type: "new",
+        title: "Usage tracking",
+        detail: "The tool now logs sessions, downloads, and time spent per person. A one-time name picker appears on first load — your choice is remembered on that device. View the data via the Usage button in the header.",
+      },
+    ],
+  },
   {
     date: "26 March 2026",
     items: [
@@ -241,7 +253,6 @@ const WHATS_NEW_ENTRIES = [
 ];
 
 const WHATS_NEW_SEEN_KEY = "mockup_whats_new_seen_v1";
-const LATEST_ENTRY_ID = "2026-03-26b"; // bump this when new entries are added
 
 const TYPE_META = {
   new:         { label: "New",         bg: "#EDFCE8", color: "#2B7A1E", dot: "#2B7A1E" },
@@ -501,6 +512,209 @@ function WhatsNewPanel({ open, onClose }) {
   );
 }
 
+// ─── Usage tracking ───────────────────────────────────────────────────────────
+const TRACKING_ENDPOINT = "https://script.google.com/a/macros/strava.com/s/AKfycbwqVi-LWki2L4WbZaN_GLAhd8CX8J5qWE3vOvougYCJ7hiRnWRaCKEnAY5qUGTpUKwz/exec";
+const USER_KEY = "mockup_user_v1";
+
+const TEAM_MEMBERS = [
+  { name: "Alex Perry",            email: "aperry@strava.com" },
+  { name: "Alyssa Carrasco",       email: "acarrasco@strava.com" },
+  { name: "Angela Heredia",        email: "aheredia@strava.com" },
+  { name: "Angela Papageorgiou",   email: "apapageorgiou@strava.com" },
+  { name: "Brandon White",         email: "bwhite@strava.com" },
+  { name: "Cindy Yu",              email: "cyu@strava.com" },
+  { name: "Dan Long",              email: "dlong@strava.com" },
+  { name: "Danial Naqvi",          email: "dnaqvi@strava.com" },
+  { name: "Emily Murch",           email: "emurch@strava.com" },
+  { name: "Evelina Jarbin",        email: "ejarbin@strava.com" },
+  { name: "Gabe Lekorenos",        email: "glekorenos@strava.com" },
+  { name: "Imran Manji",           email: "imanji@strava.com" },
+  { name: "Jake Walker",           email: "jwalker@strava.com" },
+  { name: "Jen Starr",             email: "jstarr@strava.com" },
+  { name: "Joe Weitz",             email: "jweitz@strava.com" },
+  { name: "Jonny Ross",            email: "jross@strava.com" },
+  { name: "Julianna Williams",     email: "jwilliams@strava.com" },
+  { name: "Kira Rain Erickson",    email: "kerickson@strava.com" },
+  { name: "Lauren Graff",          email: "lgraff@strava.com" },
+  { name: "Maria Shumakova",       email: "mshumakova@strava.com" },
+  { name: "Meghana Garlapati",     email: "mgarlapati@strava.com" },
+  { name: "Melvin Findlay",        email: "mfindlay@strava.com" },
+  { name: "Nora McLaughlin",       email: "nmclaughlin@strava.com" },
+  { name: "Pete Gordon",           email: "pgordon@strava.com" },
+  { name: "Tom Overmire",          email: "tovermire@strava.com" },
+  { name: "Victoria Lane",         email: "vlane@strava.com" },
+  { name: "Vitor Rocha",           email: "vrocha@strava.com" },
+  { name: "Wendy Perez",           email: "wperez@strava.com" },
+];
+
+function logEvent(user, event, screen, sessionId, durationMinutes) {
+  if (!user) return;
+  const payload = {
+    timestamp: new Date().toISOString(),
+    name: user.name,
+    email: user.email,
+    event,
+    screen: screen || "",
+    sessionId,
+    durationMinutes: durationMinutes || 0,
+  };
+  fetch(TRACKING_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
+}
+
+function UserPicker({ onSelect }) {
+  const [visible, setVisible] = useState(false);
+  const [search, setSearch] = useState("");
+  const inputRef = useRef();
+
+  useEffect(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setVisible(true);
+      setTimeout(() => inputRef.current && inputRef.current.focus(), 300);
+    }));
+  }, []);
+
+  const filtered = TEAM_MEMBERS.filter(m =>
+    m.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <>
+      <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 2000, opacity: visible ? 1 : 0, transition: "opacity 0.25s ease" }}/>
+      <div style={{
+        position: "fixed", top: "50%", left: "50%", zIndex: 2001, width: 380,
+        background: "#fff", borderRadius: 18,
+        boxShadow: "0 24px 64px rgba(0,0,0,0.2)",
+        transform: visible ? "translate(-50%,-50%) scale(1)" : "translate(-50%,-48%) scale(0.97)",
+        opacity: visible ? 1 : 0,
+        transition: "transform 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.22s ease",
+        overflow: "hidden",
+      }}>
+        {/* Header */}
+        <div style={{ padding: "24px 24px 16px", borderBottom: "1px solid #DFDFE8" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+            <svg width="28" height="20" viewBox="0 0 591 217" fill="none"><path d="M176.452 91.14V3.72L219.356 3.72C235.104 3.72 245.024 7.688 251.224 13.64C256.432 18.972 259.16 25.42 259.16 34.472V34.72C259.16 47.492 252.588 56.296 241.924 61.504L259.16 86.552L304.296 0L351.912 91.14H320.292L304.296 59.272L288.3 91.14H228.656L212.164 66.216H205.84V91.14H176.452ZM374.108 94.736L326.616 3.596L358.112 3.596L374.108 35.464L390.104 3.596L421.724 3.596L374.108 94.736ZM396.428 91.14L443.92 0L491.536 91.14H459.916L443.92 59.272L427.924 91.14H396.428Z" fill="#FC5200"/></svg>
+            <div style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, color: T.textPri }}>Welcome to the Mockup Tool</div>
+          </div>
+          <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Who are you? We'll remember your choice on this device.</div>
+        </div>
+        {/* Search */}
+        <div style={{ padding: "12px 24px 8px" }}>
+          <input ref={inputRef} value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search your name…"
+            style={{ width: "100%", fontFamily: T.font, fontSize: 13, color: T.textPri, background: "#F5F5F3", border: "1.5px solid #E8E8E5", borderRadius: 8, padding: "8px 12px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = T.orange}
+            onBlur={e => e.target.style.borderColor = "#E8E8E5"}
+          />
+        </div>
+        {/* List */}
+        <div style={{ maxHeight: 280, overflowY: "auto", padding: "4px 12px 16px" }}>
+          {filtered.map(member => (
+            <button key={member.email} onClick={() => onSelect(member)} style={{
+              display: "flex", alignItems: "center", gap: 10, width: "100%",
+              padding: "9px 12px", borderRadius: 8, border: "none", background: "transparent",
+              cursor: "pointer", textAlign: "left", transition: "background 0.1s",
+            }}
+              onMouseEnter={e => e.currentTarget.style.background = "#FFF4EE"}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+            >
+              <div style={{ width: 30, height: 30, borderRadius: "50%", background: T.orange, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: 700, color: "#fff" }}>
+                  {member.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                </span>
+              </div>
+              <div>
+                <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 600, color: T.textPri }}>{member.name}</div>
+                <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>{member.email}</div>
+              </div>
+            </button>
+          ))}
+          {filtered.length === 0 && (
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer, textAlign: "center", padding: "20px 0" }}>No match found</div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── Usage Dashboard ──────────────────────────────────────────────────────────
+function UsageDashboard({ open, onClose }) {
+  const [visible, setVisible] = useState(false);
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setRendered(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+    } else {
+      setVisible(false);
+      const t = setTimeout(() => setRendered(false), 300);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
+
+  if (!rendered) return null;
+
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/1A7y_v8VRxzr3RJKL94ys4cg9e1wzXLANxycnXKweZ84/edit";
+
+  return (
+    <>
+      <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.25)", zIndex: 1000, opacity: visible ? 1 : 0, transition: "opacity 0.25s ease" }}/>
+      <div style={{
+        position: "fixed", top: 0, right: 0, bottom: 0, width: 400,
+        background: "#fff", zIndex: 1001, display: "flex", flexDirection: "column",
+        boxShadow: "-4px 0 32px rgba(0,0,0,0.12)",
+        transform: visible ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
+      }}>
+        <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid #DFDFE8", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ fontFamily: T.font, fontSize: 18, fontWeight: 700, color: T.textPri }}>Usage</div>
+              <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginTop: 3 }}>View the full data in Google Sheets</div>
+            </div>
+            <button onClick={onClose} style={{ background: "#F2F2F0", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 32, gap: 16 }}>
+          <div style={{ width: 56, height: 56, borderRadius: 16, background: "#F2F2F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#43423F" strokeWidth="1.8"/><path d="M3 9h18M9 9v12" stroke="#43423F" strokeWidth="1.8" strokeLinecap="round"/></svg>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Usage data lives in Google Sheets</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px" }}>Every session, download, and time spent is logged automatically. Open the sheet to see usage by person.</div>
+          </div>
+          <a href={sheetUrl} target="_blank" style={{
+            display: "flex", alignItems: "center", gap: 8,
+            height: 40, borderRadius: 20, background: T.orange, border: "none",
+            fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff",
+            cursor: "pointer", padding: "0 20px", textDecoration: "none",
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Open Google Sheet
+          </a>
+          <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer, textAlign: "center", lineHeight: "16px" }}>
+            Tracks: sessions opened, PNG/ZIP downloads, and minutes spent per person.
+          </div>
+        </div>
+        {/* Switch user */}
+        <div style={{ padding: "16px 24px", borderTop: "1px solid #DFDFE8" }}>
+          <button onClick={() => { try { localStorage.removeItem(USER_KEY); } catch {} window.location.reload(); }} style={{ width: "100%", height: 36, borderRadius: 18, background: "#F2F2F0", border: "none", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer" }}>
+            Switch user
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // Character counter wrapper for Field — shows "used / max" below the input
 function FieldWithCounter({ label, hint, value, maxLength, children }) {
   const used = (value || "").length;
@@ -531,6 +745,36 @@ function App() {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [usageOpen, setUsageOpen] = useState(false);
+
+  // User identity + session tracking
+  const [currentUser, setCurrentUser] = useState(() => {
+    try { const s = localStorage.getItem(USER_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  });
+  const sessionId = useRef(`s_${Date.now()}_${Math.random().toString(36).slice(2,7)}`);
+  const sessionStart = useRef(Date.now());
+
+  const handleSelectUser = (member) => {
+    try { localStorage.setItem(USER_KEY, JSON.stringify(member)); } catch {}
+    setCurrentUser(member);
+    logEvent(member, "session_start", screen, sessionId.current, 0);
+  };
+
+  // Log session_start on mount if user already known
+  useEffect(() => {
+    if (currentUser) {
+      logEvent(currentUser, "session_start", screen, sessionId.current, 0);
+    }
+    // Log session_end on tab close
+    const handleUnload = () => {
+      if (currentUser) {
+        const mins = Math.round((Date.now() - sessionStart.current) / 60000);
+        logEvent(currentUser, "session_end", screen, sessionId.current, mins);
+      }
+    };
+    window.addEventListener("beforeunload", handleUnload);
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, [currentUser]);
   const [whatsNewSeen, setWhatsNewSeen] = useState(() => {
     try { return localStorage.getItem(WHATS_NEW_SEEN_KEY) === LATEST_ENTRY_ID; } catch { return false; }
   });
@@ -665,6 +909,7 @@ function App() {
       a.href = url;
       a.download = `strava-${screen}-mockup.png`;
       a.click();
+      logEvent(currentUser, "download_png", screen, sessionId.current, 0);
     } catch(e) { alert("Export failed: " + e.message); }
     finally { setBusy(false); }
   };
@@ -690,6 +935,7 @@ function App() {
       a.download = "strava-mockups.zip";
       a.click();
       URL.revokeObjectURL(a.href);
+      logEvent(currentUser, "download_zip", screen, sessionId.current, 0);
     } catch(e) { alert("Export failed: " + e.message); }
     finally { setScreen(originalScreen); setBusy(false); }
   };
@@ -707,6 +953,11 @@ function App() {
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Interactive Mockup Tool</span>
         <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Build branded Strava challenge screens — pick a template, drop in your assets, and download a pixel-perfect PNG.</span>
         <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", gap: 8 }}>
+          {/* Usage button */}
+          <button onClick={() => setUsageOpen(true)} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 20V10M12 20V4M6 20v-6" stroke="#64635E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Usage
+          </button>
           {/* What's new button */}
           <button onClick={openWhatsNew} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5 4.3 12.6l.7-4.1-3-2.9 4.2-.6L8 1z" stroke="#64635E" strokeWidth="1.4" strokeLinejoin="round"/></svg>
@@ -931,6 +1182,12 @@ function App() {
       </div>
       </div>
       </div>
+
+      {/* User picker — shown on first load if no user saved */}
+      {!currentUser && <UserPicker onSelect={handleSelectUser}/>}
+
+      {/* Usage dashboard drawer */}
+      <UsageDashboard open={usageOpen} onClose={() => setUsageOpen(false)}/>
 
       {/* What's New drawer */}
       <WhatsNewPanel open={whatsNewOpen} onClose={() => setWhatsNewOpen(false)}/>
