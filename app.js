@@ -953,11 +953,13 @@ function App() {
         <span style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.textPri }}>Interactive Mockup Tool</span>
         <span style={{ fontFamily: T.font, fontSize: 13, color: T.textSec }}>Build branded Strava challenge screens — pick a template, drop in your assets, and download a pixel-perfect PNG.</span>
         <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", gap: 8 }}>
-          {/* Usage button */}
+          {/* Usage button — only visible to Jonny Ross */}
+          {currentUser?.email === "jross@strava.com" && (
           <button onClick={() => setUsageOpen(true)} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 5 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 20V10M12 20V4M6 20v-6" stroke="#64635E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             Usage
           </button>
+          )}
           {/* What's new button */}
           <button onClick={openWhatsNew} style={{ background: "none", border: "1.5px solid #DFDFE8", borderRadius: 16, padding: "5px 14px", fontFamily: T.font, fontSize: 12, fontWeight: 600, color: T.textSec, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5 4.3 12.6l.7-4.1-3-2.9 4.2-.6L8 1z" stroke="#64635E" strokeWidth="1.4" strokeLinejoin="round"/></svg>
@@ -1232,4 +1234,5 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
