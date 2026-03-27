@@ -257,9 +257,10 @@ const FEEDBACK_TYPES = [
 ];
 
 // Google Form submission endpoint + field IDs
-const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/formResponse";
+const FORM_PREFILL_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSdpMM18ZBDSys7LB83BPdjSb3vEnA2l3s8HubmJgzP9RzNcKA/viewform";
 const FORM_FIELD_TYPE    = "entry.813967061";
 const FORM_FIELD_MESSAGE = "entry.1983614390";
+const FORM_FIELD_EXTRA   = "entry.1278679304";
 
 function FeedbackModal({ open, onClose }) {
   const [visible, setVisible] = useState(false);
@@ -267,16 +268,12 @@ function FeedbackModal({ open, onClose }) {
   const [type, setType] = useState("bug");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState(null);
   const textareaRef = useRef();
 
   useEffect(() => {
     if (open) {
       setRendered(true);
       setSent(false);
-      setSending(false);
-      setError(null);
       setMessage("");
       setType("bug");
       requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -293,23 +290,17 @@ function FeedbackModal({ open, onClose }) {
   if (!rendered) return null;
 
   const selectedType = FEEDBACK_TYPES.find(f => f.key === type);
-  const canSend = message.trim().length > 0 && !sending;
+  const canSend = message.trim().length > 0;
 
   const handleSend = () => {
     if (!canSend) return;
-    setSending(true);
-    setError(null);
     const typeLabel = selectedType.label.replace(/^\S+\s+/, ""); // strip emoji
-    const body = new URLSearchParams();
-    body.append(FORM_FIELD_TYPE, typeLabel);
-    body.append(FORM_FIELD_MESSAGE, message.trim());
-    body.append(FORM_FIELD_EXTRA, "test");
-    // Fire and forget — no-cors means we can't read the response anyway,
-    // and awaiting it causes a timeout in the browser. We've verified server-side
-    // that the submission works, so just fire it and show confirmation immediately.
-    fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body }).catch(() => {});
+    const url = `${FORM_PREFILL_BASE}?usp=pp_url`
+      + `&${FORM_FIELD_TYPE}=${encodeURIComponent(typeLabel)}`
+      + `&${FORM_FIELD_MESSAGE}=${encodeURIComponent(message.trim())}`
+      + `&${FORM_FIELD_EXTRA}=`;
+    window.open(url, "_blank");
     setSent(true);
-    setSending(false);
   };
 
   return (
@@ -334,7 +325,7 @@ function FeedbackModal({ open, onClose }) {
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#43423F" strokeWidth="1.75" strokeLinecap="round"/></svg>
             </button>
           </div>
-          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>Your response will be saved to a Google Sheet for Jonny to review.</div>
+          <div style={{ fontFamily: T.font, fontSize: 12, color: T.textTer, marginBottom: 16 }}>Opens a pre-filled Google Form in a new tab — just hit submit.</div>
         </div>
         {!sent ? (
           <div style={{ padding: "0 20px 20px" }}>
@@ -390,8 +381,8 @@ function FeedbackModal({ open, onClose }) {
                   </>
                 ) : (
                   <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    Submit feedback
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    Open form
                   </>
                 )}
               </button>
@@ -403,8 +394,8 @@ function FeedbackModal({ open, onClose }) {
             <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#EDFCE8", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2B7A1E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
-            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Feedback submitted!</div>
-            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Thanks — your response has been saved.<br/>Jonny will pick it up shortly.</div>
+            <div style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.textPri, marginBottom: 6 }}>Almost done!</div>
+            <div style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, lineHeight: "19px", marginBottom: 20 }}>Your form has opened in a new tab, pre-filled with your message.<br/>Just hit Submit on the form to send it.</div>
             <button onClick={onClose} style={{ height: 38, borderRadius: 19, background: T.orange, border: "none", fontFamily: T.font, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", padding: "0 24px" }}>Done</button>
           </div>
         )}
