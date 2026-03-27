@@ -5,28 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Strava for Business - Challenge Mockup Tool</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjIyNiIgdmlld0JveD0iMCAwIDE2MCAyMjYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTExMS40MDYgMTY4LjA1OEw5MS45MDkgMTI5LjA2Mkw2Mi44NjMzIDEyOS4xMTFMMTExLjQwNiAyMjUuNTU2TDE1OS44OTggMTI5LjA2MkgxMzAuODUyTDExMS40MDYgMTY4LjA1OFoiIGZpbGw9IiNGQzUyMDAiLz48cGF0aCBkPSJNNjUuNDUyNCA3Ny4xNDU4TDkyLjAxMTQgMTI5LjUwN0gxMzAuOTU1TDY1LjQ1MjQgMEwwIDEyOS41MDdIMzguOTkyOUw2NS40NTI0IDc3LjE0NThaIiBmaWxsPSIjRkM1MjAwIi8+PC9zdmc+"/>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.4.5/dist/dom-to-image-more.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <!-- Fonts loaded from separate file for html2canvas/dom-to-image compatibility -->
+  <!-- Fonts loaded from separate file for dom-to-image compatibility -->
   <link rel="stylesheet" href="fonts.css"/>
   <style>
     html,body,#root{margin:0;padding:0;height:100%;overflow:hidden;}
+    #loading{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:9999;transition:opacity 0.3s ease;}
+    #loading.hidden{opacity:0;pointer-events:none;}
+    #loading svg{animation:spin 1s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    #loading p{font-family:system-ui,sans-serif;font-size:13px;color:#64635E;margin:0;}
   </style>
+  <!-- React loaded first — small and needed by everything -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 </head>
 <body>
+  <!-- Loading screen shown while Babel compiles JSX -->
+  <div id="loading">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="13" stroke="#E0E0DE" stroke-width="3"/>
+      <path d="M16 3a13 13 0 0 1 13 13" stroke="#FC5200" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <p>Loading Mockup Tool…</p>
+  </div>
   <div id="root"></div>
+
   <!--
-    Module load order matters — each file registers onto window.MT (MockupTool).
-    1. tokens-icons.js    — design tokens, hooks, all SVG icon components
-    2. shared.js          — reusable UI primitives (PhoneShell, BottomNav, InfoRow, etc.)
-    3. screens-detail.js  — Challenge Detail screens (NotJoined, Joined, Takeover, Milestone)
-    4–10. screen-*.js      — Individual screen components (one per file)
-    11.  screens-feed.js   — Discovery + Feed screens (GroupsTab, CustomInFeed) + Router
-    12.  app.js            — App component (control panel, state, export) + ReactDOM.render
+    Module load order matters — each file registers onto window.MT.
+    Babel compiles JSX in-browser; dom-to-image-more and JSZip loaded after.
   -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.4.5/dist/dom-to-image-more.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script type="text/babel" src="tokens-icons.js"></script>
   <script type="text/babel" src="shared.js"></script>
   <script type="text/babel" src="screen-not-joined.js"></script>
@@ -40,5 +50,19 @@
   <script type="text/babel" src="screen-old-design.js"></script>
   <script type="text/babel" src="screens-feed.js"></script>
   <script type="text/babel" src="app.js"></script>
+  <!-- Hide loading screen once React has rendered -->
+  <script>
+    (function() {
+      var el = document.getElementById('loading');
+      var observer = new MutationObserver(function() {
+        if (document.getElementById('root').children.length > 0) {
+          el.classList.add('hidden');
+          setTimeout(function(){ el.style.display='none'; }, 350);
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.getElementById('root'), { childList: true });
+    })();
+  </script>
 </body>
 </html>
