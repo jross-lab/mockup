@@ -636,6 +636,28 @@ function UserPicker({ onSelect }) {
           {filtered.length === 0 && (
             <div style={{ fontFamily: T.font, fontSize: 13, color: T.textTer, textAlign: "center", padding: "20px 0" }}>No match found</div>
           )}
+          {/* Guest option — always shown at the bottom */}
+          {!search && (
+            <>
+              <div style={{ height: 1, background: "#DFDFE8", margin: "8px 0" }}/>
+              <button onClick={() => onSelect({ name: "Guest", email: "guest" })} style={{
+                display: "flex", alignItems: "center", gap: 10, width: "100%",
+                padding: "9px 12px", borderRadius: 8, border: "none", background: "transparent",
+                cursor: "pointer", textAlign: "left", transition: "background 0.1s",
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = "#F5F5F3"}
+                onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+              >
+                <div style={{ width: 30, height: 30, borderRadius: "50%", background: "#C8C8C8", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#fff" strokeWidth="2"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+                </div>
+                <div>
+                  <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 600, color: T.textSec }}>Guest</div>
+                  <div style={{ fontFamily: T.font, fontSize: 11, color: T.textTer }}>Not on the SfB team</div>
+                </div>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>
@@ -1234,5 +1256,6 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
