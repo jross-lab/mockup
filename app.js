@@ -120,7 +120,7 @@ const SCREEN_GROUPS = [
     { key: "segment", label: "Segment" },
   ]},
   { group: "Sharing", items: [
-    { key: "share-sheet", label: "Share Sheet" },
+    { key: "share-sheet", label: "Shareables" },
   ]},
 ];
 
@@ -147,7 +147,7 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07f"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07g"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
@@ -1261,6 +1261,7 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
 
