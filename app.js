@@ -147,7 +147,7 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07d"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07e"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
@@ -155,38 +155,13 @@ const WHATS_NEW_ENTRIES = [
     items: [
       {
         type: "improvement",
-        title: "Share Sheet: no bottom nav",
-        detail: "The Share Sheet screen now hides the bottom navigation bar, matching the full-screen iOS share sheet layout in the Figma design.",
-      },
-      {
-        type: "improvement",
-        title: "Share Sheet visual polish",
-        detail: "Background is now white, the header bar has a subtle shadow, and the Instagram icon uses the official logo path inlined as SVG.",
-      },
-      {
-        type: "improvement",
-        title: "Screen picker now fits all groups without clipping",
-        detail: "The screen thumbnail gallery is now scrollable and uses tighter spacing, so the new Sharing category is always visible without being cut off.",
-      },
-      {
-        type: "improvement",
         title: "Share Sheet: status bar, Strava logo and font corrections",
         detail: "The Share Sheet screen now shows the correct white status bar icons (time, signal, Wi-Fi, battery), the official white Strava wordmark SVG, and corrected stat font sizes matching the Figma spec.",
       },
       {
         type: "new",
-        title: "Share Sheet screen added",
+        title: "Shareables screen added",
         detail: "A new Sharing category has been added to the screen picker with a Share Sheet screen — showing the post-completion sharing flow, including the shareable card carousel (badge, tagline, stats, Strava logo) and the Share to destinations (Instagram Story, Copy to Clipboard, Save, Copy Link, More).",
-      },
-    ],
-  },
-  {
-    date: "27 March 2026",
-    items: [
-      {
-        type: "new",
-        title: "Usage tracking",
-        detail: "The tool now logs sessions, downloads, and time spent per person. A one-time name picker appears on first load — your choice is remembered on that device. View the data via the Usage button in the header.",
       },
     ],
   },
