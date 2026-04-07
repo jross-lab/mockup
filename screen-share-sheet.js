@@ -212,12 +212,10 @@ function ScreenShareSheet({ data }) {
 
           {/* Instagram Story */}
           <ShareDestBtn
-            label={"Instagram
-Story"}
+            label={"Instagram Story"}
             icon={
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="32" rx="9" fill="#E1306C"/>
-                <rect x="4" y="4" width="24" height="24" rx="7" fill="url(#igFill)" style={{display:"none"}}/>
                 <rect x="4" y="4" width="24" height="24" rx="7" fill="#F77737" opacity="0.6"/>
                 <rect x="4" y="4" width="24" height="24" rx="7" fill="#FCAF45" opacity="0.4"/>
                 <rect x="6" y="6" width="20" height="20" rx="5.5" stroke="white" strokeWidth="1.8" fill="none"/>
@@ -229,8 +227,7 @@ Story"}
 
           {/* Copy to Clipboard */}
           <ShareDestBtn
-            label={"Copy to
-Clipboard"}
+            label={"Copy to Clipboard"}
             icon={
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
                 <rect x="8" y="8" width="13" height="13" rx="2" stroke="#000" strokeWidth="1.5" fill="none"/>
@@ -281,4 +278,5 @@ Clipboard"}
 
 // Register
 Object.assign(window.MT, { ScreenShareSheet });
+
 
