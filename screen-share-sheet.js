@@ -125,10 +125,10 @@ function ScreenShareSheet({ data }) {
   const cardBgs = ["#1C2B3A", "#2A1A1A", "#1A2A1A"];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: "#000", minHeight: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", background: "#fff", minHeight: "100%" }}>
 
-      {/* ── Status bar — white icons ── */}
-      <div style={{ position: "relative", flexShrink: 0 }}>
+      {/* ── Status bar — white icons on black ── */}
+      <div style={{ position: "relative", flexShrink: 0, background: "#000" }}>
         <svg width="375" height="54" viewBox="0 0 375 54" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M55.9091 24.7231C58.4658 24.7231 60.6904 26.541 60.6904 30.8574V30.874C60.6904 34.9082 58.8725 37.2988 55.8593 37.2988C53.6596 37.2988 52.0161 35.9956 51.6342 34.1611L51.6176 34.0698H53.726L53.7509 34.1528C54.0663 34.9912 54.8051 35.5391 55.8593 35.5391C57.7602 35.5391 58.5654 33.6797 58.6567 31.3887C58.6567 31.2974 58.665 31.2061 58.665 31.1147H58.499C58.059 32.061 57.0131 32.8994 55.3696 32.8994C53.0703 32.8994 51.4599 31.2227 51.4599 28.9482V28.9316C51.4599 26.4995 53.311 24.7231 55.9091 24.7231ZM55.9008 31.2559C57.2538 31.2559 58.2914 30.2764 58.2914 28.9233V28.9067C58.2914 27.5371 57.2538 26.4663 55.9257 26.4663C54.6059 26.4663 53.5517 27.5205 53.5517 28.8569V28.8735C53.5517 30.2598 54.5395 31.2559 55.9008 31.2559ZM64.0509 29.2388C63.2956 29.2388 62.7311 28.6577 62.7311 27.9272C62.7311 27.1885 63.2956 26.6157 64.0509 26.6157C64.8146 26.6157 65.3707 27.1885 65.3707 27.9272C65.3707 28.6577 64.8146 29.2388 64.0509 29.2388ZM64.0509 35.3979C63.2956 35.3979 62.7311 34.8252 62.7311 34.0864C62.7311 33.3477 63.2956 32.7749 64.0509 32.7749C64.8146 32.7749 65.3707 33.3477 65.3707 34.0864C65.3707 34.8252 64.8146 35.3979 64.0509 35.3979ZM73.222 37V34.7007H67.3617V32.9492C68.9139 30.2515 70.6156 27.4956 72.2425 25.022H75.2723V32.9326H76.8827V34.7007H75.2723V37H73.222ZM69.3539 32.9824H73.2552V26.7319H73.1307C71.9022 28.6079 70.516 30.8242 69.3539 32.8579V32.9824ZM81.4385 37V27.1304H81.2974L78.3174 29.2388V27.2217L81.4468 25.022H83.5801V37H81.4385Z" fill="white"/>
           <path opacity="0.35" d="M322.435 23.5H339.435C341.368 23.5 342.935 25.067 342.935 27V32C342.935 33.933 341.368 35.5 339.435 35.5H322.435C320.502 35.5 318.935 33.933 318.935 32V27C318.935 25.067 320.502 23.5 322.435 23.5Z" stroke="white"/>
@@ -139,27 +139,19 @@ function ScreenShareSheet({ data }) {
         </svg>
       </div>
 
-      {/* ── Header bar: Close + Share achievement ── */}
+      {/* ── Header bar: narrow pill with shadow ── */}
       <div style={{
         position: "relative", flexShrink: 0,
         height: 44, display: "flex", alignItems: "center", justifyContent: "center",
-        background: "rgba(255,255,255,0.95)",
+        background: "#fff",
+        boxShadow: "0px 0.5px 0px rgba(0,0,0,0.15), 0px 2px 8px rgba(0,0,0,0.08)",
       }}>
         <span style={{ position: "absolute", left: 24, fontFamily: T.font, fontSize: 17, fontWeight: 400, color: "#000" }}>Close</span>
         <span style={{ fontFamily: T.font, fontSize: 17, fontWeight: 700, color: "#000" }}>Share achievement</span>
       </div>
 
-      {/* ── Hero background area behind carousel ── */}
-      <div style={{ position: "relative", flexShrink: 0 }}>
-        {/* Background image */}
-        <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-          {heroImg
-            ? <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
-            : <div style={{ width: "100%", height: "100%", background: "#1A1A1A" }}/>
-          }
-          {/* Fade to white at the bottom */}
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 88%)" }}/>
-        </div>
+      {/* ── Carousel area — white background ── */}
+      <div style={{ position: "relative", flexShrink: 0, background: "#fff" }}>
 
         {/* Carousel */}
         <div style={{ position: "relative", paddingTop: 16, paddingBottom: 0 }}>
@@ -278,5 +270,6 @@ function ScreenShareSheet({ data }) {
 
 // Register
 Object.assign(window.MT, { ScreenShareSheet });
+
 
 
