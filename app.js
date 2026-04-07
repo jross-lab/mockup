@@ -146,12 +146,22 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07b"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
     date: "7 April 2026",
     items: [
+      {
+        type: "improvement",
+        title: "Screen picker now fits all groups without clipping",
+        detail: "The screen thumbnail gallery is now scrollable and uses tighter spacing, so the new Sharing category is always visible without being cut off.",
+      },
+      {
+        type: "improvement",
+        title: "Share Sheet: status bar, Strava logo and font corrections",
+        detail: "The Share Sheet screen now shows the correct white status bar icons (time, signal, Wi-Fi, battery), the official white Strava wordmark SVG, and corrected stat font sizes matching the Figma spec.",
+      },
       {
         type: "new",
         title: "Share Sheet screen added",
@@ -1185,31 +1195,31 @@ function App() {
           </PhoneShell>
         </div>
 
-        {/* Screen picker gallery — 2-column grid */}
-        <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 10, padding: "12px 0", alignSelf: "center" }}>
-          <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
+        {/* Screen picker gallery — 2-column grid, scrollable */}
+        <div ref={tourGalleryRef} style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, padding: "8px 0", alignSelf: "stretch", overflowY: "auto", maxHeight: "calc(100vh - 120px)" }}>
+          <div style={{ fontFamily: T.font, fontSize: 12, fontWeight: 700, color: T.textPri, letterSpacing: "0.02em" }}>Screens</div>
           {SCREEN_GROUPS.map(({ group, items }) => (
             <div key={group}>
-              <div style={{ fontFamily: T.font, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 8 }}>{group}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              <div style={{ fontFamily: T.font, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.textTer, marginBottom: 6 }}>{group}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                 {items.map(({ key, label }) => {
                   const active = screen === key;
                   const legacy = key === "old-design";
                   return (
                     <button key={key} onClick={() => setScreen(key)} style={{
-                      width: 100, padding: "12px 8px", borderRadius: 10, cursor: "pointer", transition: "all 0.15s ease",
+                      width: 84, padding: "8px 6px", borderRadius: 8, cursor: "pointer", transition: "all 0.15s ease",
                       border: active ? "2px solid " + T.orange : legacy ? "1.5px dashed #C8C8C8" : "1.5px solid #DFDFE8",
                       background: active ? "#FFF4EE" : legacy ? "#F7F7F5" : "#fff",
                       opacity: (!active && legacy) ? 0.7 : 1,
-                      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
                     }}>
                       {/* Mini phone silhouette */}
-                      <svg width="28" height="46" viewBox="0 0 28 46" fill="none">
+                      <svg width="22" height="36" viewBox="0 0 28 46" fill="none">
                         <rect x="0.5" y="0.5" width="27" height="45" rx="6.5" stroke={active ? T.orange : "#C8C8C8"} strokeWidth="1"/>
                         <rect x="3" y="3" width="22" height="33" rx="1.5" fill={active ? "#FDDCC8" : "#F2F2F0"}/>
                         <circle cx="14" cy="42" r="1.5" fill={active ? T.orange : "#D0D0CE"}/>
                       </svg>
-                      <span style={{ fontFamily: T.font, fontSize: 11, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "13px", whiteSpace: "nowrap", textAlign: "center" }}>{label}</span>
+                      <span style={{ fontFamily: T.font, fontSize: 10, fontWeight: active ? 700 : 500, color: active ? T.orange : T.textSec, lineHeight: "12px", whiteSpace: "nowrap", textAlign: "center" }}>{label}</span>
                     </button>
                   );
                 })}
@@ -1270,6 +1280,7 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
 
