@@ -147,17 +147,12 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07e"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07f"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
     date: "7 April 2026",
     items: [
-      {
-        type: "improvement",
-        title: "Share Sheet: status bar, Strava logo and font corrections",
-        detail: "The Share Sheet screen now shows the correct white status bar icons (time, signal, Wi-Fi, battery), the official white Strava wordmark SVG, and corrected stat font sizes matching the Figma spec.",
-      },
       {
         type: "new",
         title: "Shareables screen added",
