@@ -11,6 +11,7 @@ const { T, FALLBACK_COLORS, MILESTONE_MAP_IMG,
         Facepile, HeroBadge, OrangeBtn, InfoRows,
         IcoRun, IcoRide, IcoSwim, IcoWalk, IcoHike,
         ScreenNotJoined, ScreenReward, ScreenJoined, ScreenCompleted, ScreenTakeover, ScreenMilestone, ScreenFollowerInFeed, ScreenSegment, ScreenOldDesign,
+        ScreenShareSheet,
 } = window.MT;
 
 // --- Screen: Groups Tab / Challenges -----------------------------------------
@@ -242,9 +243,11 @@ function ScreenRouter({ screen, data }) {
     case "groups-tab":     return <ScreenGroupsTab data={data}/>;
     case "old-design":     return <ScreenOldDesign data={data}/>;
     case "custom-infeed":  return <ScreenCustomInFeed data={data}/>;
+    case "share-sheet":    return <ScreenShareSheet data={data}/>;
     default:               return <ScreenNotJoined data={data}/>;
   }
 }
 
 // --- Register ----------------------------------------------------------------
 Object.assign(window.MT, { ScreenRouter, GROUPS_TAB_SCREENS });
+
