@@ -125,16 +125,8 @@ function ScreenShareSheet({ data }) {
   const cardBgs = ["#1C2B3A", "#2A1A1A", "#1A2A1A"];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", background: "#000", minHeight: "100%", position: "relative" }}>
-      {/* ── Previous screen peek — grey bg with rounded white sheet on top ── */}
-      <div style={{ height: 20, background: "#C8C8C8", flexShrink: 0, position: "relative" }}>
-        {/* Rounded top corners of the sheet */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 20, background: "#fff", borderRadius: "12px 12px 0 0" }}/>
-      </div>
-      {/* ── Sheet body ── */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#fff" }}>
-
-      {/* ── Status bar — white icons on black ── */}
+    <div style={{ display: "flex", flexDirection: "column", background: "#1C1C1E", minHeight: "100%", position: "relative" }}>
+{/* ── Status bar — white icons on black ── */}
       <div style={{ position: "relative", flexShrink: 0, background: "#000" }}>
         <svg width="375" height="54" viewBox="0 0 375 54" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M55.9091 24.7231C58.4658 24.7231 60.6904 26.541 60.6904 30.8574V30.874C60.6904 34.9082 58.8725 37.2988 55.8593 37.2988C53.6596 37.2988 52.0161 35.9956 51.6342 34.1611L51.6176 34.0698H53.726L53.7509 34.1528C54.0663 34.9912 54.8051 35.5391 55.8593 35.5391C57.7602 35.5391 58.5654 33.6797 58.6567 31.3887C58.6567 31.2974 58.665 31.2061 58.665 31.1147H58.499C58.059 32.061 57.0131 32.8994 55.3696 32.8994C53.0703 32.8994 51.4599 31.2227 51.4599 28.9482V28.9316C51.4599 26.4995 53.311 24.7231 55.9091 24.7231ZM55.9008 31.2559C57.2538 31.2559 58.2914 30.2764 58.2914 28.9233V28.9067C58.2914 27.5371 57.2538 26.4663 55.9257 26.4663C54.6059 26.4663 53.5517 27.5205 53.5517 28.8569V28.8735C53.5517 30.2598 54.5395 31.2559 55.9008 31.2559ZM64.0509 29.2388C63.2956 29.2388 62.7311 28.6577 62.7311 27.9272C62.7311 27.1885 63.2956 26.6157 64.0509 26.6157C64.8146 26.6157 65.3707 27.1885 65.3707 27.9272C65.3707 28.6577 64.8146 29.2388 64.0509 29.2388ZM64.0509 35.3979C63.2956 35.3979 62.7311 34.8252 62.7311 34.0864C62.7311 33.3477 63.2956 32.7749 64.0509 32.7749C64.8146 32.7749 65.3707 33.3477 65.3707 34.0864C65.3707 34.8252 64.8146 35.3979 64.0509 35.3979ZM73.222 37V34.7007H67.3617V32.9492C68.9139 30.2515 70.6156 27.4956 72.2425 25.022H75.2723V32.9326H76.8827V34.7007H75.2723V37H73.222ZM69.3539 32.9824H73.2552V26.7319H73.1307C71.9022 28.6079 70.516 30.8242 69.3539 32.8579V32.9824ZM81.4385 37V27.1304H81.2974L78.3174 29.2388V27.2217L81.4468 25.022H83.5801V37H81.4385Z" fill="white"/>
@@ -145,6 +137,18 @@ function ScreenShareSheet({ data }) {
           <path fillRule="evenodd" clipRule="evenodd" d="M287.135 24.682C287.135 24.0489 286.657 23.5358 286.068 23.5358H285.002C284.413 23.5358 283.935 24.0489 283.935 24.682V34.616C283.935 35.249 284.413 35.7622 285.002 35.7622H286.068C286.657 35.7622 287.135 35.249 287.135 34.616V24.682ZM279.701 25.981H280.768C281.357 25.981 281.834 26.5065 281.834 27.1548V34.5884C281.834 35.2367 281.357 35.7622 280.768 35.7622H279.701C279.112 35.7622 278.634 35.2367 278.634 34.5884V27.1548C278.634 26.5065 279.112 25.981 279.701 25.981ZM275.369 28.6301H274.303C273.713 28.6301 273.236 29.1623 273.236 29.8188V34.5735C273.236 35.23 273.713 35.7622 274.303 35.7622H275.369C275.958 35.7622 276.436 35.23 276.436 34.5735V29.8188C276.436 29.1623 275.958 28.6301 275.369 28.6301ZM270.068 31.0754H269.002C268.413 31.0754 267.935 31.6 267.935 32.2471V34.5905C267.935 35.2376 268.413 35.7622 269.002 35.7622H270.068C270.657 35.7622 271.135 35.2376 271.135 34.5905V32.2471C271.135 31.6 270.657 31.0754 270.068 31.0754Z" fill="white"/>
         </svg>
       </div>
+
+      {/* ── Background window
+       — darker rounded rect visible behind the sheet ── */}
+      <div style={{
+        position: "absolute", top: 8, left: 8, right: 8, bottom: 0,
+        background: "#3A3A3C",
+        borderRadius: "12px 12px 0 0",
+      }}/>
+      {/* ── Foreground sheet — white, slides up over the background window ── */}
+      <div style={{ position: "relative", marginTop: 50, flex: 1, display: "flex", flexDirection: "column", background: "#fff", borderRadius: "12px 12px 0 0", overflow: "hidden", zIndex: 1 }}>
+
+      
 
       {/* ── Header bar: narrow pill with shadow ── */}
       <div style={{
