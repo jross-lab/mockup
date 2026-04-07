@@ -215,17 +215,11 @@ function ScreenShareSheet({ data }) {
             label={"Instagram
 Story"}
             icon={
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <defs>
-                  <radialGradient id="igGrad" cx="30%" cy="107%" r="130%">
-                    <stop offset="0%" stopColor="#fdf497"/>
-                    <stop offset="5%" stopColor="#fdf497"/>
-                    <stop offset="45%" stopColor="#fd5949"/>
-                    <stop offset="60%" stopColor="#d6249f"/>
-                    <stop offset="90%" stopColor="#285AEB"/>
-                  </radialGradient>
-                </defs>
-                <rect width="32" height="32" rx="9" fill="url(#igGrad)"/>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="9" fill="#E1306C"/>
+                <rect x="4" y="4" width="24" height="24" rx="7" fill="url(#igFill)" style={{display:"none"}}/>
+                <rect x="4" y="4" width="24" height="24" rx="7" fill="#F77737" opacity="0.6"/>
+                <rect x="4" y="4" width="24" height="24" rx="7" fill="#FCAF45" opacity="0.4"/>
                 <rect x="6" y="6" width="20" height="20" rx="5.5" stroke="white" strokeWidth="1.8" fill="none"/>
                 <circle cx="16" cy="16" r="5" stroke="white" strokeWidth="1.8" fill="none"/>
                 <circle cx="22" cy="10" r="1.4" fill="white"/>
@@ -287,3 +281,4 @@ Clipboard"}
 
 // Register
 Object.assign(window.MT, { ScreenShareSheet });
+
