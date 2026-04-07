@@ -119,17 +119,21 @@ const SCREEN_GROUPS = [
     { key: "custom-infeed", label: "Custom in-feed" },
     { key: "segment", label: "Segment" },
   ]},
+  { group: "Sharing", items: [
+    { key: "share-sheet", label: "Share Sheet" },
+  ]},
 ];
 
 const ALL_SCREENS = [
   "not-joined", "reward", "joined", "completed", "takeover", "old-design",
   "groups-tab", "milestone", "follower-infeed", "custom-infeed", "segment",
+  "share-sheet",
 ];
 
 // Helper: renders the correct nav + screen content for a given screen key
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
-  const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed" || screenKey === "old-design";
+  const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed" || screenKey === "old-design" || screenKey === "share-sheet";
   const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed" || screenKey === "segment";
   return (
     <>
@@ -142,9 +146,19 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-03-27"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
+  {
+    date: "7 April 2026",
+    items: [
+      {
+        type: "new",
+        title: "Share Sheet screen added",
+        detail: "A new Sharing category has been added to the screen picker with a Share Sheet screen — showing the post-completion sharing flow, including the shareable card carousel (badge, tagline, stats, Strava logo) and the Share to destinations (Instagram Story, Copy to Clipboard, Save, Copy Link, More).",
+      },
+    ],
+  },
   {
     date: "27 March 2026",
     items: [
@@ -1256,6 +1270,7 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
 
