@@ -134,24 +134,30 @@ const ALL_SCREENS = [
 function ScreenPhoneContent({ screenKey, data }) {
   const tab = GROUPS_TAB_SCREENS.has(screenKey) ? "groups" : "home";
   const noTopNav = screenKey === "not-joined" || screenKey === "reward" || screenKey === "joined" || screenKey === "completed" || screenKey === "old-design" || screenKey === "share-sheet";
+  const noBottomNav = screenKey === "share-sheet";
   const homeNav = screenKey === "milestone" || screenKey === "takeover" || screenKey === "groups-tab" || screenKey === "follower-infeed" || screenKey === "custom-infeed" || screenKey === "segment";
   return (
     <>
       {noTopNav ? null : homeNav ? <TopNavHome/> : <TopNav title="Challenge" back="Groups"/>}
       <ScreenRouter screen={screenKey} data={data}/>
-      <BottomNav activeTab={tab}/>
+      {noBottomNav ? null : <BottomNav activeTab={tab}/>}
     </>
   );
 }
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07c"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07d"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
     date: "7 April 2026",
     items: [
+      {
+        type: "improvement",
+        title: "Share Sheet: no bottom nav",
+        detail: "The Share Sheet screen now hides the bottom navigation bar, matching the full-screen iOS share sheet layout in the Figma design.",
+      },
       {
         type: "improvement",
         title: "Share Sheet visual polish",
@@ -1285,6 +1291,7 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
 
