@@ -146,12 +146,17 @@ function ScreenPhoneContent({ screenKey, data }) {
 
 
 // ─── What's New data ────────────────────────────────────────────────────────
-const LATEST_ENTRY_ID = "2026-04-07b"; // bump this when new entries are added
+const LATEST_ENTRY_ID = "2026-04-07c"; // bump this when new entries are added
 
 const WHATS_NEW_ENTRIES = [
   {
     date: "7 April 2026",
     items: [
+      {
+        type: "improvement",
+        title: "Share Sheet visual polish",
+        detail: "Background is now white, the header bar has a subtle shadow, and the Instagram icon uses the official logo path inlined as SVG.",
+      },
       {
         type: "improvement",
         title: "Screen picker now fits all groups without clipping",
@@ -1280,6 +1285,7 @@ document.head.appendChild(_spinStyle);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
+
 
 
 
